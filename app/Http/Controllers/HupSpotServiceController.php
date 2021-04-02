@@ -1,0 +1,356 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use GuzzleHttp\Client;
+use Carbon\Carbon;
+use App\Models\CorporateGiftApiHandle;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Config;
+
+class HupSpotServiceController extends Controller
+{
+
+    private $h_client_id; 
+    private $h_client_secret; 
+    private $h_redirect_uri; 
+    private $h_version; 
+    public function __construct()
+    {
+        $this->h_client_id= Config::get('constants.hubspot.client_id');
+        $this->h_client_secret= Config::get('constants.hubspot.client_secret');
+        $this->h_redirect_uri= Config::get('constants.hubspot.redirect_uri');
+        $this->h_version= Config::get('constants.hubspot.version');
+       
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function hupspot_auth_token_generator(Request $request)
+    {
+        $data_array=array();
+
+        try {
+
+            $code=$request->code;
+            $params['form_params'] = [
+                'code' => $request->code,
+                'client_id' =>  $this->h_client_id,
+                'client_secret' => $this->h_client_secret,
+                'grant_type' => 'authorization_code',
+                'redirect_uri' =>   $this->h_redirect_uri,
+            ];
+            $client = new Client();
+
+            $post_url='https://api.hubapi.com/oauth/'.$this->h_version.'/token';
+            $response = $client->post($post_url, $params);
+            
+            $token = json_decode($response->getBody());
+            $token_info_arr=array();
+            if (isset($token->refresh_token)) {
+                $token_info_arr['refresh_token']=$token->refresh_token;
+                $token_info_arr['access_token']=$token->access_token;
+                $token_info_arr['expires_in']=$token->refresh_token;
+                $token_info_arr['token_current_date_time']=Carbon::now()->format('Y-m-d H:i:s');
+                file_put_contents(app_path().'/hupspot-token.txt',json_encode($token_info_arr));
+
+                $data_array['status']=true;
+                $data_array['access_token']=$token->access_token;
+                
+            }
+
+        }
+        catch(Exception $e) {
+
+            $data_array['status']=false;
+            $data_array['message']='Catch Error, API Request Failed';
+            echo 'Message: ' .$e->getMessage();
+        }
+
+        return $data_array;
+        
+
+        
+
+    }
+
+
+    /**
+     * Generate access token
+     * Check expiry date
+     * @return \Illuminate\Http\Response
+     */
+
+    public function get_access_token(){
+
+
+        $data_array=array();
+        try {
+
+            $verifiy_access_token=file_get_contents(app_path().'/hupspot-token.txt');
+            $verifiy_access_token=json_decode($verifiy_access_token,true);
+            
+            $current_date=Carbon::now()->format('Y-m-d H:i:s');
+            $token_current_date_time=$verifiy_access_token['token_current_date_time'];
+            $mindiff = round((strtotime($current_date) - strtotime($token_current_date_time))/60);
+
+            if($mindiff > 50){
+
+                $params['form_params'] = [
+                    'refresh_token' => $verifiy_access_token['refresh_token'],
+                    'client_id' =>  $this->h_client_id,
+                    'client_secret' => $this->h_client_secret,
+                    'grant_type' => 'refresh_token',
+                    'redirect_uri' =>   $this->h_redirect_uri,
+                ];
+                $client = new Client();
+
+                $post_url='https://api.hubapi.com/oauth/'.$this->h_version.'/token';
+                Log::channel('HubSpotCrmCardLog')->info('API LOG');
+                Log::channel('HubSpotCrmCardLog')->info($params);
+                $response = $client->post($post_url, $params);
+
+                $token = json_decode($response->getBody());
+
+        
+                $token_info_arr=array();
+                if (isset($token->refresh_token)) {
+
+                    $token_info_arr['refresh_token']=$token->refresh_token;
+                    $token_info_arr['access_token']=$token->access_token;
+                    $token_info_arr['expires_in']=$token->refresh_token;
+                    $token_info_arr['token_current_date_time']=Carbon::now()->format('Y-m-d H:i:s');
+                    file_put_contents(app_path().'/hupspot-token.txt',json_encode($token_info_arr));
+
+                
+                    
+                }
+
+            }
+
+
+            $verifiy_access_token=file_get_contents(app_path().'/hupspot-token.txt');
+            $verifiy_access_token=json_decode($verifiy_access_token,true);
+            if(!empty($verifiy_access_token['access_token'])){
+
+                $data_array['status']=true;
+                $data_array['access_token']=$verifiy_access_token['access_token'];
+
+            }
+            else{
+                $data_array['status']=false;
+                $data_array['message']='No Token Found!';
+            }
+
+        }
+        catch(Exception $e) {
+
+            $data_array['status']=false;
+            $data_array['message']='Catch Error, No Token Found!';
+            //echo 'Message: ' .$e->getMessage();
+        }
+
+    
+       return $data_array;
+
+
+    }
+
+   /*-------------------------------------------------------------------
+     * Hubspot fetch request set
+     * Whenever any contacts or leads will view crm will send request
+     * @return \Illuminate\Http\Response
+     ------------------------------------------------------------------------*/
+
+    public function hupspot_data_fetch_request(Request $request){
+        $signature = @$request->header('X-Hubspot-Signature');
+        $url = url('/').'/hupspot-data-fetch-request';
+        $this->verifySignature($signature,'POST',$url);
+
+
+        $CorporateGiftGet=CorporateGiftApiHandle::corporate_gift_get_request('/gift/products');
+        //$CorporateGiftGet=null;
+
+        
+        $gift_arr=array();
+
+
+        if(!empty($CorporateGiftGet['status'])){
+
+            foreach($CorporateGiftGet['data'] as $key_index => $single_CorporateGiftGet_data){
+
+                $product_gift_id=$single_CorporateGiftGet_data['id'];
+                $gift_arr['results'][$key_index]['objectId']=$product_gift_id;
+                $gift_arr['results'][$key_index]['title']=$single_CorporateGiftGet_data['name'];
+                //$gift_arr['results'][$key_index]['title']='Product gift '. $key_index;
+    
+            
+                $properties_counter=0;
+                $action_counter=0;
+                //Properties arr
+                if(!empty($single_CorporateGiftGet_data['description'])){
+
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['label']='Description';
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['dataType']='STRING';
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['value']=strip_tags($single_CorporateGiftGet_data['description']);
+
+                }
+
+                if(!empty($single_CorporateGiftGet_data['price'])){
+
+                    $properties_counter++;
+
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['label']='Price';
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['dataType']='CURRENCY';
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['value']=$single_CorporateGiftGet_data['price'];
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['currencyCode']='USD';
+
+                }
+        
+                //Action arr
+                $gift_arr['results'][$key_index]['actions'][$action_counter]['type']="IFRAME";
+                $gift_arr['results'][$key_index]['actions'][$action_counter]['width']="890";
+                $gift_arr['results'][$key_index]['actions'][$action_counter]['height']="748";
+                $gift_arr['results'][$key_index]['actions'][$action_counter]['uri'] = url('/')."/get_hupspot_send_gift_request?gift_id=$product_gift_id";
+                $gift_arr['results'][$key_index]['actions'][$action_counter]['label']="Send Gift";
+        
+
+            }
+           
+
+        }
+
+
+
+        //Setting save
+        //$gift_arr['results'] = null;
+        $gift_arr['settingsAction']['type']='IFRAME';
+        $gift_arr['settingsAction']['width']=890;
+        $gift_arr['settingsAction']['height']=748;
+        $gift_arr['settingsAction']['uri']='https://example.com/settings-iframe-contents';
+        $gift_arr['settingsAction']['label']='Settings';
+
+
+        //Primaryaction create gift
+        $gift_arr['primaryAction']['type']='IFRAME';
+        $gift_arr['primaryAction']['width']=890;
+        $gift_arr['primaryAction']['height']=748;
+        $gift_arr['primaryAction']['uri']=url('/').'/create_gift_form';
+        $gift_arr['primaryAction']['label']='View All';
+
+
+        //$gift_arr['allItemsLink']='Create Gift';
+        //$gift_arr['totalCount']=isset($CorporateGiftGet['data'])?count($CorporateGiftGet['data']):0;
+
+
+        // echo '<pre>';
+        // print_r($CorporateGiftGet);
+
+        //Log::channel('HubSpotCrmCardLog')->info($request->all());
+
+       
+        return  json_encode($gift_arr);
+    }
+
+
+    public function verifySignature($signature,$method,$url){
+        $strtoMatch = $this->h_client_secret.$method.$url;
+        $sigToMatch = hash('sha256',$strtoMatch);
+
+        Log::channel('HubSpotCrmCardLog')->info($signature);
+        Log::channel('HubSpotCrmCardLog')->info('Signature to match: '.$sigToMatch);
+        Log::channel('HubSpotCrmCardLog')->info($sigToMatch);
+    }
+
+
+    public function getAllGiftProducts(){
+        $CorporateGiftGet=CorporateGiftApiHandle::corporate_gift_get_request('/gift/products');
+
+
+        $gift_arr=array();
+
+
+        if(!empty($CorporateGiftGet['status'])){
+
+            foreach($CorporateGiftGet['data'] as $key_index => $single_CorporateGiftGet_data){
+
+                $product_gift_id=$single_CorporateGiftGet_data['id'];
+                $gift_arr['results'][$key_index]['objectId']=$product_gift_id;
+                $gift_arr['results'][$key_index]['title']=$single_CorporateGiftGet_data['name'];
+                //$gift_arr['results'][$key_index]['title']='Product gift '. $key_index;
+
+
+                $properties_counter=0;
+                $action_counter=0;
+                //Properties arr
+                if(!empty($single_CorporateGiftGet_data['description'])){
+
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['label']='Description';
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['dataType']='STRING';
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['value']=strip_tags($single_CorporateGiftGet_data['description']);
+
+                }
+
+                if(!empty($single_CorporateGiftGet_data['price'])){
+
+                    $properties_counter++;
+
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['label']='Price';
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['dataType']='CURRENCY';
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['value']=$single_CorporateGiftGet_data['price'];
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['currencyCode']='USD';
+
+                }
+
+                //Action arr
+                $gift_arr['results'][$key_index]['actions'][$action_counter]['type']="IFRAME";
+                $gift_arr['results'][$key_index]['actions'][$action_counter]['width']="890";
+                $gift_arr['results'][$key_index]['actions'][$action_counter]['height']="748";
+                $gift_arr['results'][$key_index]['actions'][$action_counter]['uri'] = url('/')."/get_hupspot_send_gift_request?gift_id=$product_gift_id";
+                $gift_arr['results'][$key_index]['actions'][$action_counter]['label']="Send Gift";
+
+
+            }
+
+
+        }
+    }
+
+       /*-------------------------------------------------------------------
+     * Hubspot send gift ifram popup
+     * Show popup when click send gift action button
+     * @return \Illuminate\Http\Response
+     ------------------------------------------------------------------------*/
+
+     public function get_hupspot_send_gift_request(Request $request){
+        Log::channel('HubSpotCrmCardLog')->info('IFRAM REQUEST');
+        Log::channel('HubSpotCrmCardLog')->info($request->all());
+        $action = view('hubspot.hubspot-sendgift')->render();
+
+        return  $action;
+
+     }
+
+     public function post_hubspot_send_gift_request(Request $request){
+        Log::channel('HubSpotCrmCardLog')->info('IFRAM REQUEST BULK');
+        Log::channel('HubSpotCrmCardLog')->info($request->all());
+
+       // $action = view('hubspot.hubspot-sendgift')->render();
+
+     }
+
+     public function callback(){
+         return $this->get_access_token();
+     }
+
+     public function create_gift_form(){
+         $action = view('hubspot.hubspot-sendgift')->render();
+         return  $action;
+     }
+
+}
