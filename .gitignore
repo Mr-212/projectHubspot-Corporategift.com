@@ -2,6 +2,8 @@
 /public/hot
 /public/storage
 /storage/*.key
+.ideas
+
 /vendor
 .env
 .env.backup
