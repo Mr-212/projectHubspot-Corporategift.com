@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GiftProduct;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Carbon\Carbon;
@@ -172,17 +173,30 @@ class HupSpotServiceController extends Controller
         $url = url('/').'/hupspot-data-fetch-request';
         $this->verifySignature($signature,'POST',$url);
 
+        $CorporateGiftGet = GiftProduct::pluck('data')->toArray();
+        //dd('here',$CorporateGiftGet);
 
-        $CorporateGiftGet=CorporateGiftApiHandle::corporate_gift_get_request('/gift/products');
-        //$CorporateGiftGet=null;
+        if(empty($CorporateGiftGet)) {
+            $CorporateGiftGet = CorporateGiftApiHandle::corporate_gift_get_request('/gift/products');
+
+            if(isset($CorporateGiftGet['status']) && $CorporateGiftGet['status']){
+                foreach ($CorporateGiftGet['data'] as $data){;
+                    GiftProduct::create(['product_id'=> $data['id'],'data'=>$data]);
+                }
+            }
+            $CorporateGiftGet = GiftProduct::pluck('data')->toArray();
+        }
+
+
+        //dd($CorporateGiftGet);
 
         
         $gift_arr=array();
 
 
-        if(!empty($CorporateGiftGet['status'])){
+        if(!empty($CorporateGiftGet)){
 
-            foreach($CorporateGiftGet['data'] as $key_index => $single_CorporateGiftGet_data){
+            foreach($CorporateGiftGet as $key_index => $single_CorporateGiftGet_data){
 
                 $product_gift_id=$single_CorporateGiftGet_data['id'];
                 $gift_arr['results'][$key_index]['objectId']=$product_gift_id;
@@ -253,7 +267,7 @@ class HupSpotServiceController extends Controller
 
         //Log::channel('HubSpotCrmCardLog')->info($request->all());
 
-       
+      // dd($gift_arr['results']);
         return  json_encode($gift_arr);
     }
 
