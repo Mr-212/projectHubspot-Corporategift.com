@@ -268,7 +268,7 @@ class HupSpotServiceController extends Controller
         //Log::channel('HubSpotCrmCardLog')->info($request->all());
 
       // dd($gift_arr['results']);
-        //return  json_encode($gift_arr);
+        return  json_encode($gift_arr);
     }
 
 
