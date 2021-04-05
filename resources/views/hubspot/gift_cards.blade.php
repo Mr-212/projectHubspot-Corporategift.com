@@ -1,6 +1,21 @@
 @extends('layouts.layoutiframe')
 @section('content')
     <div class="container">
+        <div class="card w-75">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="#" class="btn btn-primary">Button</a>
+            </div>
+        </div>
+
+        <div class="card w-50">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="#" class="btn btn-primary">Button</a>
+            </div>
+        </div>
         @if(isset($gift_products) && count($gift_products) > 0)
             @foreach($gift_products as $card)
             <div class="card w-75">
