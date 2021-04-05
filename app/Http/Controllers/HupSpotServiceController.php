@@ -17,13 +17,16 @@ class HupSpotServiceController extends Controller
     private $h_client_id; 
     private $h_client_secret; 
     private $h_redirect_uri; 
-    private $h_version; 
+    private $h_version;
+    private $corporateGiftHandler;
     public function __construct()
     {
         $this->h_client_id= Config::get('constants.hubspot.client_id');
         $this->h_client_secret= Config::get('constants.hubspot.client_secret');
         $this->h_redirect_uri= Config::get('constants.hubspot.redirect_uri');
         $this->h_version= Config::get('constants.hubspot.version');
+
+        $this->corporateGiftHandler = new CorporateGiftApiHandle(Config::get('constants.cg_settings.token'),Config::get('constants.cg_settings.domain_uri'));
        
     }
 
@@ -89,7 +92,6 @@ class HupSpotServiceController extends Controller
 
     public function get_access_token(){
 
-
         $data_array=array();
         try {
 
@@ -117,8 +119,6 @@ class HupSpotServiceController extends Controller
                 $response = $client->post($post_url, $params);
 
                 $token = json_decode($response->getBody());
-
-        
                 $token_info_arr=array();
                 if (isset($token->refresh_token)) {
 
@@ -127,9 +127,6 @@ class HupSpotServiceController extends Controller
                     $token_info_arr['expires_in']=$token->refresh_token;
                     $token_info_arr['token_current_date_time']=Carbon::now()->format('Y-m-d H:i:s');
                     file_put_contents(app_path().'/hupspot-token.txt',json_encode($token_info_arr));
-
-                
-                    
                 }
 
             }
@@ -169,30 +166,15 @@ class HupSpotServiceController extends Controller
      ------------------------------------------------------------------------*/
 
     public function hupspot_data_fetch_request(Request $request){
+
+        Log::info('hHEADERS');
+        Log::info($request->headers);
+
         $signature = @$request->header('X-Hubspot-Signature');
         $url = url('/').'/hupspot-data-fetch-request';
         $this->verifySignature($signature,'POST',$url);
-
-        $CorporateGiftGet = GiftProduct::pluck('data')->toArray();
-        //dd('here',$CorporateGiftGet);
-
-        if(empty($CorporateGiftGet)) {
-            $CorporateGiftGet = CorporateGiftApiHandle::corporate_gift_get_request('/gift/products');
-
-            if(isset($CorporateGiftGet['status']) && $CorporateGiftGet['status']){
-                foreach ($CorporateGiftGet['data'] as $data){;
-                    GiftProduct::create(['product_id'=> $data['id'],'data'=>$data]);
-                }
-            }
-            $CorporateGiftGet = GiftProduct::pluck('data')->toArray();
-        }
-
-
-        //dd($CorporateGiftGet);
-
-        
+        $CorporateGiftGet = $this->getGiftProducts();
         $gift_arr=array();
-
 
         if(!empty($CorporateGiftGet)){
 
@@ -230,13 +212,10 @@ class HupSpotServiceController extends Controller
                 $gift_arr['results'][$key_index]['actions'][$action_counter]['type']="IFRAME";
                 $gift_arr['results'][$key_index]['actions'][$action_counter]['width']="890";
                 $gift_arr['results'][$key_index]['actions'][$action_counter]['height']="748";
-                $gift_arr['results'][$key_index]['actions'][$action_counter]['uri'] = url('/')."/get_hupspot_send_gift_request?gift_id=$product_gift_id";
+                $gift_arr['results'][$key_index]['actions'][$action_counter]['uri'] = url('/')."/get_hupspot_send_gift_request?product_id=$product_gift_id";
                 $gift_arr['results'][$key_index]['actions'][$action_counter]['label']="Send Gift";
-        
 
             }
-           
-
         }
 
 
@@ -269,6 +248,71 @@ class HupSpotServiceController extends Controller
 
       // dd($gift_arr['results']);
         return  json_encode($gift_arr);
+    }
+
+
+    public function getGiftProducts(){
+
+        $CorporateGiftGet = GiftProduct::pluck('data')->toArray();
+        if(empty($CorporateGiftGet)) {
+            $CorporateGiftGet =  $this->corporateGiftHandler->getGiftProducts();
+            if(isset($CorporateGiftGet['status']) && $CorporateGiftGet['status']){
+                foreach ($CorporateGiftGet['data'] as $data){;
+                    GiftProduct::create(['product_id'=> $data['id'],'data'=>$data]);
+                }
+            }
+            $CorporateGiftGet = GiftProduct::pluck('data')->toArray();
+        }
+
+        return $CorporateGiftGet;
+    }
+
+
+    public function getGiftById(){
+        $this->corporateGiftHandler->getGiftById(15979);
+    }
+
+
+    public function createGiftProductOrder(){
+        $data = [
+            "product_id"=> 16723,
+            "customer_id" => 1,
+            "gift_message"=>"Dear <First Name> <Last Name>\n\n",
+            "email_subject"=>"Hic Global Solution - Sent You a Gift!",
+            "can_create_dedicated_links"=> false,
+            "can_upgrade_regift"=> false,
+            "video_url" => "none",
+            "sender_name" => "Wojciech Kaminski",
+            "recipients" => [
+                    "firstname" => "Jon",
+                    "email" => "jon@john.con"
+
+            ],
+        ];
+        $this->corporateGiftHandler->createGiftProductOrder($data);
+    }
+
+    public function createGiftByProductId(){
+        $product_id =11623;
+
+        $data = [
+            "product_id" => "$product_id",
+            "gift_message"=>"Dear <First Name> <Last Name>\n\n",
+            "email_subject"=>"Hic Global Solution - Sent You a Gift!",
+            "can_create_dedicated_links"=> false,
+            "can_upgrade_regift"=> false,
+            "video_url" => "none",
+            "sender_name" => "Wojciech Kaminski",
+            "recipients" => [
+                    "firstname" => "Jon",
+                    "email" => "jon@john.con"
+            ],
+        ];
+        $data = json_encode($data,1);
+        //dd($data);
+
+        //dd($data);
+        $this->corporateGiftHandler->createGift($data);
     }
 
 
@@ -325,7 +369,7 @@ class HupSpotServiceController extends Controller
                 $gift_arr['results'][$key_index]['actions'][$action_counter]['type']="IFRAME";
                 $gift_arr['results'][$key_index]['actions'][$action_counter]['width']="890";
                 $gift_arr['results'][$key_index]['actions'][$action_counter]['height']="748";
-                $gift_arr['results'][$key_index]['actions'][$action_counter]['uri'] = url('/')."/get_hupspot_send_gift_request?gift_id=$product_gift_id";
+                $gift_arr['results'][$key_index]['actions'][$action_counter]['uri'] = url('/')."/get_hupspot_send_gift_request?product_id=$product_gift_id";
                 $gift_arr['results'][$key_index]['actions'][$action_counter]['label']="Send Gift";
 
 
