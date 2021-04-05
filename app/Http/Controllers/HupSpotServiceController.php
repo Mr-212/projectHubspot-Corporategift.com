@@ -171,6 +171,10 @@ class HupSpotServiceController extends Controller
         Log::info(@$request->headers);
         Log::info(@$request->all());
 
+        if($request->has('email'))
+            $email =  @$request->get('email');
+            $name  =  @$request->get('firstname'). ' '.@$request->get('lastname');
+
         $signature = @$request->header('X-Hubspot-Signature');
         $url = url('/').'/hupspot-data-fetch-request';
         //$this->verifySignature($signature,'POST',$url);
@@ -213,7 +217,7 @@ class HupSpotServiceController extends Controller
                 $gift_arr['results'][$key_index]['actions'][$action_counter]['type']="IFRAME";
                 $gift_arr['results'][$key_index]['actions'][$action_counter]['width']="890";
                 $gift_arr['results'][$key_index]['actions'][$action_counter]['height']="748";
-                $gift_arr['results'][$key_index]['actions'][$action_counter]['uri'] = url('/')."/get_hupspot_send_gift_request?product_id=$product_gift_id";
+                $gift_arr['results'][$key_index]['actions'][$action_counter]['uri'] = url('/')."/get_hupspot_send_gift_request?product_id=$product_gift_id&email=$email&name=$name";
                 $gift_arr['results'][$key_index]['actions'][$action_counter]['label']="Send Gift";
 
             }
@@ -389,7 +393,10 @@ class HupSpotServiceController extends Controller
      public function get_hupspot_send_gift_request(Request $request){
         Log::channel('HubSpotCrmCardLog')->info('IFRAM REQUEST');
         Log::channel('HubSpotCrmCardLog')->info($request->all());
-        $action = view('hubspot.hubspot-sendgift')->render();
+        $name = @$request->get('name');
+        $email= @$request->get('email');
+
+        $action = view('hubspot.hubspot-sendgift',compact('name','email'))->render();
 
         return  $action;
 
