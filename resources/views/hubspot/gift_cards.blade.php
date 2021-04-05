@@ -15,7 +15,7 @@
 
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Price: <strong>{{$card['price']}}</strong></li>
+                        <li class="list-group-item">Price: <strong>{{$card['price']?:'--'}}</strong></li>
                     </ul>
                     <div class="card-footer">
                         {{--<p>{{$card['price']}}</p>--}}
