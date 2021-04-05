@@ -1,8 +1,8 @@
 @extends('layouts.layoutiframe')
 @section('content')
     <div class="container">
-        @if(isset($gift_cards) && count($gift_cards) > 0)
-            @foreach($gift_cards as $card)
+        @if(isset($gift_products) && count($gift_products) > 0)
+            @foreach($gift_products as $card)
             <div class="card w-75">
                 <div class="card-body">
                     <h5 class="card-title">Card title</h5>
