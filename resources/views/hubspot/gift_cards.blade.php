@@ -19,48 +19,55 @@
                     </ul>
                     <div class="card-footer">
                         {{--<p>{{$card['price']}}</p>--}}
-                        {{--<button  class="btn btn-primary float-right" type="button"  data-target="#modal-{{$card['id']}}" data-toggle="modal" >Send</button>--}}
-                        <a class="btn btn-primary float-right" href="{{url('/').'/get_hupspot_send_gift_request?product_id='.$card["id"].'&email='.$email}}" >Send</a>
+                        <a  class="btn btn-primary float-right" type="button" href="#modal-{{$card['id']}}" data-target="#modal-{{$card['id']}}" data-toggle="modal" >Send</a>
+                        {{--<a class="btn btn-primary float-right" href="{{url('/').'/get_hupspot_send_gift_request?product_id='.$card["id"].'&email='.$email}}" >Send</a>--}}
                         {{--<a href="#" class="card-link">View</a>--}}
                     </div>
                 </div>
                 </div>
 
-               {{--<div class="modal fade" id="modal-{{$card['id']}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">--}}
-                   {{--<div class="modal-dialog" role="document">--}}
-                       {{--<div class="modal-content">--}}
-                           {{--<div class="modal-header">--}}
-                               {{--<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>--}}
-                               {{--<button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
-                                   {{--<span aria-hidden="true">&times;</span>--}}
-                               {{--</button>--}}
-                           {{--</div>--}}
-                           {{--<div class="modal-body">--}}
-                               {{--@include('hubspot.hubspot-sendgift',['email' =>$email])--}}
-                               {{--<form id="contact" action="{{url('/').'/post_hubspot_send_gift_request'}}" method="post">--}}
-                                   {{--<h3>Send Gift</h3>--}}
+               <div class="modal fade" id="modal-{{$card['id']}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                   <div class="modal-dialog" role="document">
+                       <div class="modal-content">
+                           <div class="modal-header">
+                               <h5 class="modal-title" id="exampleModalLabel">Add Subject</h5>
+                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                   <span aria-hidden="true">&times;</span>
+                               </button>
+                           </div>
+                           <div class="modal-body">
+                               {{--@include('hubspot.hubspot-sendgift1',['email' =>$email])--}}
+                               <form id="contact" action="{{url('/').'/post_hubspot_send_gift_request'}}" method="post">
+
+                                   <div class="form-group">
+                                   <fieldset>
+                                       <input placeholder="Email Address" class="form-control" type="email" name="email" value="{{$email}}" tabindex="2" disabled>
+                                   </fieldset>
+                                   </div>
+                                   <div class="form-group">
+                                   <fieldset>
+                                       <input placeholder="Subject" class="form-control" type="text" name="subject" tabindex="1" required autofocus>
+                                   </fieldset>
+                                   </div>
+                                   <div class="form-group">
+                                   <fieldset>
+                                       <textarea placeholder="Type your message here...." class="form-control" name="message" tabindex="5" required></textarea>
+                                   </fieldset>
+                                   </div>
+
                                    {{--<fieldset>--}}
-                                       {{--<input placeholder="Subject" type="text" name="subject" tabindex="1" required autofocus>--}}
-                                   {{--</fieldset>--}}
-                                   {{--<fieldset>--}}
-                                       {{--<input placeholder="Email Address" type="email" name="email" value="{{$email}}" tabindex="2" disabled>--}}
-                                   {{--</fieldset>--}}
-                                   {{--<fieldset>--}}
-                                       {{--<textarea placeholder="Type your message here...." name="message" tabindex="5" required></textarea>--}}
-                                   {{--</fieldset>--}}
-                                   {{--<fieldset>--}}
-                                       {{--<button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>--}}
+                                       {{--<button name="submit" class="btn btn-info float-right form-control-sm" type="submit" id="contact-submit" data-submit="...Sending">Send</button>--}}
                                    {{--</fieldset>--}}
 
-                               {{--</form>--}}
-                           {{--</div>--}}
-                           {{--<div class="modal-footer">--}}
-                               {{--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>--}}
-                               {{--<button type="button" class="btn btn-primary">Save changes</button>--}}
-                           {{--</div>--}}
-                       {{--</div>--}}
-                   {{--</div>--}}
-               {{--</div>--}}
+                               </form>
+                           </div>
+                           <div class="modal-footer">
+                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                               <button type="button" class="btn btn-primary">Send</button>
+                           </div>
+                       </div>
+                   </div>
+               </div>
 
             @endforeach
 

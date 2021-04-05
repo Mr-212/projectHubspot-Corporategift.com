@@ -1,6 +1,4 @@
-@extends('layouts.layoutiframe')
 
-@push('styles')
 
   <style>
   @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,600,400italic);
@@ -156,8 +154,6 @@
 
   </style>
 
-@endpush
-@section('content')
   <div class="container">
 
     <form id="contact" action="{{url('/').'/post_hubspot_send_gift_request'}}" method="post">
@@ -177,4 +173,3 @@
   
     </form>
   </div>
-  @stop
