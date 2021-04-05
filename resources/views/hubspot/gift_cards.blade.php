@@ -5,13 +5,13 @@
 
         @if(isset($gift_products) && count($gift_products) > 0)
             @foreach($gift_products as $card)
-                <div class="col-md-4 col-sm-4 mt-5" >
+                <div class="col-md-4 col-sm-4 mt-4" >
 
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src=".../100px180/?text=Image cap" alt="Card image cap">
+                <div class="card" style="width: 23rem;">
+                    <img class="card-img-top" src="{{url('/uploads/gifts/gift.jpeg')}}" alt="Card image cap">
                     <div class="card-body">
-                        <h5 class="card-title">{{$card['name']}}</h5>
-                        <p class="card-text overflow-scroll"  style="height: 80px; overflow-y: scroll">{{ strip_tags($card['description'])}}</p>
+                        <h5 class="card-title" style="height: 50px; overflow: auto">{{$card['name']}}</h5>
+                        <p class="card-text overflow-scroll"  style="height: 80px; overflow: auto">{{ strip_tags($card['description'])}}</p>
 
                     </div>
                     <ul class="list-group list-group-flush">
