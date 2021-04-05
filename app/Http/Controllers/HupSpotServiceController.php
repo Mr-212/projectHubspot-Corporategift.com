@@ -224,19 +224,19 @@ class HupSpotServiceController extends Controller
 
         //Setting save
         //$gift_arr['results'] = null;
-        $gift_arr['settingsAction']['type']='IFRAME';
-        $gift_arr['settingsAction']['width']=890;
-        $gift_arr['settingsAction']['height']=748;
-        $gift_arr['settingsAction']['uri']='https://example.com/settings-iframe-contents';
-        $gift_arr['settingsAction']['label']='Settings';
-
-
-        //Primaryaction create gift
-        $gift_arr['primaryAction']['type']='IFRAME';
-        $gift_arr['primaryAction']['width']=890;
-        $gift_arr['primaryAction']['height']=748;
-        $gift_arr['primaryAction']['uri']=url('/').'/create_gift_form';
-        $gift_arr['primaryAction']['label']='View All';
+//        $gift_arr['settingsAction']['type']='IFRAME';
+//        $gift_arr['settingsAction']['width']=890;
+//        $gift_arr['settingsAction']['height']=748;
+//        $gift_arr['settingsAction']['uri']='https://example.com/settings-iframe-contents';
+//        $gift_arr['settingsAction']['label']='Settings';
+//
+//
+//        //Primaryaction create gift
+//        $gift_arr['primaryAction']['type']='IFRAME';
+//        $gift_arr['primaryAction']['width']=890;
+//        $gift_arr['primaryAction']['height']=748;
+//        $gift_arr['primaryAction']['uri']=url('/').'/create_gift_form';
+//        $gift_arr['primaryAction']['label']='View All';
 
 
         //$gift_arr['allItemsLink']='Create Gift';
