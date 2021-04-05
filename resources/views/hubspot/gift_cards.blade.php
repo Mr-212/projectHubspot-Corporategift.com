@@ -7,7 +7,7 @@
             @foreach($gift_products as $card)
                 <div class="col-md-4 col-sm-4 mt-4" >
 
-                <div class="card" style="width: 23rem;">
+                <div class="card" style="width: 20rem;">
                     <img class="card-img-top" src="{{url('/uploads/gifts/gift.jpeg')}}" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title" style="height: 50px; overflow: auto">{{$card['name']}}</h5>
