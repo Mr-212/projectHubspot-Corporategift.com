@@ -178,49 +178,46 @@ class HupSpotServiceController extends Controller
         $url = url('/').'/hupspot-data-fetch-request';
         //$this->verifySignature($signature,'POST',$url);
         $CorporateGiftGet = $this->getGiftProducts();
+        $objectId = 1;
         $gift_arr=array();
 
-        if(!empty($CorporateGiftGet)){
 
-            foreach($CorporateGiftGet as $key_index => $single_CorporateGiftGet_data){
-
-                $product_gift_id=$single_CorporateGiftGet_data['id'];
-                $gift_arr['results'][$key_index]['objectId']=$product_gift_id;
-                $gift_arr['results'][$key_index]['title']=$single_CorporateGiftGet_data['name'];
+//                $product_gift_id=$single_CorporateGiftGet_data['id'];
+                $gift_arr['results'][]['objectId']=$objectId;
+                $gift_arr['results'][]['title']="View All Gifts";
                 //$gift_arr['results'][$key_index]['title']='Product gift '. $key_index;
     
             
                 $properties_counter=0;
                 $action_counter=0;
                 //Properties arr
-                if(!empty($single_CorporateGiftGet_data['description'])){
-
-                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['label']='Description';
-                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['dataType']='STRING';
-                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['value']=strip_tags($single_CorporateGiftGet_data['description']);
-
-                }
-
-                if(!empty($single_CorporateGiftGet_data['price'])){
-
-                    $properties_counter++;
-
-                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['label']='Price';
-                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['dataType']='CURRENCY';
-                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['value']=$single_CorporateGiftGet_data['price'];
-                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['currencyCode']='USD';
-
-                }
-        
+//                if(!empty($single_CorporateGiftGet_data['description'])){
+//
+//                    $gift_arr['results'][]['properties'][$properties_counter]['label']='Description';
+//                    $gift_arr['results'][]['properties'][$properties_counter]['dataType']='STRING';
+//                    $gift_arr['results'][]['properties'][$properties_counter]['value']=strip_tags($single_CorporateGiftGet_data['description']);
+//
+//                }
+//
+//                if(!empty($single_CorporateGiftGet_data['price'])){
+//
+//                    $properties_counter++;
+//
+//                    $gift_arr['results'][]['properties'][$properties_counter]['label']='Price';
+//                    $gift_arr['results'][]['properties'][$properties_counter]['dataType']='CURRENCY';
+//                    $gift_arr['results'][]['properties'][$properties_counter]['value']=$single_CorporateGiftGet_data['price'];
+//                    $gift_arr['results'][]['properties'][$properties_counter]['currencyCode']='USD';
+//
+//                }
                 //Action arr
-                $gift_arr['results'][$key_index]['actions'][$action_counter]['type']="IFRAME";
-                $gift_arr['results'][$key_index]['actions'][$action_counter]['width']="890";
-                $gift_arr['results'][$key_index]['actions'][$action_counter]['height']="748";
-                $gift_arr['results'][$key_index]['actions'][$action_counter]['uri'] = url('/')."/get_hupspot_send_gift_request?product_id={$product_gift_id}&email={$email}";
-                $gift_arr['results'][$key_index]['actions'][$action_counter]['label']="Send Gift";
+                $gift_arr['results'][]['actions'][$action_counter]['type']="IFRAME";
+                $gift_arr['results'][]['actions'][$action_counter]['width']="890";
+                $gift_arr['results'][]['actions'][$action_counter]['height']="748";
+//                $gift_arr['results'][]['actions'][$action_counter]['uri'] = url('/')."/get_hupspot_send_gift_request?product_id={$product_gift_id}&email={$email}";
+                $gift_arr['results'][]['actions'][$action_counter]['uri'] = url('/')."/get_all_gifts?email={$email}";
+                $gift_arr['results'][]['actions'][$action_counter]['label']="Send Gift";
 
-            }
-        }
+
 
 
 
@@ -331,16 +328,14 @@ class HupSpotServiceController extends Controller
 
 
     public function getAllGiftProducts(){
-        $CorporateGiftGet=CorporateGiftApiHandle::corporate_gift_get_request('/gift/products');
 
 
+
+        $CorporateGiftGet = $this->getGiftProducts();
         $gift_arr=array();
 
-
-        if(!empty($CorporateGiftGet['status'])){
-
-            foreach($CorporateGiftGet['data'] as $key_index => $single_CorporateGiftGet_data){
-
+        if(!empty($CorporateGiftGet)){
+            foreach($CorporateGiftGet as $key_index => $single_CorporateGiftGet_data){
                 $product_gift_id=$single_CorporateGiftGet_data['id'];
                 $gift_arr['results'][$key_index]['objectId']=$product_gift_id;
                 $gift_arr['results'][$key_index]['title']=$single_CorporateGiftGet_data['name'];
@@ -368,19 +363,32 @@ class HupSpotServiceController extends Controller
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['currencyCode']='USD';
 
                 }
-
                 //Action arr
                 $gift_arr['results'][$key_index]['actions'][$action_counter]['type']="IFRAME";
                 $gift_arr['results'][$key_index]['actions'][$action_counter]['width']="890";
                 $gift_arr['results'][$key_index]['actions'][$action_counter]['height']="748";
-                $gift_arr['results'][$key_index]['actions'][$action_counter]['uri'] = url('/')."/get_hupspot_send_gift_request?product_id=$product_gift_id";
+                $gift_arr['results'][$key_index]['actions'][$action_counter]['uri'] = url('/')."/get_hupspot_send_gift_request?product_id={$product_gift_id}&email={$email}";
                 $gift_arr['results'][$key_index]['actions'][$action_counter]['label']="Send Gift";
-
-
             }
-
-
         }
+
+
+
+        //Setting save
+        //$gift_arr['results'] = null;
+        $gift_arr['settingsAction']['type']='IFRAME';
+        $gift_arr['settingsAction']['width']=890;
+        $gift_arr['settingsAction']['height']=748;
+        $gift_arr['settingsAction']['uri']='https://example.com/settings-iframe-contents';
+        $gift_arr['settingsAction']['label']='Settings';
+
+
+        //Primaryaction create gift
+        $gift_arr['primaryAction']['type']='IFRAME';
+        $gift_arr['primaryAction']['width']=890;
+        $gift_arr['primaryAction']['height']=748;
+        $gift_arr['primaryAction']['uri']=url('/').'/create_gift_form';
+        $gift_arr['primaryAction']['label']='View All';
     }
 
        /*-------------------------------------------------------------------
