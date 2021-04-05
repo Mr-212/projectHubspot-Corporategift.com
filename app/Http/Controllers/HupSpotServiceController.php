@@ -214,8 +214,8 @@ class HupSpotServiceController extends Controller
                 $gift_arr['results'][$index]['actions'][$action_counter]['type']="IFRAME";
                 $gift_arr['results'][$index]['actions'][$action_counter]['width']="890";
                 $gift_arr['results'][$index]['actions'][$action_counter]['height']="748";
-                $gift_arr['results'][$index]['actions'][$action_counter]['uri'] = url('/')."/get_hupspot_send_gift_request?email={$email}";
-//                $gift_arr['results'][$index]['actions'][$action_counter]['uri'] = url('/')."/get_all_gifts?email={$email}";
+//                $gift_arr['results'][$index]['actions'][$action_counter]['uri'] = url('/')."/get_hupspot_send_gift_request?email={$email}";
+                $gift_arr['results'][$index]['actions'][$action_counter]['uri'] = url('/')."/get_all_gift_products?email={$email}";
                 $gift_arr['results'][$index]['actions'][$action_counter]['label']="Send Gift";
 
 
@@ -407,6 +407,16 @@ class HupSpotServiceController extends Controller
         $action = view('hubspot.hubspot-sendgift',compact('name','email'))->render();
 
         return  $action;
+
+     }
+
+
+     public function get_all_gift_products(Request $request){
+         $email = @$request->get('email');
+         $gift_products = $this->getGiftProducts();
+         $action = view('hubspot.gift_cards',compact('gift_products','email'))->render();
+         return  $action;
+
 
      }
 

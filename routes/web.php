@@ -52,6 +52,7 @@ Route::match(['get', 'post'], 'hupspot-data-fetch-request',[HupSpotServiceContro
 Route::match(['get', 'post'], 'getGiftById',[HupSpotServiceController::class,'getGiftById']);
 Route::match(['get', 'post'], 'createGiftProductOrder',[HupSpotServiceController::class,'createGiftProductOrder']);
 Route::match(['get', 'post'], 'createGiftByProductId',[HupSpotServiceController::class,'createGiftByProductId']);
+Route::match(['get', 'post'], 'get_all_gift_products',[HupSpotServiceController::class,'get_all_gift_products']);
 
 
 //Route::get('hupspot-data-fetch-request',[HupSpotServiceController::class,'hupspot_data_fetch_request']);
