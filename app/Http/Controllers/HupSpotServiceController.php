@@ -168,7 +168,7 @@ class HupSpotServiceController extends Controller
     public function hupspot_data_fetch_request(Request $request){
 
         Log::info('hHEADERS');
-        Log::info($request->headers);
+        Log::info(@$request->headers);
 
         $signature = @$request->header('X-Hubspot-Signature');
         $url = url('/').'/hupspot-data-fetch-request';
