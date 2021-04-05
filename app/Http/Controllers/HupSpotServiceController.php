@@ -178,13 +178,14 @@ class HupSpotServiceController extends Controller
         $url = url('/').'/hupspot-data-fetch-request';
         //$this->verifySignature($signature,'POST',$url);
         //$CorporateGiftGet = $this->getGiftProducts();
-        $objectId = 1;
+        $index = 0;
+        $objectId = 111;
         $gift_arr=array();
 
 
 //                $product_gift_id=$single_CorporateGiftGet_data['id'];
-                $gift_arr['results'][]['objectId']=$objectId;
-                $gift_arr['results'][]['title']="View All Gifts";
+                $gift_arr['results'][$index]['objectId']=$objectId;
+                $gift_arr['results'][$index]['title']="View All Gifts";
                 //$gift_arr['results'][$key_index]['title']='Product gift '. $key_index;
     
             
@@ -210,12 +211,12 @@ class HupSpotServiceController extends Controller
 //
 //                }
                 //Action arr
-                $gift_arr['results'][]['actions'][]['type']="IFRAME";
-                $gift_arr['results'][]['actions'][]['width']="890";
-                $gift_arr['results'][]['actions'][]['height']="748";
+                $gift_arr['results'][$index]['actions'][]['type']="IFRAME";
+                $gift_arr['results'][$index]['actions'][]['width']="890";
+                $gift_arr['results'][$index]['actions'][]['height']="748";
 //                $gift_arr['results'][]['actions'][$action_counter]['uri'] = url('/')."/get_hupspot_send_gift_request?product_id={$product_gift_id}&email={$email}";
-                $gift_arr['results'][]['actions'][]['uri'] = url('/')."/get_all_gifts?email={$email}";
-                $gift_arr['results'][]['actions'][]['label']="Send Gift";
+                $gift_arr['results'][$index]['actions'][]['uri'] = url('/')."/get_all_gifts?email={$email}";
+                $gift_arr['results'][$index]['actions'][]['label']="Send Gift";
 
 
 
