@@ -167,8 +167,8 @@ class HupSpotServiceController extends Controller
 
     public function hupspot_data_fetch_request(Request $request){
 
-        Log::info('hHEADERS');
-        Log::info(@$request->headers);
+//        Log::info('hHEADERS');
+//        Log::info(@$request->headers);
         Log::info(@$request->all());
 
             $email =  @$request->get('email');
@@ -216,7 +216,7 @@ class HupSpotServiceController extends Controller
                 $gift_arr['results'][$key_index]['actions'][$action_counter]['type']="IFRAME";
                 $gift_arr['results'][$key_index]['actions'][$action_counter]['width']="890";
                 $gift_arr['results'][$key_index]['actions'][$action_counter]['height']="748";
-                $gift_arr['results'][$key_index]['actions'][$action_counter]['uri'] = url('/')."/get_hupspot_send_gift_request?product_id=$product_gift_id&email=$email";
+                $gift_arr['results'][$key_index]['actions'][$action_counter]['uri'] = url('/')."/get_hupspot_send_gift_request?product_id={$product_gift_id}&email={$email}";
                 $gift_arr['results'][$key_index]['actions'][$action_counter]['label']="Send Gift";
 
             }
