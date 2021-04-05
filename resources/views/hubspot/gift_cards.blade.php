@@ -5,9 +5,9 @@
 
         @if(isset($gift_products) && count($gift_products) > 0)
             @foreach($gift_products as $card)
-                <div class="col-md-4 col-sm-4 mt-4" >
+                <div class="col-md-4 col-sm-4 mt-4 pl-2">
 
-                <div class="card" style="width: 20rem;">
+                <div class="card" style="width: 18rem;">
                     <img class="card-img-top" src="{{url('/uploads/gifts/gift.jpeg')}}" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title" style="height: 50px; overflow: auto">{{$card['name']}}</h5>
@@ -26,7 +26,7 @@
                 </div>
                 </div>
 
-               <div class="modal fade" id="modal-{{$card['id']}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+               <div class="modal fade subject_modal" id="modal-{{$card['id']}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                    <div class="modal-dialog" role="document">
                        <div class="modal-content">
                            <div class="modal-header">
@@ -80,5 +80,9 @@
 @stop
 
 @push('scripts')
-
+<script>
+    $('.subject_modal').model('hidden.bs.modal',function () {
+        //$(this).find("input['name'='subject']").empty();
+    })
+</script>
 @endpush
