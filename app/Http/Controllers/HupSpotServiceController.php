@@ -175,7 +175,7 @@ class HupSpotServiceController extends Controller
         $signature = @$request->header('X-Hubspot-Signature');
         $url = url('/').'/hupspot-data-fetch-request';
         //$this->verifySignature($signature,'POST',$url);
-        $CorporateGiftGet = $this->getGiftProducts();
+        //$CorporateGiftGet = $this->getGiftProducts();
         $index = 0;
         $gift_arr=array();
         $gift_arr['results'] = null;
