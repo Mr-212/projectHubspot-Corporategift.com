@@ -22,9 +22,9 @@
                         {{--<li class="list-group-item">Dapibus ac facilisis in</li>--}}
                         {{--<li class="list-group-item">Vestibulum at eros</li>--}}
                     {{--</ul>--}}
-                    <div class="card-body">
+                    <div class="card-footer">
                         {{--<a class="card-link" href="{{url('/').'/get_hupspot_send_gift_request?product_id='.$card["id"].'&email='.$email}}" >Send</a>--}}
-                        <a class="btn btn-primary float-right" href="{{url('/').'/get_hupspot_send_gift_request?product_id='.$card["id"].'&email='.$email}}" >Send</a>
+                        <a class="btn btn-primary" href="{{url('/').'/get_hupspot_send_gift_request?product_id='.$card["id"].'&email='.$email}}" >Send</a>
                         {{--<a href="#" class="card-link">View</a>--}}
                     </div>
                 </div>
