@@ -255,7 +255,7 @@ class HupSpotServiceController extends Controller
 
     public function getGiftProducts(){
 
-        $CorporateGiftGet = GiftProduct::pluck('data')->limit(10)->orderBY('created_at','desc')->toArray();
+        $CorporateGiftGet = @GiftProduct::pluck('data')->toArray();
         if(empty($CorporateGiftGet)) {
             $CorporateGiftGet =  $this->corporateGiftHandler->getGiftProducts();
             if(isset($CorporateGiftGet['status']) && $CorporateGiftGet['status']){
