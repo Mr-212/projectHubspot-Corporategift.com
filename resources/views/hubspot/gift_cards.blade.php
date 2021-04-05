@@ -23,7 +23,8 @@
                         {{--<li class="list-group-item">Vestibulum at eros</li>--}}
                     {{--</ul>--}}
                     <div class="card-body">
-                        <a href="{{url('/').'/get_hupspot_send_gift_request?product_id='.$card["id"].'&email='.$email}}" class="card-link">Send</a>
+                        {{--<a class="card-link" href="{{url('/').'/get_hupspot_send_gift_request?product_id='.$card["id"].'&email='.$email}}" >Send</a>--}}
+                        <a class="btn btn-primary float-right" href="{{url('/').'/get_hupspot_send_gift_request?product_id='.$card["id"].'&email='.$email}}" >Send</a>
                         {{--<a href="#" class="card-link">View</a>--}}
                     </div>
                 </div>
