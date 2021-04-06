@@ -170,24 +170,7 @@ class HupSpotServiceController extends Controller
 
 
 
-    public function verifySignature($signature,$method,$url,$body){
-        $strtoMatch = $this->h_client_secret.$method.$url;
-        if($body)
-            $strtoMatch.=$body;
-        //$strtoMatchUrl8 = utf8_encode($this->h_client_secret.$method.$url.$body);
 
-        $sigToMatch = hash('sha256',$strtoMatch);
-        //$sigToMatch1 = hash('sha256',$strtoMatchUrl8);
-
-
-        Log::channel('HubSpotCrmCardLog')->info('Signature to match: '.$signature);
-        Log::channel('HubSpotCrmCardLog')->info('Signature1: '.$sigToMatch);
-//        Log::channel('HubSpotCrmCardLog')->info('url:' .$url);
-//        Log::channel('HubSpotCrmCardLog')->info('string: ' .$strtoMatch);
-
-        //Log::channel('HubSpotCrmCardLog')->info('Signature2 utf8: '.$sigToMatch1);
-//        Log::channel('HubSpotCrmCardLog')->info($sigToMatch);
-    }
    /*-------------------------------------------------------------------
      * Hubspot fetch request set
      * Whenever any contacts or leads will view crm will send request
@@ -201,11 +184,6 @@ class HupSpotServiceController extends Controller
 
             $email =  @$request->get('email');
             //$name  =  @$request->get('firstname'). ' '.@$request->get('lastname');
-
-        $signature = @$request->header('X-Hubspot-Signature');
-        $url = url('/').$request->getRequestUri();
-        $this->verifySignature($signature,$request->getMethod(),$url,null);
-        //$this->verifySignature($signature,'POST',$url1,null);
         //$CorporateGiftGet = $this->getGiftProducts();
         $index = 0;
         $gift_arr=array();
