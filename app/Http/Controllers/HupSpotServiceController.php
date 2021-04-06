@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\App;
 use App\Models\GiftProduct;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
@@ -38,6 +39,9 @@ class HupSpotServiceController extends Controller
     public function hupspot_auth_token_generator(Request $request)
     {
         $data_array=array();
+
+        @App::create(['request_data'=>$request->all()]);
+        @Log::info('request_data: '.json_encode($request->all()));
 
         try {
 
@@ -429,7 +433,10 @@ class HupSpotServiceController extends Controller
      }
 
      public function callback(){
-         return $this->get_access_token();
+
+
+         return view('auth.corporate_gift_cred');
+         //return $this->get_access_token();
      }
 
      public function create_gift_form(){

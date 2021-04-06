@@ -59,3 +59,4 @@ Route::match(['get', 'post'], 'get_all_gift_products',[HupSpotServiceController:
 Route::match(['get', 'post'], 'get_hupspot_send_gift_request',[HupSpotServiceController::class,'get_hupspot_send_gift_request']);
 Route::match(['get', 'post'], 'post_hubspot_send_gift_request',[HupSpotServiceController::class,'post_hubspot_send_gift_request']);
 Route::match(['get', 'post'], 'create_gift_form',[HupSpotServiceController::class,'create_gift_form']);
+//Route::match(['get', 'post'], 'create_gift_form',[HupSpotServiceController::class,'create_gift_form']);
