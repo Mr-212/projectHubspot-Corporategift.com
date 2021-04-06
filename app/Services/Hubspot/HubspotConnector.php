@@ -66,7 +66,7 @@ class HubspotConnector
         ];
         $url = $this->base_url.'oauth/'.$this->version.'/token';
 
-        $response = $this->curl_request($url, json_encode($params),'POST', $headers);
+        $response = $this->curl_request($url, http_build_query($params),'POST', $headers);
         return $response;
        // $token = json_decode($response->getBody());
 
