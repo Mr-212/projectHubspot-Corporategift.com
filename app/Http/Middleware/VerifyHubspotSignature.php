@@ -18,11 +18,14 @@ class VerifyHubspotSignature
      */
     public function handle(Request $request, Closure $next)
     {
+        $body = $request->getContent();
+        Log::channel('HubSpotCrmCardLog')->info('BODY: '.json_encode($body));
+        $method = $request->getMethod();
 //        if($request->hasHeader('X-Hubspot-Signature')) {
             $signature = @$request->header('X-Hubspot-Signature');
             $url = url('/') . $request->getRequestUri();
-            if(!$this->verifySignature($signature, $request->getMethod(), $url, null)){
-                return response()->json(['error'=>true,'message'=>'Signature not Verified.']);
+            if(!$this->verifySignature($signature, $method, $url, null)){
+                return response()->json(['error'=>true, 'message'=>'Signature not Verified.']);
             }
 //        }
 
