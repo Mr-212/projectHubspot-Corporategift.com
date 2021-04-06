@@ -331,9 +331,9 @@ class HupSpotServiceController extends Controller
         $strtoMatch = $this->h_client_secret.$method.$url;
         $sigToMatch = hash('sha256',$strtoMatch);
 
-        Log::channel('HubSpotCrmCardLog')->info($signature);
-        Log::channel('HubSpotCrmCardLog')->info('Signature to match: '.$sigToMatch);
-        Log::channel('HubSpotCrmCardLog')->info($sigToMatch);
+        Log::info('HubSpotCrmCardLog')->info($signature);
+        Log::info('HubSpotCrmCardLog')->info('Signature to match: '.$sigToMatch);
+        Log::info('HubSpotCrmCardLog')->info($sigToMatch);
     }
 
 
