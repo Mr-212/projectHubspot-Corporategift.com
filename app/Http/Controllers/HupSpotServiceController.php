@@ -43,6 +43,7 @@ class HupSpotServiceController extends Controller
 
 //        @App::create(['request_data'=>$request->all()]);
         Log::info('request_data: '.@json_encode($request->all()));
+        Log::info('headers: '.@json_encode($request->headers));
 
         try {
 
