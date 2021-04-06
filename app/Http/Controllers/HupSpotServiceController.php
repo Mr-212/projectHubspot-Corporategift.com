@@ -196,6 +196,7 @@ class HupSpotServiceController extends Controller
         $url = url('/').'/hupspot-data-fetch-request';
         $body = json_encode($request->all());
         $this->verifySignature($signature,'GET',$url,$body);
+        $this->verifySignature($signature,'POST',$url,$body);
         //$CorporateGiftGet = $this->getGiftProducts();
         $index = 0;
         $gift_arr=array();
