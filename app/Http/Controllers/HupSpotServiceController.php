@@ -46,8 +46,6 @@ class HupSpotServiceController extends Controller
         $data_array=array();
 
         try {
-
-            $code=$request->code;
 //            $params['form_params'] = [
 //                'code' => $request->code,
 //                'client_id' =>  $this->h_client_id,
@@ -61,18 +59,17 @@ class HupSpotServiceController extends Controller
 //            $response = $client->post($post_url, $params);
             
 //            $token = json_decode($response->getBody());
-            $token = $this->hubspotConnector->authorize($code);
+            $token = $this->hubspotConnector->authorize($request->code);
 
             Log::info('token: '.@json_encode($token));
-            var_dump($token);
+            //var_dump($token);
             $token_info_arr=array();
-            if (isset($token->refresh_token)) {
-                $token_info_arr['refresh_token']=$token->refresh_token;
-                $token_info_arr['access_token']=$token->access_token;
-                $token_info_arr['expires_in']=$token->refresh_token;
+            if (isset($token['refresh_token'])) {
+                $token_info_arr['refresh_token'] = $token['refresh_token'];
+                $token_info_arr['access_token']  = $token['access_token'];
+                $token_info_arr['expires_in']     =   $token['refresh_token'];
                 $token_info_arr['token_current_date_time']=Carbon::now()->format('Y-m-d H:i:s');
                 file_put_contents(app_path().'/hupspot-token.txt',json_encode($token_info_arr));
-
                 $data_array['status']=true;
                 $data_array['access_token']=$token->access_token;
                 
