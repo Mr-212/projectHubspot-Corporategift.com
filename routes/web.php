@@ -49,8 +49,9 @@ Route::match(['get', 'post'], 'callback',[HupSpotServiceController::class,'callb
 
 Route::middleware(['hubspot_signature_verification'])->group(function(){
     Route::match(['get', 'post'], 'hupspot-data-fetch-request',[HupSpotServiceController::class,'hupspot_data_fetch_request']);
-    Route::match(['get', 'post'], 'get_all_gift_products',[HupSpotServiceController::class,'get_all_gift_products']);
 });
+
+Route::match(['get', 'post'], 'get_all_gift_products',[HupSpotServiceController::class,'get_all_gift_products']);
 
 //Route::match(['get', 'post'], 'hupspot-data-fetch-request',[HupSpotServiceController::class,'hupspot_data_fetch_request']);
 
