@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Log;
 class HubspotConnector
 {
 
-    private $client_id, $client_secret, $redirect_url, $version, $base_url,$access_token;
+    private $client_id, $client_secret, $redirect_url, $version, $base_url,$access_token,$url;
 
     public function __construct($client_id, $client_secret, $base_url,$redirect_url, $version)
     {
@@ -24,6 +24,7 @@ class HubspotConnector
         $this->redirect_url = $redirect_url;
         $this->base_url = $base_url;
         $this->version = $version;
+
     }
 
     private function curl_request($url, $data = array(), $type = 'GET', $header = array())
@@ -50,38 +51,24 @@ class HubspotConnector
         //return $res;
     }
 
-
-
-
-    public function authorize($code){
-
+    public function authorize($code)
+    {
         $headers = ['Content-Type: application/x-www-form-urlencoded;charset=utf-8'];
-
         $params['form_params'] = [
             'code' => $code,
-            'client_id' =>  $this->client_id,
+            'client_id' => $this->client_id,
             'client_secret' => $this->client_secret,
             'grant_type' => 'authorization_code',
-            'redirect_uri' =>   $this->redirect_url,
+            'redirect_uri' => $this->redirect_url,
         ];
-        $url = $this->base_url.'oauth/'.$this->version.'/token';
+        $url = $this->base_url . '/oauth/' . $this->version . '/token';
+        return $this->curl_request($url, http_build_query($params), 'POST', $headers);
+    }
 
-        $response = $this->curl_request($url, http_build_query($params),'POST', $headers);
-        return $response;
-       // $token = json_decode($response->getBody());
 
-//        Log::info('token: '.@json_encode($token));
-//        $token_info_arr=array();
-//        if (isset($token->refresh_token)) {
-//            $token_info_arr['refresh_token']=$token->refresh_token;
-//            $token_info_arr['access_token']=$token->access_token;
-//            $token_info_arr['expires_in']=$token->refresh_token;
-//            $token_info_arr['token_current_date_time']= Carbon::now()->format('Y-m-d H:i:s');
-//            file_put_contents(app_path().'/hupspot-token.txt',json_encode($token_info_arr));
-//            $data_array['status']=true;
-//            $data_array['access_token']=$token->access_token;
-//
-//        }
+    public function getOauthInfo($access_token){
+        $url =  $url = $this->base_url ."/oauth/{$this->version}/access-tokens/{$access_token}";
+        return $this->curl_request($url,NULL,'GET',NULL);
     }
 
 }

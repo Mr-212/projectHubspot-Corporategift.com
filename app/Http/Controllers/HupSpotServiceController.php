@@ -29,7 +29,7 @@ class HupSpotServiceController extends Controller
 //        $this->h_redirect_uri= Config::get('constants.hubspot.redirect_uri');
         $this->h_redirect_uri= 'https://corporategift.dev-techloyce.com/hupspot-authentication';
         $this->h_version= Config::get('constants.hubspot.version');
-        $this->hubspot_url = 'https://api.hubapi.com/';
+        $this->hubspot_url = 'https://api.hubapi.com';
 
         $this->hubspotConnector =  new HubspotConnector($this->h_client_id,$this->h_client_secret,$this->hubspot_url, $this->h_redirect_uri,$this->h_version);
         $this->corporateGiftHandler = new CorporateGiftApiHandle(Config::get('constants.cg_settings.token'),Config::get('constants.cg_settings.domain_uri'));
@@ -72,8 +72,22 @@ class HupSpotServiceController extends Controller
                 file_put_contents(app_path().'/hupspot-token.txt',json_encode($token_info_arr));
                 $data_array['status']=true;
                 $data_array['access_token']=$token->access_token;
-                
             }
+            $gettoken = $this->get_access_token();
+            $res = $this->hubspotConnector->getOauthInfo($gettoken['access_token']);
+            if(isset($res['token']) && !empty($res['token'])){
+                $app['hub_refresh_token'] = $token['refresh_token'];
+                $app['hub_access_token']  = $token['access_token'];
+                $app['hub_expires_in']    =   $token['refresh_token'];
+                $app['hub_app_id']    =   $res['app_id'];
+                $app['hub_id']    =   $res['hub_id'];
+                $app['hub_user']    =   $res['user'];
+                $app['hub_user_id']    =   $res['user_id'];
+                $app['corporate_gift_token']    =   Config::get('constants.cg_settings.token');
+               // $token_info_arr['token_current_date_time']=Carbon::now()->format('Y-m-d H:i:s');
+                @App::create($app);
+            }
+//            var_dump($res);
 
         }
         catch(Exception $e) {
@@ -84,9 +98,6 @@ class HupSpotServiceController extends Controller
         }
 
         return $data_array;
-        
-
-        
 
     }
 
