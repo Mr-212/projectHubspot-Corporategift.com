@@ -171,11 +171,13 @@ class HupSpotServiceController extends Controller
 
 
     public function verifySignature($signature,$method,$url,$body){
-        $strtoMatch = $this->h_client_secret.$method.$url.$body;
-        $strtoMatchUrl8 = utf8_encode($this->h_client_secret.$method.$url.$body);
+        $strtoMatch = $this->h_client_secret.$method.$url;
+        if($body)
+            $strtoMatch.=$body;
+        //$strtoMatchUrl8 = utf8_encode($this->h_client_secret.$method.$url.$body);
 
         $sigToMatch = hash('sha256',$strtoMatch);
-        $sigToMatch1 = hash('sha256',$strtoMatchUrl8);
+        //$sigToMatch1 = hash('sha256',$strtoMatchUrl8);
 
 
         Log::channel('HubSpotCrmCardLog')->info('Signature to match: '.$signature);
@@ -183,7 +185,7 @@ class HupSpotServiceController extends Controller
 //        Log::channel('HubSpotCrmCardLog')->info('url:' .$url);
 //        Log::channel('HubSpotCrmCardLog')->info('string: ' .$strtoMatch);
 
-        Log::channel('HubSpotCrmCardLog')->info('Signature2 utf8: '.$sigToMatch1);
+        //Log::channel('HubSpotCrmCardLog')->info('Signature2 utf8: '.$sigToMatch1);
 //        Log::channel('HubSpotCrmCardLog')->info($sigToMatch);
     }
    /*-------------------------------------------------------------------
@@ -206,11 +208,11 @@ class HupSpotServiceController extends Controller
 //        $url = $request->getRequestUri();
         $body = json_encode($request->all(),1);
         //$body1 = $request->all();
-        $this->verifySignature($signature,'GET',$url,$body);
-        $this->verifySignature($signature,'POST',$url,$body);
+//        $this->verifySignature($signature,'GET',$url,$body);
+//        $this->verifySignature($signature,'POST',$url,$body);
 
-        $this->verifySignature($signature,'GET',$url1,$body);
-        $this->verifySignature($signature,'POST',$url1,$body);
+        $this->verifySignature($signature,'GET',$url1,null);
+        $this->verifySignature($signature,'POST',$url1,null);
         //$CorporateGiftGet = $this->getGiftProducts();
         $index = 0;
         $gift_arr=array();
