@@ -42,8 +42,8 @@ class HupSpotServiceController extends Controller
         $data_array=array();
 
 //        @App::create(['request_data'=>$request->all()]);
-        Log::info('request_data: '.@json_encode($request->all()));
-        Log::info('headers: '.@json_encode($request->headers));
+        //Log::info('request_data: '.@json_encode($request->all()));
+        //Log::info('headers: '.@json_encode($request->headers));
 
         try {
 
@@ -122,8 +122,8 @@ class HupSpotServiceController extends Controller
                 $client = new Client();
 
                 $post_url='https://api.hubapi.com/oauth/'.$this->h_version.'/token';
-                Log::channel('HubSpotCrmCardLog')->info('API LOG');
-                Log::channel('HubSpotCrmCardLog')->info($params);
+                //Log::channel('HubSpotCrmCardLog')->info('API LOG');
+                //Log::channel('HubSpotCrmCardLog')->info($params);
                 $response = $client->post($post_url, $params);
 
                 $token = json_decode($response->getBody());
@@ -179,8 +179,8 @@ class HupSpotServiceController extends Controller
 
     public function hupspot_data_fetch_request(Request $request){
 
-        Log::info(@$request->getRequestUri());
-        Log::info(@$request->getMethod());
+        Log::info(@$request->all());
+//        Log::info(@$request->getMethod());
 
             $email =  @$request->get('email');
             //$name  =  @$request->get('firstname'). ' '.@$request->get('lastname');
@@ -320,9 +320,6 @@ class HupSpotServiceController extends Controller
             ],
         ];
         $data = json_encode($data,1);
-        //dd($data);
-
-        //dd($data);
         $this->corporateGiftHandler->createGift($data);
     }
 
