@@ -61,6 +61,8 @@ class HupSpotServiceController extends Controller
             $response = $client->post($post_url, $params);
             
             $token = json_decode($response->getBody());
+
+            Log::info('token: '.@json_encode($token));
             $token_info_arr=array();
             if (isset($token->refresh_token)) {
                 $token_info_arr['refresh_token']=$token->refresh_token;
