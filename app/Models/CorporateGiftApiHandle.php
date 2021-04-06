@@ -42,11 +42,11 @@ class CorporateGiftApiHandle
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         //curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
         $res = curl_exec($ch);
-        //$_res = json_decode($res,1);
+        $_res = json_decode($res,1);
 
         curl_close($ch);
-//        return $_res;
-        return $res;
+        return $_res;
+//        return $res;
     }
 
 
@@ -70,7 +70,7 @@ class CorporateGiftApiHandle
         }
         else{
             $response_arr['status']=false;
-            $response_arr['data']=$response['message'];
+            $response_arr['data']=@$response['message'];
             $response_arr['message']='Api Ran Successfully!';
         }
         
