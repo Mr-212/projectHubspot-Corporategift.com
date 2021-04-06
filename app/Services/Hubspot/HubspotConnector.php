@@ -54,15 +54,15 @@ class HubspotConnector
     public function authorize($code)
     {
         $headers = ['Content-Type: application/x-www-form-urlencoded;charset=utf-8'];
-        $params['form_params'] = [
+        $params= [
             'code' => $code,
             'client_id' => $this->client_id,
             'client_secret' => $this->client_secret,
             'grant_type' => 'authorization_code',
             'redirect_uri' => $this->redirect_url,
         ];
-        $url = $this->base_url . '/oauth/' . $this->version . '/token';
-        return $this->curl_request($url, http_build_query($params), 'POST', $headers);
+        $url = $this->base_url.'/oauth/'.$this->version .'/token?';
+        return $this->curl_request($url,http_build_query($params), 'POST', $headers);
     }
 
 

@@ -73,6 +73,8 @@ class HupSpotServiceController extends Controller
                     @App::create($app);
                 }
             }
+            $data_array['status']  = @$token['status'];
+            $data_array['message'] =@$token['message'];
             //$gettoken = $this->get_access_token();
 
 //            var_dump($res);
