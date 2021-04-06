@@ -19,7 +19,7 @@ class CorporateGiftApiHandle
 
     private function setHeaders(){
      $this->headers = array(
-         "Authorization: Bearer $this->acces_token",
+         "Authorization: Bearer {$this->acces_token}",
          'Accept: application/json',
      );
     }
@@ -40,13 +40,11 @@ class CorporateGiftApiHandle
         if ($header)
             curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        //curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
         $res = curl_exec($ch);
         $_res = json_decode($res,1);
 
         curl_close($ch);
         return $_res;
-//        return $res;
     }
 
 
