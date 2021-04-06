@@ -197,22 +197,15 @@ class HupSpotServiceController extends Controller
     public function hupspot_data_fetch_request(Request $request){
 
         Log::info(@$request->getRequestUri());
-        Log::info(@$request->headers);
+        Log::info(@$request->getMethod());
 
             $email =  @$request->get('email');
             //$name  =  @$request->get('firstname'). ' '.@$request->get('lastname');
 
         $signature = @$request->header('X-Hubspot-Signature');
-        $url = url('/').'/hupspot-data-fetch-request';
-        $url1 = url('/').$request->getRequestUri();
-//        $url = $request->getRequestUri();
-        $body = json_encode($request->all(),1);
-        //$body1 = $request->all();
-//        $this->verifySignature($signature,'GET',$url,$body);
-//        $this->verifySignature($signature,'POST',$url,$body);
-
-        $this->verifySignature($signature,'GET',$url1,null);
-        $this->verifySignature($signature,'POST',$url1,null);
+        $url = url('/').$request->getRequestUri();
+        $this->verifySignature($signature,$request->getMethod(),$url,null);
+        //$this->verifySignature($signature,'POST',$url1,null);
         //$CorporateGiftGet = $this->getGiftProducts();
         $index = 0;
         $gift_arr=array();
