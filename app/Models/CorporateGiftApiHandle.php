@@ -1,13 +1,7 @@
 <?php
 
 namespace App\Models;
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Http\Request;
-
 
 class CorporateGiftApiHandle
 {
@@ -15,9 +9,9 @@ class CorporateGiftApiHandle
     private $headers = [];
     private $acces_token, $domain ;
 
-    public function __construct($access_token = null,$domain=null)
+    public function __construct($access_token = null,$domain = null)
     {
-        $this->acces_token = $access_token?: Config::get('constants.cg_settings.token');
+        $this->acces_token = $access_token ?: Config::get('constants.cg_settings.token');
         $this->domain = $domain ?: Config::get('constants.cg_settings.domain_uri');
         $this->setHeaders();
     }

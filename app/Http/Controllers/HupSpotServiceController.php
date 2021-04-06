@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\App;
 use App\Models\GiftProduct;
+use App\Services\Hubspot\HubspotConnector;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Carbon\Carbon;
@@ -20,6 +21,7 @@ class HupSpotServiceController extends Controller
     private $h_redirect_uri; 
     private $h_version;
     private $corporateGiftHandler;
+    private $hubspotConnector;
     public function __construct()
     {
         $this->h_client_id= Config::get('constants.hubspot.client_id');
@@ -27,7 +29,9 @@ class HupSpotServiceController extends Controller
 //        $this->h_redirect_uri= Config::get('constants.hubspot.redirect_uri');
         $this->h_redirect_uri= 'https://corporategift.dev-techloyce.com/hupspot-authentication';
         $this->h_version= Config::get('constants.hubspot.version');
+        $this->hubspot_url = 'https://api.hubapi.com/';
 
+        $this->hubspotConnector =  new HubspotConnector($this->h_client_id,$this->h_client_secret,$this->hubspot_url, $this->h_redirect_uri,$this->h_version);
         $this->corporateGiftHandler = new CorporateGiftApiHandle(Config::get('constants.cg_settings.token'),Config::get('constants.cg_settings.domain_uri'));
        
     }
@@ -41,26 +45,23 @@ class HupSpotServiceController extends Controller
     {
         $data_array=array();
 
-//        @App::create(['request_data'=>$request->all()]);
-        //Log::info('request_data: '.@json_encode($request->all()));
-        //Log::info('headers: '.@json_encode($request->headers));
-
         try {
 
             $code=$request->code;
-            $params['form_params'] = [
-                'code' => $request->code,
-                'client_id' =>  $this->h_client_id,
-                'client_secret' => $this->h_client_secret,
-                'grant_type' => 'authorization_code',
-                'redirect_uri' =>   $this->h_redirect_uri,
-            ];
-            $client = new Client();
-
-            $post_url='https://api.hubapi.com/oauth/'.$this->h_version.'/token';
-            $response = $client->post($post_url, $params);
+//            $params['form_params'] = [
+//                'code' => $request->code,
+//                'client_id' =>  $this->h_client_id,
+//                'client_secret' => $this->h_client_secret,
+//                'grant_type' => 'authorization_code',
+//                'redirect_uri' =>   $this->h_redirect_uri,
+//            ];
+//            $client = new Client();
+//
+//            $post_url='https://api.hubapi.com/oauth/'.$this->h_version.'/token';
+//            $response = $client->post($post_url, $params);
             
-            $token = json_decode($response->getBody());
+//            $token = json_decode($response->getBody());
+            $token = $this->hubspotConnector->authorize($code);
 
             Log::info('token: '.@json_encode($token));
             $token_info_arr=array();
@@ -182,7 +183,7 @@ class HupSpotServiceController extends Controller
         Log::info(@$request->all());
 //        Log::info(@$request->getMethod());
 
-            $email =  @$request->get('email');
+        $email =  @$request->get('email');
             //$name  =  @$request->get('firstname'). ' '.@$request->get('lastname');
         //$CorporateGiftGet = $this->getGiftProducts();
         $index = 0;
