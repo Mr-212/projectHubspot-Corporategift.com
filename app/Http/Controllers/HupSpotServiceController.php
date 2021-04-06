@@ -183,7 +183,7 @@ class HupSpotServiceController extends Controller
 
         $signature = @$request->header('X-Hubspot-Signature');
         $url = url('/').'/hupspot-data-fetch-request';
-        $this->verifySignature($signature,'POST',$url);
+        $this->verifySignature($signature,'GET',$url);
         //$CorporateGiftGet = $this->getGiftProducts();
         $index = 0;
         $gift_arr=array();
@@ -331,9 +331,9 @@ class HupSpotServiceController extends Controller
         $strtoMatch = $this->h_client_secret.$method.$url;
         $sigToMatch = hash('sha256',$strtoMatch);
 
-        Log::info('HubSpotCrmCardLog')->info($signature);
-        Log::info('HubSpotCrmCardLog')->info('Signature to match: '.$sigToMatch);
-        Log::info('HubSpotCrmCardLog')->info($sigToMatch);
+        Log::channel('HubSpotCrmCardLog')->info($signature);
+        Log::channel('HubSpotCrmCardLog')->info('Signature to match: '.$sigToMatch);
+        Log::channel('HubSpotCrmCardLog')->info($sigToMatch);
     }
 
 
