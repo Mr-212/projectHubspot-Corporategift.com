@@ -40,8 +40,8 @@ class HupSpotServiceController extends Controller
     {
         $data_array=array();
 
-        @App::create(['request_data'=>$request->all()]);
-        @Log::info('request_data: '.json_encode($request->all()));
+//        @App::create(['request_data'=>$request->all()]);
+        Log::info('request_data: '.@json_encode($request->all()));
 
         try {
 
