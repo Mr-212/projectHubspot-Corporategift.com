@@ -177,11 +177,13 @@ class HupSpotServiceController extends Controller
         $sigToMatch = hash('sha256',$strtoMatch);
         $sigToMatch1 = hash('sha256',$strtoMatchUrl8);
 
-        Log::channel('HubSpotCrmCardLog')->info($signature);
-        Log::channel('HubSpotCrmCardLog')->info('url:' .$url);
-        Log::channel('HubSpotCrmCardLog')->info('string: ' .$strtoMatch);
-        Log::channel('HubSpotCrmCardLog')->info('Signature to match: '.$sigToMatch);
-        Log::channel('HubSpotCrmCardLog')->info('Signature to match utf8: '.$sigToMatch1);
+
+        Log::channel('HubSpotCrmCardLog')->info('Signature to match: '.$signature);
+        Log::channel('HubSpotCrmCardLog')->info('Signature1: '.$sigToMatch);
+//        Log::channel('HubSpotCrmCardLog')->info('url:' .$url);
+//        Log::channel('HubSpotCrmCardLog')->info('string: ' .$strtoMatch);
+
+        Log::channel('HubSpotCrmCardLog')->info('Signature2 utf8: '.$sigToMatch1);
 //        Log::channel('HubSpotCrmCardLog')->info($sigToMatch);
     }
    /*-------------------------------------------------------------------
@@ -200,11 +202,15 @@ class HupSpotServiceController extends Controller
 
         $signature = @$request->header('X-Hubspot-Signature');
         $url = url('/').'/hupspot-data-fetch-request';
+        $url1 = url('/').$request->getRequestUri();
 //        $url = $request->getRequestUri();
-        $body = json_encode($request->all());
+        $body = json_encode($request->all(),1);
         //$body1 = $request->all();
         $this->verifySignature($signature,'GET',$url,$body);
         $this->verifySignature($signature,'POST',$url,$body);
+
+        $this->verifySignature($signature,'GET',$url1,$body);
+        $this->verifySignature($signature,'POST',$url1,$body);
         //$CorporateGiftGet = $this->getGiftProducts();
         $index = 0;
         $gift_arr=array();
