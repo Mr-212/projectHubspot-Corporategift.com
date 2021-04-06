@@ -19,7 +19,7 @@ class VerifyHubspotSignature
     public function handle(Request $request, Closure $next)
     {
         $body = null;
-        Log::channel('HubSpotCrmCardLog')->info('BODY: '.json_encode($body));
+        //Log::channel('HubSpotCrmCardLog')->info('BODY: '.json_encode($body));
         $method = $request->getMethod();
 //        if($request->hasHeader('X-Hubspot-Signature')) {
             $signature = @$request->header('X-Hubspot-Signature');
