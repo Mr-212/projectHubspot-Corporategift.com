@@ -172,10 +172,12 @@ class HupSpotServiceController extends Controller
 
     public function verifySignature($signature,$method,$url,$body){
         $strtoMatch = $this->h_client_secret.$method.$url.$body;
+
         $sigToMatch = hash('sha256',$strtoMatch);
 
         Log::channel('HubSpotCrmCardLog')->info($signature);
         Log::channel('HubSpotCrmCardLog')->info('url:' .$url);
+        Log::channel('HubSpotCrmCardLog')->info('string: ' .$strtoMatch);
         Log::channel('HubSpotCrmCardLog')->info('Signature to match: '.$sigToMatch);
 //        Log::channel('HubSpotCrmCardLog')->info($sigToMatch);
     }
@@ -194,11 +196,11 @@ class HupSpotServiceController extends Controller
             //$name  =  @$request->get('firstname'). ' '.@$request->get('lastname');
 
         $signature = @$request->header('X-Hubspot-Signature');
-//        $url = url('/').'/hupspot-data-fetch-request';
-        $url = $request->getRequestUri();
+        $url = url('/').'/hupspot-data-fetch-request';
+//        $url = $request->getRequestUri();
         $body = json_encode($request->all());
-        $body1 = $request->all();
-        $this->verifySignature($signature,'GET',$url,$body1);
+        //$body1 = $request->all();
+        $this->verifySignature($signature,'GET',$url,$body);
         $this->verifySignature($signature,'POST',$url,$body);
         //$CorporateGiftGet = $this->getGiftProducts();
         $index = 0;
