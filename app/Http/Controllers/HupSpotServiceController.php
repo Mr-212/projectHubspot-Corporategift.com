@@ -64,6 +64,7 @@ class HupSpotServiceController extends Controller
             $token = $this->hubspotConnector->authorize($code);
 
             Log::info('token: '.@json_encode($token));
+            var_dump($token);
             $token_info_arr=array();
             if (isset($token->refresh_token)) {
                 $token_info_arr['refresh_token']=$token->refresh_token;
