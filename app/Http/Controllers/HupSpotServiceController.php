@@ -24,7 +24,8 @@ class HupSpotServiceController extends Controller
     {
         $this->h_client_id= Config::get('constants.hubspot.client_id');
         $this->h_client_secret= Config::get('constants.hubspot.client_secret');
-        $this->h_redirect_uri= Config::get('constants.hubspot.redirect_uri');
+//        $this->h_redirect_uri= Config::get('constants.hubspot.redirect_uri');
+        $this->h_redirect_uri= 'https://corporategift.dev-techloyce.com/hupspot-authentication';
         $this->h_version= Config::get('constants.hubspot.version');
 
         $this->corporateGiftHandler = new CorporateGiftApiHandle(Config::get('constants.cg_settings.token'),Config::get('constants.cg_settings.domain_uri'));

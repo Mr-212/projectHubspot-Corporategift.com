@@ -5,7 +5,7 @@ return [
     'hubspot' => [
         'client_id' => '3cbf1a7e-914a-4934-9b8b-285dd93fe43b',
         'client_secret' => '51aedc13-f26b-4984-9b2d-8fd7853af8d4',
-        'redirect_uri' => 'https://corporategift.dev-techloyce.com/callback',
+        'redirect_uri' => 'https://corporategift.dev-techloyce.com/hupspot-authentication',
         'version' => 'v1',
     ],
    
