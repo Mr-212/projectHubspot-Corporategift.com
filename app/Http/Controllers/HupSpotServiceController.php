@@ -167,6 +167,17 @@ class HupSpotServiceController extends Controller
 
     }
 
+
+
+
+    public function verifySignature($signature,$method,$url,$body){
+        $strtoMatch = $this->h_client_secret.$method.$url.$body;
+        $sigToMatch = hash('sha256',$strtoMatch);
+
+        Log::channel('HubSpotCrmCardLog')->info($signature);
+        Log::channel('HubSpotCrmCardLog')->info('Signature to match: '.$sigToMatch);
+//        Log::channel('HubSpotCrmCardLog')->info($sigToMatch);
+    }
    /*-------------------------------------------------------------------
      * Hubspot fetch request set
      * Whenever any contacts or leads will view crm will send request
@@ -183,7 +194,8 @@ class HupSpotServiceController extends Controller
 
         $signature = @$request->header('X-Hubspot-Signature');
         $url = url('/').'/hupspot-data-fetch-request';
-        $this->verifySignature($signature,'GET',$url);
+        $body = json_encode($request->all());
+        $this->verifySignature($signature,'GET',$url,$body);
         //$CorporateGiftGet = $this->getGiftProducts();
         $index = 0;
         $gift_arr=array();
@@ -327,14 +339,6 @@ class HupSpotServiceController extends Controller
     }
 
 
-    public function verifySignature($signature,$method,$url){
-        $strtoMatch = $this->h_client_secret.$method.$url;
-        $sigToMatch = hash('sha256',$strtoMatch);
-
-        Log::channel('HubSpotCrmCardLog')->info($signature);
-        Log::channel('HubSpotCrmCardLog')->info('Signature to match: '.$sigToMatch);
-        Log::channel('HubSpotCrmCardLog')->info($sigToMatch);
-    }
 
 
     public function getAllGiftProducts(){
