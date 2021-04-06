@@ -175,6 +175,7 @@ class HupSpotServiceController extends Controller
         $sigToMatch = hash('sha256',$strtoMatch);
 
         Log::channel('HubSpotCrmCardLog')->info($signature);
+        Log::channel('HubSpotCrmCardLog')->info('url:' .$url);
         Log::channel('HubSpotCrmCardLog')->info('Signature to match: '.$sigToMatch);
 //        Log::channel('HubSpotCrmCardLog')->info($sigToMatch);
     }
