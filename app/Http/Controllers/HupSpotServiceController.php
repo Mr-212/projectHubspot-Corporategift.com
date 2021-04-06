@@ -172,13 +172,16 @@ class HupSpotServiceController extends Controller
 
     public function verifySignature($signature,$method,$url,$body){
         $strtoMatch = $this->h_client_secret.$method.$url.$body;
+        $strtoMatchUrl8 = utf8_encode($this->h_client_secret.$method.$url.$body);
 
         $sigToMatch = hash('sha256',$strtoMatch);
+        $sigToMatch1 = hash('sha256',utf8_encode);
 
         Log::channel('HubSpotCrmCardLog')->info($signature);
         Log::channel('HubSpotCrmCardLog')->info('url:' .$url);
         Log::channel('HubSpotCrmCardLog')->info('string: ' .$strtoMatch);
         Log::channel('HubSpotCrmCardLog')->info('Signature to match: '.$sigToMatch);
+        Log::channel('HubSpotCrmCardLog')->info('Signature to match utf8: '.$sigToMatch1);
 //        Log::channel('HubSpotCrmCardLog')->info($sigToMatch);
     }
    /*-------------------------------------------------------------------
