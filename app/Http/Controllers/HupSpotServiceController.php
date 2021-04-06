@@ -175,7 +175,7 @@ class HupSpotServiceController extends Controller
         $strtoMatchUrl8 = utf8_encode($this->h_client_secret.$method.$url.$body);
 
         $sigToMatch = hash('sha256',$strtoMatch);
-        $sigToMatch1 = hash('sha256',utf8_encode);
+        $sigToMatch1 = hash('sha256',$strtoMatchUrl8);
 
         Log::channel('HubSpotCrmCardLog')->info($signature);
         Log::channel('HubSpotCrmCardLog')->info('url:' .$url);
