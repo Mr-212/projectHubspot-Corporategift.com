@@ -27,6 +27,13 @@ Route::get('/clear-cache', function() {
 
 });
 
+Route::get('/migrate_fresh', function() {
+
+    Artisan::call('migrate:fresh');
+    return 'migrations refreshed!';
+
+});
+
 Route::get('/generate-key', function() {
 
     Artisan::call('key:generate');
