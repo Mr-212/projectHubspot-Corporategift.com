@@ -46,21 +46,7 @@ class HupSpotServiceController extends Controller
         $data_array=array();
 
         try {
-//            $params['form_params'] = [
-//                'code' => $request->code,
-//                'client_id' =>  $this->h_client_id,
-//                'client_secret' => $this->h_client_secret,
-//                'grant_type' => 'authorization_code',
-//                'redirect_uri' =>   $this->h_redirect_uri,
-//            ];
-//            $client = new Client();
-//
-//            $post_url='https://api.hubapi.com/oauth/'.$this->h_version.'/token';
-//            $response = $client->post($post_url, $params);
-            
-//            $token = json_decode($response->getBody());
             $token = $this->hubspotConnector->authorize($request->code);
-
             Log::info('token: '.@json_encode($token));
             //var_dump($token);
             $token_info_arr=array();
@@ -68,25 +54,27 @@ class HupSpotServiceController extends Controller
                 $token_info_arr['refresh_token'] = $token['refresh_token'];
                 $token_info_arr['access_token']  = $token['access_token'];
                 $token_info_arr['expires_in']     =   $token['refresh_token'];
-                $token_info_arr['token_current_date_time']=Carbon::now()->format('Y-m-d H:i:s');
+                $token_info_arr['token_current_date_time'] = Carbon::now()->format('Y-m-d H:i:s');
                 file_put_contents(app_path().'/hupspot-token.txt',json_encode($token_info_arr));
                 $data_array['status']=true;
                 $data_array['access_token']=$token->access_token;
+
+                $res = $this->hubspotConnector->getOauthInfo($token['access_token']);
+                if(isset($res['token']) && !empty($res['token'])){
+                    $app['hub_refresh_token'] =    @$token_info_arr['refresh_token'];
+                    $app['hub_access_token']  = @$token_info_arr['access_token'] ;
+                    $app['hub_expires_in']    =   @$token_info_arr['expires_in'] ;
+                    $app['hub_app_id']    =   $res['app_id'];
+                    $app['hub_id']    =   $res['hub_id'];
+                    $app['hub_user']    =   $res['user'];
+                    $app['hub_user_id']    =   $res['user_id'];
+                    $app['corporate_gift_token']    =   Config::get('constants.cg_settings.token');
+                    // $token_info_arr['token_current_date_time']=Carbon::now()->format('Y-m-d H:i:s');
+                    @App::create($app);
+                }
             }
-            $gettoken = $this->get_access_token();
-            $res = $this->hubspotConnector->getOauthInfo($gettoken['access_token']);
-            if(isset($res['token']) && !empty($res['token'])){
-                $app['hub_refresh_token'] =    $token_info_arr['refresh_token'];
-                $app['hub_access_token']  = $token_info_arr['access_token'] ;
-                $app['hub_expires_in']    =   $token_info_arr['expires_in'] ;
-                $app['hub_app_id']    =   $res['app_id'];
-                $app['hub_id']    =   $res['hub_id'];
-                $app['hub_user']    =   $res['user'];
-                $app['hub_user_id']    =   $res['user_id'];
-                $app['corporate_gift_token']    =   Config::get('constants.cg_settings.token');
-               // $token_info_arr['token_current_date_time']=Carbon::now()->format('Y-m-d H:i:s');
-                @App::create($app);
-            }
+            //$gettoken = $this->get_access_token();
+
 //            var_dump($res);
 
         }
