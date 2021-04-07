@@ -15,6 +15,7 @@ class CreateAppTable extends Migration
     {
         Schema::create('app', function (Blueprint $table) {
             $table->id();
+            $table->string('identifier',255)->nullable();
             $table->bigInteger('hub_id')->nullable();
             $table->bigInteger('hub_app_id')->nullable();
             $table->bigInteger('hub_user_id')->nullable();
