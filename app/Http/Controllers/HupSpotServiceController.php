@@ -472,7 +472,7 @@ class HupSpotServiceController extends Controller
 
      public function get_all_gift_products(Request $request){
          $email = @$request->get('email');
-         $gift_products = $this->getGiftProducts();
+         $gift_products = $this->getGiftProducts($request);
          $action = view('hubspot.gift_cards',compact('gift_products','email'))->render();
          return  $action;
 
