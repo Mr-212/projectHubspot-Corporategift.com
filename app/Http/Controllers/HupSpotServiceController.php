@@ -45,8 +45,8 @@ class HupSpotServiceController extends Controller
             if(!empty($hub_id) && !empty($userId)) {
                 $app = App::where(['hub_id' => $hub_id, 'hub_user_id' => $userId])->first();
                 if ($app) {
-                    $newIdentifier = \hash('sha256',$app->identifier.$hub_id.$userId);
-                    if($app->update(['identifier' => $identifier]))
+                    $newIdentifier = hash('sha256',$app->identifier.$hub_id.$userId);
+                    if($app->update(['identifier' => $newIdentifier]))
                         $identifier = $newIdentifier;
                 }
             }
