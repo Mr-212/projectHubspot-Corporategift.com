@@ -15,6 +15,7 @@ class CreateGiftProductsTable extends Migration
     {
         Schema::create('gift_products', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('app_id');
             $table->bigInteger('product_id')->nullable();
             $table->text('data')->nullable();
             $table->timestamps();

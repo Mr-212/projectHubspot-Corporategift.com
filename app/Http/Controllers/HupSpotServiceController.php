@@ -51,12 +51,16 @@ class HupSpotServiceController extends Controller
             return $identifier;
     }
 
-    public function getCorporateGiftConnector($identifier){
-       if(!empty($identifier)){
-           $app =  App::where('identifier',"{$identifier}")->first();
-           if($app)
-            $this->corporateGiftHandler = new CorporateGiftApiHandle($app->corporate_gift_token,Config::get('constants.cg_settings.domain_uri'));
 
+    public function getAppByIdentifier($identifier){
+
+       return App::where('identifier',"{$identifier}")->first();
+    }
+
+    public function getCorporateGiftConnector($corprateGiftToken){
+       if(!empty($identifier)){
+
+            $this->corporateGiftHandler = new CorporateGiftApiHandle($corprateGiftToken,Config::get('constants.cg_settings.domain_uri'));
         }else{
             return response()->json(['message' =>'Session expired please refresh the page']);
         }
@@ -340,16 +344,20 @@ class HupSpotServiceController extends Controller
 
 
     public function getGiftProducts($identifier){
-        $this->getCorporateGiftConnector($identifier);
-        $CorporateGiftGet = @GiftProduct::pluck('data')->toArray();
-        if(empty($CorporateGiftGet)) {
-            $CorporateGiftGet =  $this->corporateGiftHandler->getGiftProducts();
-            if(isset($CorporateGiftGet['status']) && $CorporateGiftGet['status']){
-                foreach ($CorporateGiftGet['data'] as $data){;
-                    GiftProduct::create(['product_id'=> $data['id'],'data'=>$data]);
+        $CorporateGiftGet = null;
+        $app = $this->getAppByIdentifier($identifier);
+        if($app) {
+           $this->getCorporateGiftConnector($app->corporate_gift_token);
+            $CorporateGiftGet = @GiftProduct::pluck('data')->toArray();
+            if (empty($CorporateGiftGet)) {
+                $CorporateGiftGet = $this->corporateGiftHandler->getGiftProducts();
+                if (isset($CorporateGiftGet['status']) && $CorporateGiftGet['status']) {
+                    foreach ($CorporateGiftGet['data'] as $data) {
+                        GiftProduct::updateOrCreate(['app_id'=>$app->id,'product_id'=>$data['id']], ['product_id' => $data['id'], 'data' => $data]);
+                    }
                 }
+                $CorporateGiftGet = GiftProduct::pluck('data')->toArray();
             }
-            $CorporateGiftGet = GiftProduct::pluck('data')->toArray();
         }
 
         return $CorporateGiftGet;
