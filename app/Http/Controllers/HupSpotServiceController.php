@@ -45,6 +45,7 @@ class HupSpotServiceController extends Controller
                 //var_dump('request', $request->get('portalId'),$request->get('userId'));
                 $app = App::where(['hub_id' => (int)$hub_id, 'hub_user_id' => (int)$userId])->first();
                 session()->put('app',$app);
+                session()->put('test','test');
                 if ($app)
                     session()->put('corporate_gift_token', $app->corporate_gift_token);
             }
@@ -53,7 +54,7 @@ class HupSpotServiceController extends Controller
     }
 
     public function getCorporateGiftConnector(){
-        var_dump(session()->has('corporate_gift_token'),session()->get('corporate_gift_token'),session()->get('app'));
+        var_dump(session()->has('corporate_gift_token'),session()->get('corporate_gift_token'),session()->get('app'),session('test'));
        if(session()->has('corporate_gift_token')){
             $this->corporateGiftHandler = new CorporateGiftApiHandle(session()->get('corporate_gift_token'),Config::get('constants.cg_settings.domain_uri'));
             var_dump(session()->has('corporate_gift_token'),session()->get('corporate_gift_token'));
