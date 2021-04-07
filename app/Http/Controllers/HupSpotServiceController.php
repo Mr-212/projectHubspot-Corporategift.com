@@ -181,7 +181,14 @@ class HupSpotServiceController extends Controller
     public function post_corporate_gift_token(Request $request){
         dd($request->all());
 
-        if($request->has('hub_id') && $request->has(''))
+        if($request->has('hub_id') && $request->has('corporate_gift_token')){
+            $hub_id = $request->get('hub_id');
+            $corporate_gift_token = $request->get('corporate_gift_token');
+            $appExist = App::where('hub_id', $hub_id )->first();
+            dd($appExist);
+
+
+        }
     }
 
 
