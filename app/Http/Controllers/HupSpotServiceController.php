@@ -23,7 +23,7 @@ class HupSpotServiceController extends Controller
     private $h_version;
     private $corporateGiftHandler;
     private $hubspotConnector;
-    public function __construct(Request $request)
+    public function __construct()
     {
         $this->h_client_id= Config::get('constants.hubspot.client_id');
         $this->h_client_secret= Config::get('constants.hubspot.client_secret');
@@ -32,7 +32,7 @@ class HupSpotServiceController extends Controller
         $this->h_version= Config::get('constants.hubspot.version');
         $this->hubspot_url = 'https://api.hubapi.com';
 
-        $this->getCorporateGiftConnector($request);
+
 //        $this->corporateGiftHandler = new CorporateGiftApiHandle(Config::get('constants.cg_settings.token'),Config::get('constants.cg_settings.domain_uri'));
         $this->hubspotConnector = new HubspotConnector($this->h_client_id, $this->h_client_secret, $this->hubspot_url, $this->h_redirect_uri, $this->h_version);
 
@@ -237,7 +237,7 @@ class HupSpotServiceController extends Controller
      ------------------------------------------------------------------------*/
 
     public function hupspot_data_fetch_request(Request $request){
-
+        $this->getCorporateGiftConnector($request);
         Log::info(@$request->all());
 //        Log::info(@$request->getMethod());
 
