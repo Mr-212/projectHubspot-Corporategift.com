@@ -179,7 +179,7 @@ class HupSpotServiceController extends Controller
 
 
     public function post_corporate_gift_token(Request $request){
-        dd($request->all());
+        //dd($request->all());
 
         if($request->has('hub_id') && $request->has('corporate_gift_token')){
             $hub_id = $request->get('hub_id');
