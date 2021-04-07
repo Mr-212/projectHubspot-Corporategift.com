@@ -104,32 +104,33 @@ class HupSpotServiceController extends Controller
 
                 $res = $this->hubspotConnector->getOauthInfo($token['access_token']);
                 if(isset($res['token']) && !empty($res['token'])){
-                    $app['hub_refresh_token'] =    @$token_info_arr['refresh_token'];
-                    $app['hub_access_token']  = @$token_info_arr['access_token'] ;
-                    $app['hub_expires_in']    =   @$token_info_arr['expires_in'] ;
-                    $app['hub_app_id']    =   $res['app_id'];
-                    $app['hub_id']    =   $res['hub_id'];
-                    $app['hub_user']    =   $res['user'];
-                    $app['hub_user_id']    =   $res['user_id'];
+                    $appData['hub_refresh_token'] =    @$token_info_arr['refresh_token'];
+                    $appData['hub_access_token']  = @$token_info_arr['access_token'] ;
+                    $appData['hub_expires_in']    =   @$token_info_arr['expires_in'] ;
+                    $appData['hub_app_id']    =   $res['app_id'];
+                    $appData['hub_id']    =   $res['hub_id'];
+                    $appData['hub_user']    =   $res['user'];
+                    $appData['hub_user_id']    =   $res['user_id'];
                     //$app['corporate_gift_token']    =   Config::get('constants.cg_settings.token');
                     // $token_info_arr['token_current_date_time']=Carbon::now()->format('Y-m-d H:i:s');
-                    session()->put('hub_access_token', @$token_info_arr['access_token']);
-                    session()->put('hub_id', @  $app['hub_id']);
+                    //session()->put('hub_access_token', @$token_info_arr['access_token']);
+                    //session()->put('hub_id', @  $app['hub_id']);
                     $identifier = \hash('sha256',$app['hub_id'].$app['hub_user_id']);
-                    $app['identifier'] = $identifier;
-                    $appExist = App::where(['hub_app_id'=>$app['hub_app_id'] ,'hub_id'=> $app['hub_id'], 'hub_user_id' => $app['hub_user_id']])->first();
-                    if(empty($appExist)) {
-                        $app = @App::create($app);
+                    $appData['identifier'] = $identifier;
+                    $app = App::where(['hub_app_id'=>$appData['hub_app_id'] ,'hub_id'=> $appData['hub_id'], 'hub_user_id' => $appData['hub_user_id']])->first();
+                    if(empty($app)) {
+                        $app = @App::create($appData);
                     }
                     else{
-                        $appExist->update($app);
+                        $app->update($appData);
                     }
+                    session()->put('identifier', @$app->identifier);
 
                 }
             }
             $data_array['status']  = @$token['status'];
             $data_array['message'] = @$token['message'];
-            if(session()->has('hub_access_token') && session()->has('hub_id')){
+            if(session()->has('identifier') && $app && !empty($app->identifier)){
                 $hub_id =  session('hub_id');
                 return view('auth.corporate_gift_cred',compact('hub_id'));
             }
@@ -148,12 +149,12 @@ class HupSpotServiceController extends Controller
     public function post_corporate_gift_token(Request $request){
         //dd($request->all());
         $res = ['status' => false, 'message' => 'Token not updated.' ];
-        if(session()->has('hub_id')  && $request->has('corporate_gift_token')){
+        if(session()->has('identifier')  && $request->has('corporate_gift_token')){
             try {
                 //$hub_id = $request->get('hub_id');
-                $hub_id = session('hub_id');
+                $identifier = session('identifier');
                 $corporate_gift_token = $request->get('corporate_gift_token');
-                $appExist = App::where('hub_id', $hub_id)->first();
+                $appExist = App::where('identifier', $identifier)->first();
                 if ($appExist) {
                     $appExist->update(['corporate_gift_token' => $corporate_gift_token]);
                     $res = ['status' => true, 'message' => 'Token updated successfully.'];
