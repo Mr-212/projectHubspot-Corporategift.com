@@ -482,8 +482,8 @@ class HupSpotServiceController extends Controller
      ------------------------------------------------------------------------*/
 
      public function get_hupspot_send_gift_request(Request $request){
-        Log::channel('HubSpotCrmCardLog')->info('IFRAM REQUEST');
-        Log::channel('HubSpotCrmCardLog')->info($request->all());
+//        Log::channel('HubSpotCrmCardLog')->info('IFRAM REQUEST');
+//        Log::channel('HubSpotCrmCardLog')->info($request->all());
         $name = @$request->get('name');
         $email= @$request->get('email');
 
