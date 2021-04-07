@@ -23,7 +23,7 @@ class HupSpotServiceController extends Controller
     private $h_version;
     private $corporateGiftHandler;
     private $hubspotConnector;
-    public function __construct()
+    public function __construct(Request $request)
     {
         $this->h_client_id= Config::get('constants.hubspot.client_id');
         $this->h_client_secret= Config::get('constants.hubspot.client_secret');
@@ -32,9 +32,20 @@ class HupSpotServiceController extends Controller
         $this->h_version= Config::get('constants.hubspot.version');
         $this->hubspot_url = 'https://api.hubapi.com';
 
-        $this->hubspotConnector =  new HubspotConnector($this->h_client_id,$this->h_client_secret,$this->hubspot_url, $this->h_redirect_uri,$this->h_version);
-        $this->corporateGiftHandler = new CorporateGiftApiHandle(Config::get('constants.cg_settings.token'),Config::get('constants.cg_settings.domain_uri'));
-       
+      $this->getCorporateGiftConnector($request);
+//        $this->corporateGiftHandler = new CorporateGiftApiHandle(Config::get('constants.cg_settings.token'),Config::get('constants.cg_settings.domain_uri'));
+        $this->hubspotConnector = new HubspotConnector($this->h_client_id, $this->h_client_secret, $this->hubspot_url, $this->h_redirect_uri, $this->h_version);
+
+    }
+
+
+    public function getCorporateGiftConnector(Request $request){
+        if($request->has('userId') && $request->has('portalId')) {
+            $app = App::where(['hub_id' => $request->get('portalId'), 'hub_user_id'=>$request->get('userId')])->first();
+            if($app)
+                $this->corporateGiftHandler = new CorporateGiftApiHandle($app->corporate_gift_token,Config::get('constants.cg_settings.domain_uri'));
+
+        }
     }
 
     /**
@@ -342,7 +353,7 @@ class HupSpotServiceController extends Controller
         $product_id =11623;
 
         $data = [
-            "product_id" => "$product_id",
+            "product_id" => $product_id,
             "gift_message"=>"Dear <First Name> <Last Name>\n\n",
             "email_subject"=>"Hic Global Solution - Sent You a Gift!",
             "can_create_dedicated_links"=> false,
@@ -355,6 +366,7 @@ class HupSpotServiceController extends Controller
             ],
         ];
         $data = json_encode($data,1);
+        dd($data);
         $this->corporateGiftHandler->createGift($data);
     }
 

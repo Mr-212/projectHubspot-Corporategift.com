@@ -16,7 +16,6 @@ class CorporateGiftApiHandle
         $this->setHeaders();
     }
 
-
     private function setHeaders(){
      $this->headers = array(
          "Authorization: Bearer {$this->acces_token}",
