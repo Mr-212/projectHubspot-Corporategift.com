@@ -37,7 +37,7 @@
                            </div>
                            <div class="modal-body">
                                {{--@include('hubspot.hubspot-sendgift1',['email' =>$email])--}}
-                               <form id="contact" action="{{url('/').'/post_hubspot_send_gift_request'}}" method="post">
+                               <form id="contact" action="{{url('/')."/post_hubspot_send_gift_request?identifier={$identifier}&product_id={$card['id']}"}}" method="post">
 
                                    <div class="form-group">
                                    <fieldset>

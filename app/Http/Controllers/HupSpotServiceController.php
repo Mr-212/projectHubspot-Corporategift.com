@@ -32,7 +32,6 @@ class HupSpotServiceController extends Controller
         $this->h_version= Config::get('constants.hubspot.version');
         $this->hubspot_url = 'https://api.hubapi.com';
 
-
 //        $this->corporateGiftHandler = new CorporateGiftApiHandle(Config::get('constants.cg_settings.token'),Config::get('constants.cg_settings.domain_uri'));
         $this->hubspotConnector = new HubspotConnector($this->h_client_id, $this->h_client_secret, $this->hubspot_url, $this->h_redirect_uri, $this->h_version);
 
@@ -61,8 +60,8 @@ class HupSpotServiceController extends Controller
     }
 
     public function getCorporateGiftConnector($corporateGiftToken){
-       if(!empty($corporateGiftToken)){
 
+       if(!empty($corporateGiftToken)){
             $this->corporateGiftHandler = new CorporateGiftApiHandle($corporateGiftToken,Config::get('constants.cg_settings.domain_uri'));
         }else{
             return response()->json(['message' =>'Session expired please refresh the page']);
@@ -99,8 +98,7 @@ class HupSpotServiceController extends Controller
                 $token_info_arr['expires_in']     =   $token['refresh_token'];
                 $token_info_arr['token_current_date_time'] = Carbon::now()->format('Y-m-d H:i:s');
                 //file_put_contents(app_path().'/hupspot-token.txt',json_encode($token_info_arr));
-//                $data_array['status']=true;
-               // $data_array['access_token']= $token['access_token'];
+
 
                 $res = $this->hubspotConnector->getOauthInfo($token['access_token']);
                 if(isset($res['token']) && !empty($res['token'])){
@@ -111,10 +109,8 @@ class HupSpotServiceController extends Controller
                     $appData['hub_id']    =   $res['hub_id'];
                     $appData['hub_user']    =   $res['user'];
                     $appData['hub_user_id']    =   $res['user_id'];
-                    //$app['corporate_gift_token']    =   Config::get('constants.cg_settings.token');
                     // $token_info_arr['token_current_date_time']=Carbon::now()->format('Y-m-d H:i:s');
-                    //session()->put('hub_access_token', @$token_info_arr['access_token']);
-                    //session()->put('hub_id', @  $app['hub_id']);
+
                     $identifier = \hash('sha256',$app['hub_id'].$app['hub_user_id']);
                     $appData['identifier'] = $identifier;
                     $app = App::where(['hub_app_id'=>$appData['hub_app_id'] ,'hub_id'=> $appData['hub_id'], 'hub_user_id' => $appData['hub_user_id']])->first();
@@ -502,7 +498,7 @@ class HupSpotServiceController extends Controller
          $email = @$request->get('email');
          $identifier = @$request->get('identifier');
          $gift_products = $this->getGiftProducts($identifier);
-         $action = view('hubspot.gift_cards',compact('gift_products','email'))->render();
+         $action = view('hubspot.gift_products',compact('gift_products','email','identifier'))->render();
          return  $action;
 
 
