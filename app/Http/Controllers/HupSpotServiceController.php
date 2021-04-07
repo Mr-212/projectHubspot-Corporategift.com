@@ -180,6 +180,7 @@ class HupSpotServiceController extends Controller
 
     public function post_corporate_gift_token(Request $request){
         //dd($request->all());
+        $res = ['status' => false,'message' => 'Token not updated.' ];
 
         if($request->has('hub_id') && $request->has('corporate_gift_token')){
             $hub_id = $request->get('hub_id');
@@ -187,11 +188,14 @@ class HupSpotServiceController extends Controller
             $appExist = App::where('hub_id', $hub_id )->first();
             if($appExist){
                 $appExist->update(['corporate_gift_token'=>$corporate_gift_token]);
+                $res = ['status' => true,'message' => 'SToken updated successfully.' ];
             }
-            dd($appExist);
+           // dd($appExist);
 
 
         }
+
+        return response()->json($res);
     }
 
 
