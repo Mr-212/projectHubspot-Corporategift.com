@@ -40,9 +40,10 @@ class HupSpotServiceController extends Controller
 
 
     public function getCorporateGiftConnector($request = null){
+
         if(isset($request) && $request->has('userId') && $request->has('portalId')) {
             $app = App::where(['hub_id' => $request->get('portalId'), 'hub_user_id'=>$request->get('userId')])->first();
-            session()->put('corporate_gift_token',$app->$app->corporate_gift_token);
+            session()->put('corporate_gift_token',$app->corporate_gift_token);
         }
         if(session()->has('corporate_gift_token')){
             $this->corporateGiftHandler = new CorporateGiftApiHandle(session('corporate_gift_token'),Config::get('constants.cg_settings.domain_uri'));
