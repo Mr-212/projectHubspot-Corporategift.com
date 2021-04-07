@@ -46,7 +46,7 @@ class HupSpotServiceController extends Controller
             if($app)
             session()->put('corporate_gift_token',$app->corporate_gift_token);
         }
-        if(session()->has('corporate_gift_token')){
+        else if(session()->has('corporate_gift_token')){
             $this->corporateGiftHandler = new CorporateGiftApiHandle(session('corporate_gift_token'),Config::get('constants.cg_settings.domain_uri'));
 
         }else{
