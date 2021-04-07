@@ -32,21 +32,34 @@ class HupSpotServiceController extends Controller
         $this->h_version= Config::get('constants.hubspot.version');
         $this->hubspot_url = 'https://api.hubapi.com';
 
-      $this->getCorporateGiftConnector($request);
+        $this->getCorporateGiftConnector($request);
 //        $this->corporateGiftHandler = new CorporateGiftApiHandle(Config::get('constants.cg_settings.token'),Config::get('constants.cg_settings.domain_uri'));
         $this->hubspotConnector = new HubspotConnector($this->h_client_id, $this->h_client_secret, $this->hubspot_url, $this->h_redirect_uri, $this->h_version);
 
     }
 
 
-    public function getCorporateGiftConnector(Request $request){
-        if($request->has('userId') && $request->has('portalId')) {
+    public function getCorporateGiftConnector($request = null){
+        if(isset($request) && $request->has('userId') && $request->has('portalId')) {
             $app = App::where(['hub_id' => $request->get('portalId'), 'hub_user_id'=>$request->get('userId')])->first();
-            if($app)
-                $this->corporateGiftHandler = new CorporateGiftApiHandle($app->corporate_gift_token,Config::get('constants.cg_settings.domain_uri'));
-
+            session()->put('corporate_gift_token',$app->$app->corporate_gift_token);
         }
+        if(session()->has('corporate_gift_token')){
+            $this->corporateGiftHandler = new CorporateGiftApiHandle(session('corporate_gift_token'),Config::get('constants.cg_settings.domain_uri'));
+
+        }else{
+            return response()->json(['message' =>'Session expired please refresh the page']);
+        }
+
     }
+//    public function corporateGiftMerchantHandler(){
+//          if(session()->has('corporate_gift_token')){
+//              $this->corporateGiftHandler = new CorporateGiftApiHandle(session('corporate_gift_token'),Config::get('constants.cg_settings.domain_uri'));
+//
+//          }else{
+//              return response()->json(['message' =>'Session expired please refresh the page']);
+//          }
+//    }
 
     /**
      * Show the form for creating a new resource.
@@ -308,8 +321,8 @@ class HupSpotServiceController extends Controller
     }
 
 
-    public function getGiftProducts(){
-
+    public function getGiftProducts(Request $request){
+        $this->getCorporateGiftConnector($request);
         $CorporateGiftGet = @GiftProduct::pluck('data')->toArray();
         if(empty($CorporateGiftGet)) {
             $CorporateGiftGet =  $this->corporateGiftHandler->getGiftProducts();
