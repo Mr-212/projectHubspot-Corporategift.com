@@ -239,7 +239,9 @@ class HupSpotServiceController extends Controller
      ------------------------------------------------------------------------*/
 
     public function hupspot_data_fetch_request(Request $request){
+
         $this->getCorporateGiftConnector($request);
+
         Log::info(@$request->all());
 //        Log::info(@$request->getMethod());
 
@@ -323,8 +325,8 @@ class HupSpotServiceController extends Controller
     }
 
 
-    public function getGiftProducts(Request $request){
-        $this->getCorporateGiftConnector($request);
+    public function getGiftProducts(){
+        $this->getCorporateGiftConnector();
         $CorporateGiftGet = @GiftProduct::pluck('data')->toArray();
         if(empty($CorporateGiftGet)) {
             $CorporateGiftGet =  $this->corporateGiftHandler->getGiftProducts();
