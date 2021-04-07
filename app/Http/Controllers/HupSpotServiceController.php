@@ -43,7 +43,7 @@ class HupSpotServiceController extends Controller
 //
             if(!empty($hub_id) && !empty($userId)) {
                 //var_dump('request', $request->get('portalId'),$request->get('userId'));
-                $app = App::where(['hub_id' => $hub_id, 'hub_user_id' => $userId])->first();
+                $app = App::where(['hub_id' => (int)$hub_id, 'hub_user_id' => (int)$userId])->first();
                 session()->put('app',$app);
                 if ($app)
                     session()->put('corporate_gift_token', $app->corporate_gift_token);
