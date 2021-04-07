@@ -72,7 +72,13 @@ class HupSpotServiceController extends Controller
                     $app['corporate_gift_token']    =   Config::get('constants.cg_settings.token');
                     // $token_info_arr['token_current_date_time']=Carbon::now()->format('Y-m-d H:i:s');
                     session('hub_access_token', @$token_info_arr['access_token']);
-                    $app = @App::create($app);
+                    $appExist = App::where(['hub_app_id'=>$app['hub_app_id'] ,'hub_id'=> $app['hub_id'], 'hub_user_id' => $app['hub_user_id']])->first();
+                    if(empty($appExist)) {
+                        $app = @App::create($app);
+                    }
+                    else{
+                        $appExist->update($app);
+                    }
 
                 }
             }
