@@ -43,6 +43,7 @@ class HupSpotServiceController extends Controller
 
         if(isset($request) && $request->has('userId') && $request->has('portalId')) {
             $app = App::where(['hub_id' => $request->get('portalId'), 'hub_user_id'=>$request->get('userId')])->first();
+            if($app)
             session()->put('corporate_gift_token',$app->corporate_gift_token);
         }
         if(session()->has('corporate_gift_token')){
