@@ -10,7 +10,7 @@ class GiftProduct extends Model
     use HasFactory;
 
     protected $table = 'gift_products';
-    protected $fillable = ['product_id','data'];
+    protected $fillable = ['app_id', 'product_id','data'];
 
-    protected $casts = ['app_id', 'data' => 'json' ];
+    protected $casts = [ 'data' => 'json' ];
 }
