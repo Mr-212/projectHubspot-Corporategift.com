@@ -28,7 +28,6 @@ class CorporateGiftApiHandle
     private function curl_request($url, $data = array(), $type = 'GET', $header = array())
     {
         $ch = curl_init($url);
-
         if ($type == 'POST' || $type == 'PUT') {
             //curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $type);
             curl_setopt($ch, CURLOPT_POST, true);
@@ -46,10 +45,6 @@ class CorporateGiftApiHandle
         curl_close($ch);
         return $_res;
     }
-
-
-
-
 
 
     /*----------------------------------------------------------

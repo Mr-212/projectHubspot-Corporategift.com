@@ -50,13 +50,14 @@ class HupSpotServiceController extends Controller
             Log::info('token: '.@json_encode($token));
             //var_dump($token);
             $token_info_arr=array();
+            $app = null;
             if (isset($token['refresh_token'])) {
                 $token_info_arr['refresh_token'] = $token['refresh_token'];
                 $token_info_arr['access_token']  = $token['access_token'];
                 $token_info_arr['expires_in']     =   $token['refresh_token'];
                 $token_info_arr['token_current_date_time'] = Carbon::now()->format('Y-m-d H:i:s');
-                file_put_contents(app_path().'/hupspot-token.txt',json_encode($token_info_arr));
-                $data_array['status']=true;
+                //file_put_contents(app_path().'/hupspot-token.txt',json_encode($token_info_arr));
+//                $data_array['status']=true;
                 $data_array['access_token']= $token['access_token'];
 
                 $res = $this->hubspotConnector->getOauthInfo($token['access_token']);
@@ -70,20 +71,22 @@ class HupSpotServiceController extends Controller
                     $app['hub_user_id']    =   $res['user_id'];
                     $app['corporate_gift_token']    =   Config::get('constants.cg_settings.token');
                     // $token_info_arr['token_current_date_time']=Carbon::now()->format('Y-m-d H:i:s');
-                    @App::create($app);
+                    session('hub_access_token', @$token_info_arr['access_token']);
+                    $app = @App::create($app);
+
                 }
             }
             $data_array['status']  = @$token['status'];
             $data_array['message'] = @$token['message'];
-            //$gettoken = $this->get_access_token();
-
-//            var_dump($res);
-
+            if(session()->has('hub_access_token')){
+                $hub_id = $app->hub_id;
+                return view('auth.corporate_gift_cred',compact('hub_id'));
+            }
         }
         catch(Exception $e) {
 
-            $data_array['status']=false;
-            $data_array['message']='Catch Error, API Request Failed';
+//            $data_array['status']=false;
+//            $data_array['message']='Catch Error, API Request Failed';
             echo 'Message: ' .$e->getMessage();
         }
 
