@@ -41,6 +41,8 @@ class HupSpotServiceController extends Controller
 
     public function getCorporateGiftConnector(Request $request = null){
 
+
+
         if(isset($request) && $request->has('userId') && $request->has('portalId')) {
             //var_dump('request', $request->get('portalId'),$request->get('userId'));
             $app = App::where(['hub_id' => $request->get('portalId'), 'hub_user_id'=>$request->get('userId')])->first();
@@ -49,9 +51,10 @@ class HupSpotServiceController extends Controller
            // var_dump('session', session('corporate_gift_token'));
 
         }
-        else if(session()->has('corporate_gift_token')){
-            $this->corporateGiftHandler = new CorporateGiftApiHandle(session()->get('corporate_gift_token'),Config::get('constants.cg_settings.domain_uri'));
+        else if(empty($request) && session()->has('corporate_gift_token')){
 
+            $this->corporateGiftHandler = new CorporateGiftApiHandle(session()->get('corporate_gift_token'),Config::get('constants.cg_settings.domain_uri'));
+            var_dump(session()->has('corporate_gift_token'),session()->get('corporate_gift_token'));
         }else{
             return response()->json(['message' =>'Session expired please refresh the page']);
         }
