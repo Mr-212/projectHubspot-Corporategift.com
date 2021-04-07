@@ -109,6 +109,8 @@ class HupSpotServiceController extends Controller
                     // $token_info_arr['token_current_date_time']=Carbon::now()->format('Y-m-d H:i:s');
                     session()->put('hub_access_token', @$token_info_arr['access_token']);
                     session()->put('hub_id', @  $app['hub_id']);
+                    $identifier = \hash('sha256',$app['hub_id'].$app['hub_user_id']);
+                    $app['identifier'] = $identifier;
                     $appExist = App::where(['hub_app_id'=>$app['hub_app_id'] ,'hub_id'=> $app['hub_id'], 'hub_user_id' => $app['hub_user_id']])->first();
                     if(empty($appExist)) {
                         $app = @App::create($app);

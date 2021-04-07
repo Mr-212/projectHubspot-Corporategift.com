@@ -12,7 +12,7 @@ class App extends Model
     protected $table = 'app';
 
 
-    protected $fillable = ['hub_app_id','hub_id','hub_user','hub_user_id','hub_access_token','hub_refresh_token','hub_expires_id', 'corporate_gift_token','is_active', 'request_data'];
+    protected $fillable = ['identifier','hub_app_id','hub_id','hub_user','hub_user_id','hub_access_token','hub_refresh_token','hub_expires_id', 'corporate_gift_token','is_active', 'request_data'];
 
     protected $casts = [ 'request_data' => 'json' ];
 }
