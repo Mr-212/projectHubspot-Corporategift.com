@@ -38,26 +38,25 @@ class HupSpotServiceController extends Controller
 
     }
 
-    public function setCorporateGiftConnector($hub_id, $userId){
+    public function getIdentifierByHubIdUserId($hub_id, $userId){
 
-//
+            $identifier = null;
+
             if(!empty($hub_id) && !empty($userId)) {
-                //var_dump('request', $request->get('portalId'),$request->get('userId'));
-                $app = App::where(['hub_id' => (int)$hub_id, 'hub_user_id' => (int)$userId])->first();
-                session()->put('app',$app);
-                session()->put('test','test');
+                $app = App::where(['hub_id' => $hub_id, 'hub_user_id' => $userId])->first();
                 if ($app)
-                    session()->put('corporate_gift_token', $app->corporate_gift_token);
+                    $identifier = $app->identifier;
             }
 
-
+            return $identifier;
     }
 
-    public function getCorporateGiftConnector(){
-        var_dump(session()->has('corporate_gift_token'),session()->get('corporate_gift_token'),session()->get('app'),session('test'));
-       if(session()->has('corporate_gift_token')){
-            $this->corporateGiftHandler = new CorporateGiftApiHandle(session()->get('corporate_gift_token'),Config::get('constants.cg_settings.domain_uri'));
-            var_dump(session()->has('corporate_gift_token'),session()->get('corporate_gift_token'));
+    public function getCorporateGiftConnector($identifier){
+       if(!empty($identifier)){
+           $app =  App::where('identifier',"{$identifier}")->first();
+           if($app)
+            $this->corporateGiftHandler = new CorporateGiftApiHandle($app->corporate_gift_token,Config::get('constants.cg_settings.domain_uri'));
+
         }else{
             return response()->json(['message' =>'Session expired please refresh the page']);
         }
@@ -251,10 +250,10 @@ class HupSpotServiceController extends Controller
 
     public function hupspot_data_fetch_request(Request $request){
 //        Log::info('request :'.)
+        $identifier = null;
         if($request->has('userId') && $request->has('portalId')) {
             Log::info(@$request->all());
-
-            $this->setCorporateGiftConnector($request->get('portalId'),$request->get('userId'));
+            $identifier =$this->getIdentifierByHubIdUserId($request->get('portalId'),$request->get('userId'));
         }
 
 
@@ -322,7 +321,7 @@ class HupSpotServiceController extends Controller
         $gift_arr['primaryAction']['type']='IFRAME';
         $gift_arr['primaryAction']['width']=1100;
         $gift_arr['primaryAction']['height']=748;
-        $gift_arr['primaryAction']['uri']=url('/')."/get_all_gift_products?&email={$email}";;
+        $gift_arr['primaryAction']['uri']=url('/')."/get_all_gift_products?identifier={$identifier}&email={$email}";;
         $gift_arr['primaryAction']['label']='View Gift Products';
 
 
@@ -340,8 +339,8 @@ class HupSpotServiceController extends Controller
     }
 
 
-    public function getGiftProducts(){
-        $this->getCorporateGiftConnector();
+    public function getGiftProducts($identifier){
+        $this->getCorporateGiftConnector($identifier);
         $CorporateGiftGet = @GiftProduct::pluck('data')->toArray();
         if(empty($CorporateGiftGet)) {
             $CorporateGiftGet =  $this->corporateGiftHandler->getGiftProducts();
@@ -490,7 +489,8 @@ class HupSpotServiceController extends Controller
 
      public function get_all_gift_products(Request $request){
          $email = @$request->get('email');
-         $gift_products = $this->getGiftProducts($request);
+         $identifier = @$request->get('identifier');
+         $gift_products = $this->getGiftProducts($identifier);
          $action = view('hubspot.gift_cards',compact('gift_products','email'))->render();
          return  $action;
 
