@@ -12,5 +12,5 @@ class GiftProduct extends Model
     protected $table = 'gift_products';
     protected $fillable = ['product_id','data'];
 
-    protected $casts = [ 'data' => 'json' ];
+    protected $casts = ['app_id', 'data' => 'json' ];
 }
