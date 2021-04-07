@@ -38,21 +38,22 @@ class HupSpotServiceController extends Controller
 
     }
 
+    public function setCorporateGiftConnector($hub_id, $userId){
 
-    public function getCorporateGiftConnector(Request $request = null){
+//
+            if(!empty($hub_id) && !empty($hub_id)) {
+                //var_dump('request', $request->get('portalId'),$request->get('userId'));
+                $app = App::where(['hub_id' => $hub_id, 'hub_user_id' => $userId])->first();
+                if ($app)
+                    session()->put('corporate_gift_token', $app->corporate_gift_token);
+            }
 
 
+    }
 
-        if(isset($request) && $request->has('userId') && $request->has('portalId')) {
-            //var_dump('request', $request->get('portalId'),$request->get('userId'));
-            $app = App::where(['hub_id' => $request->get('portalId'), 'hub_user_id'=>$request->get('userId')])->first();
-            if($app)
-            session()->put('corporate_gift_token',$app->corporate_gift_token);
-           // var_dump('session', session('corporate_gift_token'));
+    public function getCorporateGiftConnector(){
 
-        }
-        else if(empty($request) && session()->has('corporate_gift_token')){
-
+       if(session()->has('corporate_gift_token')){
             $this->corporateGiftHandler = new CorporateGiftApiHandle(session()->get('corporate_gift_token'),Config::get('constants.cg_settings.domain_uri'));
             var_dump(session()->has('corporate_gift_token'),session()->get('corporate_gift_token'));
         }else{
@@ -245,10 +246,14 @@ class HupSpotServiceController extends Controller
      ------------------------------------------------------------------------*/
 
     public function hupspot_data_fetch_request(Request $request){
+//        Log::info('request :'.)
+        if($request->has('userId') && $request->has('portalId')) {
+            Log::info(@$request->all());
 
-        $this->getCorporateGiftConnector($request);
+            $this->setCorporateGiftConnector($request->get('portalId'),$request->get('userId'));
+        }
 
-        Log::info(@$request->all());
+
 //        Log::info(@$request->getMethod());
 
         $email =  @$request->get('email');
