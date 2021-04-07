@@ -12,6 +12,7 @@ use App\Models\CorporateGiftApiHandle;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Config;
+use Mockery\Exception;
 
 class HupSpotServiceController extends Controller
 {
@@ -101,6 +102,26 @@ class HupSpotServiceController extends Controller
 
     }
 
+    public function post_corporate_gift_token(Request $request){
+        //dd($request->all());
+        $res = ['status' => false, 'message' => 'Token not updated.' ];
+        if($request->has('hub_id') && $request->has('corporate_gift_token')){
+            try {
+                $hub_id = $request->get('hub_id');
+                $corporate_gift_token = $request->get('corporate_gift_token');
+                $appExist = App::where('hub_id', $hub_id)->first();
+                if ($appExist) {
+                    $appExist->update(['corporate_gift_token' => $corporate_gift_token]);
+                    $res = ['status' => true, 'message' => 'Token updated successfully.'];
+                }
+            }catch (Exception $e){
+                return redirect()->back();
+            }
+        }
+
+        return response()->json($res);
+    }
+
 
     /**
      * Generate access token
@@ -178,25 +199,7 @@ class HupSpotServiceController extends Controller
     }
 
 
-    public function post_corporate_gift_token(Request $request){
-        //dd($request->all());
-        $res = ['status' => false,'message' => 'Token not updated.' ];
 
-        if($request->has('hub_id') && $request->has('corporate_gift_token')){
-            $hub_id = $request->get('hub_id');
-            $corporate_gift_token = $request->get('corporate_gift_token');
-            $appExist = App::where('hub_id', $hub_id )->first();
-            if($appExist){
-                $appExist->update(['corporate_gift_token'=>$corporate_gift_token]);
-                $res = ['status' => true,'message' => 'Token updated successfully.' ];
-            }
-           // dd($appExist);
-
-
-        }
-
-        return response()->json($res);
-    }
 
 
 
