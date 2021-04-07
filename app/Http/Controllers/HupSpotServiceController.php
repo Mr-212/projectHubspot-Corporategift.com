@@ -69,9 +69,10 @@ class HupSpotServiceController extends Controller
                     $app['hub_id']    =   $res['hub_id'];
                     $app['hub_user']    =   $res['user'];
                     $app['hub_user_id']    =   $res['user_id'];
-                    $app['corporate_gift_token']    =   Config::get('constants.cg_settings.token');
+                    //$app['corporate_gift_token']    =   Config::get('constants.cg_settings.token');
                     // $token_info_arr['token_current_date_time']=Carbon::now()->format('Y-m-d H:i:s');
                     session()->put('hub_access_token', @$token_info_arr['access_token']);
+                    session()->put('hub_id', @  $app['hub_id']);
                     $appExist = App::where(['hub_app_id'=>$app['hub_app_id'] ,'hub_id'=> $app['hub_id'], 'hub_user_id' => $app['hub_user_id']])->first();
                     if(empty($appExist)) {
                         $app = @App::create($app);
@@ -84,8 +85,8 @@ class HupSpotServiceController extends Controller
             }
             $data_array['status']  = @$token['status'];
             $data_array['message'] = @$token['message'];
-            if(session()->has('hub_access_token')){
-                $hub_id =  $app['hub_id'] ;
+            if(session()->has('hub_access_token') && session()->has('hub_id')){
+                $hub_id =  session('hub_id');
                 return view('auth.corporate_gift_cred',compact('hub_id'));
             }
         }

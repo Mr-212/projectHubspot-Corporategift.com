@@ -4,7 +4,9 @@
 
 <div class="row h-100">
     <div class="col-md-12 my-auto">
-        <form>
+        <form  action="{{url('/').'/post_corporate_gift_token}}" type="post">
+            @csrf
+            <input type="hidden" name="hub_id" value="{{$hub_id}}">
             <div class="form-group">
                 <div class="col-md-12">
                     <label for="staticEmail" class=""><strong>Corporate Gift Token</strong></label>
