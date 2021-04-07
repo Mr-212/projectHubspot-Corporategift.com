@@ -58,7 +58,7 @@ class HupSpotServiceController extends Controller
                 $token_info_arr['token_current_date_time'] = Carbon::now()->format('Y-m-d H:i:s');
                 //file_put_contents(app_path().'/hupspot-token.txt',json_encode($token_info_arr));
 //                $data_array['status']=true;
-                $data_array['access_token']= $token['access_token'];
+               // $data_array['access_token']= $token['access_token'];
 
                 $res = $this->hubspotConnector->getOauthInfo($token['access_token']);
                 if(isset($res['token']) && !empty($res['token'])){
@@ -71,7 +71,7 @@ class HupSpotServiceController extends Controller
                     $app['hub_user_id']    =   $res['user_id'];
                     $app['corporate_gift_token']    =   Config::get('constants.cg_settings.token');
                     // $token_info_arr['token_current_date_time']=Carbon::now()->format('Y-m-d H:i:s');
-                    session('hub_access_token', @$token_info_arr['access_token']);
+                    session()->put('hub_access_token', @$token_info_arr['access_token']);
                     $appExist = App::where(['hub_app_id'=>$app['hub_app_id'] ,'hub_id'=> $app['hub_id'], 'hub_user_id' => $app['hub_user_id']])->first();
                     if(empty($appExist)) {
                         $app = @App::create($app);
@@ -96,7 +96,7 @@ class HupSpotServiceController extends Controller
             echo 'Message: ' .$e->getMessage();
         }
 
-        return $data_array;
+       // return $data_array;
 
     }
 
