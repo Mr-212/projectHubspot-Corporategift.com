@@ -13,7 +13,7 @@
                 </div>
 
                 <div class="col-md-12">
-                    <input type="text"  class="form-control form-control-lg" id="staticEmail" value="" required>
+                    <input type="text"  class="form-control form-control-lg" id="staticEmail" name="corporate_gift_token" value="" required>
                 </div>
 
             </div>
