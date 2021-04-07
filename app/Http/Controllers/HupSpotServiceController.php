@@ -39,7 +39,7 @@ class HupSpotServiceController extends Controller
     }
 
 
-    public function getCorporateGiftConnector($request = null){
+    public function getCorporateGiftConnector(Request $request = null){
 
         if(isset($request) && $request->has('userId') && $request->has('portalId')) {
             $app = App::where(['hub_id' => $request->get('portalId'), 'hub_user_id'=>$request->get('userId')])->first();
