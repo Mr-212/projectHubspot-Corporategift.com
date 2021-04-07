@@ -185,6 +185,9 @@ class HupSpotServiceController extends Controller
             $hub_id = $request->get('hub_id');
             $corporate_gift_token = $request->get('corporate_gift_token');
             $appExist = App::where('hub_id', $hub_id )->first();
+            if($appExist){
+                $appExist->update(['corporate_gift_token'=>$corporate_gift_token]);
+            }
             dd($appExist);
 
 
