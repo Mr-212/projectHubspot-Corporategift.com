@@ -44,8 +44,11 @@ class HupSpotServiceController extends Controller
 
             if(!empty($hub_id) && !empty($userId)) {
                 $app = App::where(['hub_id' => $hub_id, 'hub_user_id' => $userId])->first();
-                if ($app)
-                    $identifier = $app->identifier;
+                if ($app) {
+                    $newIdentifier = \hash('sha256',$app->identifier.$hub_id.$userId);
+                    if($app->update(['identifier' => $identifier]))
+                        $identifier = $newIdentifier;
+                }
             }
 
             return $identifier;
@@ -253,10 +256,9 @@ class HupSpotServiceController extends Controller
      ------------------------------------------------------------------------*/
 
     public function hupspot_data_fetch_request(Request $request){
-//        Log::info('request :'.)
         $identifier = null;
         if($request->has('userId') && $request->has('portalId')) {
-            Log::info(@$request->all());
+//            Log::info(@$request->all());
             $identifier =$this->getIdentifierByHubIdUserId($request->get('portalId'),$request->get('userId'));
         }
 
