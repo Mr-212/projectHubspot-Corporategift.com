@@ -57,10 +57,10 @@ class HupSpotServiceController extends Controller
        return App::where('identifier',"{$identifier}")->first();
     }
 
-    public function getCorporateGiftConnector($corprateGiftToken){
-       if(!empty($identifier)){
+    public function getCorporateGiftConnector($corporateGiftToken){
+       if(!empty($corporateGiftToken)){
 
-            $this->corporateGiftHandler = new CorporateGiftApiHandle($corprateGiftToken,Config::get('constants.cg_settings.domain_uri'));
+            $this->corporateGiftHandler = new CorporateGiftApiHandle($corporateGiftToken,Config::get('constants.cg_settings.domain_uri'));
         }else{
             return response()->json(['message' =>'Session expired please refresh the page']);
         }
