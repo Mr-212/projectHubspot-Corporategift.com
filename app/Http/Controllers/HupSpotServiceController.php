@@ -178,6 +178,11 @@ class HupSpotServiceController extends Controller
     }
 
 
+    public function post_corporate_gift_token(Request $request){
+        dd($request->all());
+    }
+
+
 
 
 
