@@ -66,9 +66,9 @@
 
                            </div>
                            <div class="modal-footer">
-                               <button class="btn btn-primary" type="button" disabled>
+                               <button class="btn btn-info" id="sending_button" type="button" style="display: none" disabled>
                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                   <span class="sr-only">Loading...</span>
+                                   Sending...
                                </button>
 
 
@@ -114,18 +114,23 @@
             result[this.name] = this.value;
         });
 
+        var _this = $(this);
+
         $.ajax({
             url: url,
             data:result,
             dataType:'json',
             method:'post',
 
-            beforeSend: function( xhr ) {
-
+            beforeSend: function( ) {
+              _this.hide();
+              $('#sending_button').show();
             }
         }).done(function(data) {
 
                     console.log(data );
+            _this.hide();
+            $('#sending_button').hide();
 
         });
 
