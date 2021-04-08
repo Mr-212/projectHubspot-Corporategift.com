@@ -554,7 +554,7 @@ class HupSpotServiceController extends Controller
 
              $data = json_encode($data, 1);
              $res = $this->corporateGiftHandler->createGift($data);
-             dd($res);
+             dd($res,$data);
          }
          }
 
