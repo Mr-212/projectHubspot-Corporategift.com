@@ -30,7 +30,7 @@
                 </div>
                 </div>
 
-               <div class="modal fade subject_modal" id="modal-{{$card['data']['id']}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+               <div class="modal fade subject_modal" id="modal-{{$card['data']['id']}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  data-backdrop="static" data-keyboard="false">
                    <div class="modal-dialog" role="document">
                        <div class="modal-content">
                            <form id="form-{{$card['data']['id']}}" action="{{url('/')."/post_hubspot_send_gift_request?product_id={$card['data']['id']}&name={$name}"}}" method="post">
