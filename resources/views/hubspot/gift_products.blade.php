@@ -103,23 +103,31 @@
     $(document).on('click','#send_gift_button',function () {
         var url = $(this).data('url');
         var form_id = '#form-'+$(this).data('id');
-        //console.log(url,form_id);
-
-      // var data =  $(form_id).serialize();
-      //  var data =
         var result = { };
         $.each($(form_id).serializeArray(), function() {
             result[this.name] = this.value;
         });
-       //  };
-        //console.log(data)
-        // console.log(data1)
 
-        $.post(url, {data:result},function (data) {
+        $.ajax({
+            url: url,
+            data:result,
+            dataType:'json',
+            method:'post',
 
-           console.log(data);
+            beforeSend: function( xhr ) {
 
-        },'json');
+            }
+        }).done(function( data ) {
+
+                    console.log(data );
+
+        });
+
+        // $.post(url, {data:result},function (data) {
+        //
+        //    console.log(data);
+        //
+        // },'json');
 
 
     });
