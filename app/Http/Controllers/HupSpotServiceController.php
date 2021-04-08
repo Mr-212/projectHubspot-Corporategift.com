@@ -545,12 +545,13 @@ class HupSpotServiceController extends Controller
 
      public function post_hubspot_send_gift_request(Request $request){
          //dd($request->get('data'));
-         $identifier = $request->get('data')['identifier'];
-         $return = ['status'=>false,'data'=>$identifier];
+         $form = $request->get('data');
 
+         $return = ['status'=>false,'data'=>$form];
 
-         $subject = $request->get('data')['subject'];
-         $email = $request->get('data')['email'];
+         $identifier = @$request->get('data');
+         $subject =@ $request->get('data')['subject'];
+         $email = @$request->get('data')['email'];
          $name = $request->get('name');
 
          $product_id = $request->get('product_id');
