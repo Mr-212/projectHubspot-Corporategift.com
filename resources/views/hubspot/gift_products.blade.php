@@ -70,7 +70,7 @@
                                <button type="button" id="send_gift_button" data-id="{{$card['data']['id']}}" data-url="{{url('/')."/post_hubspot_send_gift_request?product_id={$card['data']['id']}&name={$name}"}}" class="btn btn-primary">Send</button>
 
                                <button class="btn btn-info" id="sending_button" type="button" style="display: block" disabled>
-                                   <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                   <span class="spinner-border spinner-border-sm"></span>
                                    Sending...
                                </button>
                            </div>
