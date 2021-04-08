@@ -106,6 +106,7 @@
     //     //$(this).find("input['name'='subject']").empty();
     // });
     $(document).on('click','#send_gift_button',function () {
+        e.preventDefault();
         var url = $(this).data('url');
         var form_id = '#form-'+$(this).data('id');
         var result = { };
