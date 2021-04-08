@@ -577,10 +577,13 @@ class HupSpotServiceController extends Controller
 
              $data = http_build_query($data);
              $res = $this->corporateGiftHandler->createGift($data);
+
              $return = ['status'=>'','data'=>$res];
 
             // dd($res,$data)
                  }
+
+             //return response()->json(['status'=>'','data'=>$res]);
          }
          return response()->json($return);
 

@@ -113,6 +113,7 @@
         $.post(url, {data:data},function (data) {
 
            console.log(data);
+
         },'json');
 
 
