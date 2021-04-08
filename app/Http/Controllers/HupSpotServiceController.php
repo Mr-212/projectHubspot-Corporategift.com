@@ -546,6 +546,8 @@ class HupSpotServiceController extends Controller
      public function post_hubspot_send_gift_request(Request $request){
          //dd($request->all());
 
+         $return = ['status'=>false,'data'=>$request->all()];
+
          $identifier = $request->get('identifier');
 
          if(!empty($identifier) && $request->has('product_id') && $request->has('email') && $request->has('subject') && $request->has('message')) {
@@ -575,9 +577,12 @@ class HupSpotServiceController extends Controller
 
              $data = http_build_query($data);
              $res = $this->corporateGiftHandler->createGift($data);
-             dd($res,$data);
+             $return = ['status'=>'','data'=>$res];
+
+            // dd($res,$data)
+                 }
          }
-         }
+         return response()->json($return);
 
        // $action = view('hubspot.hubspot-sendgift')->render();
 
