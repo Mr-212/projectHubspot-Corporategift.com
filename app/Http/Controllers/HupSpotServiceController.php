@@ -265,8 +265,9 @@ class HupSpotServiceController extends Controller
 
 
 //        Log::info(@$request->getMethod());
-
+        $name = null;
         $email =  @$request->get('email');
+        if($request->has('firstname') && $request->has('lastname'))
         $name  =  @$request->get('firstname'). ' '.@$request->get('lastname');
         //$CorporateGiftGet = $this->getGiftProducts();
         $index = 0;
@@ -328,7 +329,7 @@ class HupSpotServiceController extends Controller
         $gift_arr['primaryAction']['type']='IFRAME';
         $gift_arr['primaryAction']['width']=1100;
         $gift_arr['primaryAction']['height']=748;
-        $gift_arr['primaryAction']['uri'] = url('/')."/get_all_gift_products?identifier={$identifier}&email={$email}&name={$name}";;
+        $gift_arr['primaryAction']['uri'] = url('/')."/get_all_gift_products?identifier={$identifier}&email={$email}&name={$name}";
         $gift_arr['primaryAction']['label']='View Gift Products';
 
 
