@@ -29,7 +29,7 @@ class HupSpotServiceController extends Controller
         $this->h_client_secret= Config::get('constants.hubspot.client_secret');
 //        $this->h_redirect_uri= Config::get('constants.hubspot.redirect_uri');
         $this->h_redirect_uri= 'https://corporategift.dev-techloyce.com/hupspot-authentication';
-       // $this->h_redirect_uri= 'https://tame-bobcat-18.loca.lt'.   '/hupspot-authentication';
+//        $this->h_redirect_uri= 'https://tame-bobcat-18.loca.lt'.   '/hupspot-authentication';
         $this->h_version= Config::get('constants.hubspot.version');
         $this->hubspot_url = 'https://api.hubapi.com';
 
@@ -128,8 +128,8 @@ class HupSpotServiceController extends Controller
             $data_array['status']  = @$token['status'];
             $data_array['message'] = @$token['message'];
             if(session()->has('identifier') && $app && !empty($app->identifier)){
-                $hub_id =  session('hub_id');
-                return view('auth.corporate_gift_cred',compact('hub_id'));
+                $hub_id =  session('identifier');
+                return view('auth.corporate_gift_cred',compact('identifier'));
             }
         }
         catch(Exception $e) {
@@ -348,7 +348,8 @@ class HupSpotServiceController extends Controller
         $app = $this->getAppByIdentifier($identifier);
         if($app) {
            $this->getCorporateGiftConnector($app->corporate_gift_token);
-            $CorporateGiftGet = @GiftProduct::where('app_id',$app->id)->pluck('data')->paginate(10)->toArray();
+//            $CorporateGiftGet = @GiftProduct::where('app_id',$app->id)->pluck('data')->toArray();
+            $CorporateGiftGet = @GiftProduct::where('app_id',$app->id)->paginate(9);
             if (empty($CorporateGiftGet)) {
                 $CorporateGiftGet = $this->corporateGiftHandler->getGiftProducts();
                 if (isset($CorporateGiftGet['status']) && $CorporateGiftGet['status']) {
@@ -356,9 +357,11 @@ class HupSpotServiceController extends Controller
                         GiftProduct::updateOrCreate(['app_id'=>$app->id,'product_id'=>$data['id']], ['product_id' => $data['id'], 'data' => $data]);
                     }
                 }
-                $CorporateGiftGet = GiftProduct::pluck('data')->paginate(10)->toArray();
+//                $CorporateGiftGet = GiftProduct::pluck('data')->toArray();
+                $CorporateGiftGet = GiftProduct::where('app_id',$app->id)->paginate(9);
             }
         }
+//        dd($CorporateGiftGet);
 
         return $CorporateGiftGet;
     }
@@ -498,7 +501,7 @@ class HupSpotServiceController extends Controller
      public function get_all_gift_products(Request $request){
          $email = @$request->get('email');
          $identifier = @$request->get('identifier');
-         $identifier = '';
+         $identifier = '0fe73d585d3a269ac72ea4c88e36eff800d1b56a8e65d29a67d1645d36bd3a80';
          $gift_products = $this->getGiftProducts($identifier);
          $action = view('hubspot.gift_products',compact('gift_products','email','identifier'))->render();
          return  $action;

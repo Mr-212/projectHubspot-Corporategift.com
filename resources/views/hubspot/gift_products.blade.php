@@ -1,32 +1,35 @@
 @extends('layouts.layoutiframe')
 @section('content')
-    <div class="container">
-   <div class="row">
+    <div class="">
 
         @if(isset($gift_products) && count($gift_products) > 0)
+            <div class="row">
             @foreach($gift_products as $card)
+               @php
+               $card = $card->toArray();
+               @endphp
                 <div class="col-md-4 col-sm-4 mt-4 pl-2">
 
                 <div class="card" style="width: 18rem;">
                     <img class="card-img-top" src="{{url('/uploads/gifts/gift.jpeg')}}" alt="Card image cap">
                     <div class="card-body">
-                        <h5 class="card-title" style="height: 50px; overflow: auto">{{$card['name']}}</h5>
-                        <p class="card-text overflow-scroll"  style="height: 80px; overflow: auto">{{ strip_tags($card['description'])}}</p>
+                        <h5 class="card-title" style="height: 50px; overflow: auto">{{$card['data']['name']}}</h5>
+                        <p class="card-text overflow-scroll"  style="height: 80px; overflow: auto">{{ strip_tags($card['data']['description'])}}</p>
 
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Price: <strong>{{$card['price']?:'--'}}</strong></li>
+                        <li class="list-group-item">Price: <strong>{{$card['data']['price']?:'--'}}</strong></li>
                     </ul>
                     <div class="card-footer">
                         {{--<p>{{$card['price']}}</p>--}}
-                        <a  class="btn btn-primary float-right" type="button" href="#modal-{{$card['id']}}" data-target="#modal-{{$card['id']}}" data-toggle="modal" >Send</a>
+                        <a  class="btn btn-primary float-right" type="button" href="#modal-{{$card['data']['id']}}" data-target="#modal-{{$card['data']['id']}}" data-toggle="modal" >Send</a>
                         {{--<a class="btn btn-primary float-right" href="{{url('/').'/get_hupspot_send_gift_request?product_id='.$card["id"].'&email='.$email}}" >Send</a>--}}
                         {{--<a href="#" class="card-link">View</a>--}}
                     </div>
                 </div>
                 </div>
 
-               <div class="modal fade subject_modal" id="modal-{{$card['id']}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+               <div class="modal fade subject_modal" id="modal-{{$card['data']['id']}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                    <div class="modal-dialog" role="document">
                        <div class="modal-content">
                            <div class="modal-header">
@@ -37,7 +40,7 @@
                            </div>
                            <div class="modal-body">
                                {{--@include('hubspot.hubspot-sendgift1',['email' =>$email])--}}
-                               <form id="contact" action="{{url('/')."/post_hubspot_send_gift_request?product_id={$card['id']}"}}" method="post">
+                               <form id="contact" action="{{url('/')."/post_hubspot_send_gift_request?product_id={$card['data']['id']}"}}" method="post">
                                    @csrf
                                    <input type="hidden" name="identifier" value="{{$identifier}}">
                                    {{--<input type="hidden" name="identifier" value="{{$identifier}}">--}}
@@ -73,9 +76,20 @@
 
             @endforeach
 
+            </div>
+
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center pt-4">
+
+                {{ $gift_products->links() }}
+                </div>
+            </div>
+
+
          @endif
-   </div>
+
     </div>
+
 
 
 
