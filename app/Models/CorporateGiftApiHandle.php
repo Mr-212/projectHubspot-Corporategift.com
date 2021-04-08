@@ -62,7 +62,7 @@ class CorporateGiftApiHandle
         }
         else{
             $response_arr['status']=false;
-            $response_arr['data']=@$response['message'];
+            $response_arr['data'] = @$response['message'];
             $response_arr['message']='Api Ran Successfully!';
         }
         

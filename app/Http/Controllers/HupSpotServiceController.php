@@ -404,7 +404,11 @@ class HupSpotServiceController extends Controller
     }
 
     public function createGiftByProductId(){
-        $product_id =11623;
+        $identifier = '0fe73d585d3a269ac72ea4c88e36eff800d1b56a8e65d29a67d1645d36bd3a80';
+        $app = $this->getAppByIdentifier($identifier);
+        if ($app)
+            $this->getCorporateGiftConnector($app->corporate_gift_token);
+        $product_id =11622;
 
         $data = [
             "product_id" => $product_id,
@@ -415,13 +419,28 @@ class HupSpotServiceController extends Controller
             "video_url" => "none",
             "sender_name" => "Wojciech Kaminski",
             "recipients" => [
+                 [
                     "firstname" => "Jon",
                     "email" => "jon@john.con"
+                 ]
             ],
         ];
-        $data = json_encode($data,1);
-        dd($data);
-        $this->corporateGiftHandler->createGift($data);
+//        $data = "{
+//\"product_id\":11623,
+//\"gift_message\":\"Dear <First Name> <Last Name>\",
+//\"email_subject\":\"Hic Global Solution - Sent You a Gift!\",
+//\"can_create_dedicated_links\":false,
+//\"can_upgrade_regift\":false,
+//\"video_url\":\"none\",
+//\"sender_name\":\"Wojciech kaminski\",
+//\"recipients\":[{
+//\"firstname\":\"jon\",
+//\"email\":\"jon@john.con\"
+//}]
+//}";
+        //dd($data);
+        $res = $this->corporateGiftHandler->createGift(http_build_query($data));
+        dd($res);
     }
 
 
@@ -442,8 +461,8 @@ class HupSpotServiceController extends Controller
                 //$gift_arr['results'][$key_index]['title']='Product gift '. $key_index;
 
 
-                $properties_counter=0;
-                $action_counter=0;
+                $properties_counter = 0;
+                $action_counter = 0;
                 //Properties arr
                 if(!empty($single_CorporateGiftGet_data['description'])){
 
@@ -554,7 +573,7 @@ class HupSpotServiceController extends Controller
                  ],
              ];
 
-             $data = json_encode($data, 1);
+             $data = http_build_query($data);
              $res = $this->corporateGiftHandler->createGift($data);
              dd($res,$data);
          }
