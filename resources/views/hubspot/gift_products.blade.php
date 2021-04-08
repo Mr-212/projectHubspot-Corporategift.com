@@ -101,7 +101,7 @@
     $(document).on('click','#send_gift_button',function () {
         var url = $(this).data('url');
         var form_id = '#form-'+$(this).data('id');
-        console.log(url,form_id);
+        //console.log(url,form_id);
 
        var data =  $(form_id).serialize();
        //  var data1 =  $(form_id).serializeArray().map(){
@@ -110,7 +110,7 @@
         console.log(data)
         // console.log(data1)
 
-        $.post(url,{data:data},function (data) {
+        $.post(url, {data:data},function (data) {
 
            console.log(data);
         },'json');
