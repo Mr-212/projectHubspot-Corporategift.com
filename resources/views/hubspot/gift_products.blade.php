@@ -66,6 +66,12 @@
 
                            </div>
                            <div class="modal-footer">
+                               <button class="btn btn-primary" type="button" disabled>
+                                   <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                   <span class="sr-only">Loading...</span>
+                               </button>
+
+
                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                <button type="button" id="send_gift_button" data-id="{{$card['data']['id']}}" data-url="{{url('/')."/post_hubspot_send_gift_request?product_id={$card['data']['id']}&name={$name}"}}" class="btn btn-primary">Send</button>
                            </div>
