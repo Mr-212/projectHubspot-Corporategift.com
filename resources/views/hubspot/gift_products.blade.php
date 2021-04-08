@@ -104,9 +104,16 @@
         console.log(url,form_id);
 
        var data =  $(form_id).serialize();
-       var data1 =  $(form_id).serializeArray();
+       //  var data1 =  $(form_id).serializeArray().map(){
+       //
+       //  };
         console.log(data)
-        console.log(data1)
+        // console.log(data1)
+
+        $.post(url,{data:data},function (data) {
+
+
+        },'json');
 
 
     });
