@@ -100,8 +100,13 @@
     // });
     $(document).on('click','#send_gift_button',function () {
         var url = $(this).data('url');
-        var form_id = 'form-'+$(this).data('id');
+        var form_id = '#form-'+$(this).data('id');
         console.log(url,form_id);
+
+       var data =  $(form_id).serialize();
+       var dat1 =  $(form_id).serializeArray();
+        console.log(data)
+        console.log(data1)
 
 
     });
