@@ -78,8 +78,8 @@ class CorporateGiftApiHandle
 
     public function createGiftProductOrder($data){
         $url = $this->domain."/ecp_egift/api/create";
-        $response = $this->curl_request($url,$data,'POST',$this->headers);
-        dd($response);
+        return $this->curl_request($url,$data,'POST',$this->headers);
+       // dd($response);
     }
 
     public function createGift($data){
