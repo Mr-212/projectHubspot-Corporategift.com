@@ -328,7 +328,7 @@ class HupSpotServiceController extends Controller
         $gift_arr['primaryAction']['type']='IFRAME';
         $gift_arr['primaryAction']['width']=1100;
         $gift_arr['primaryAction']['height']=748;
-        $gift_arr['primaryAction']['uri']=url('/')."/get_all_gift_products?identifier={$identifier}&email={$email}";;
+        $gift_arr['primaryAction']['uri'] = url('/')."/get_all_gift_products?identifier={$identifier}&email={$email}";;
         $gift_arr['primaryAction']['label']='View Gift Products';
 
 
@@ -519,6 +519,7 @@ class HupSpotServiceController extends Controller
      }
 
      public function post_hubspot_send_gift_request(Request $request){
+         dd($request->all(),$request->headers);
         Log::channel('HubSpotCrmCardLog')->info('IFRAM REQUEST BULK');
         Log::channel('HubSpotCrmCardLog')->info($request->all());
 
