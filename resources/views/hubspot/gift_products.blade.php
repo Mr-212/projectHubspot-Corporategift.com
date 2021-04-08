@@ -32,6 +32,8 @@
                <div class="modal fade subject_modal" id="modal-{{$card['data']['id']}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                    <div class="modal-dialog" role="document">
                        <div class="modal-content">
+                           <form id="contact" action="{{url('/')."/post_hubspot_send_gift_request?product_id={$card['data']['id']}"}}" method="post">
+
                            <div class="modal-header">
                                <h5 class="modal-title" id="exampleModalLabel">Add Subject</h5>
                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -40,7 +42,6 @@
                            </div>
                            <div class="modal-body">
                                {{--@include('hubspot.hubspot-sendgift1',['email' =>$email])--}}
-                               <form id="contact" action="{{url('/')."/post_hubspot_send_gift_request?product_id={$card['data']['id']}"}}" method="post">
                                    @csrf
                                    <input type="hidden" name="identifier" value="{{$identifier}}">
                                    {{--<input type="hidden" name="identifier" value="{{$identifier}}">--}}
@@ -64,12 +65,13 @@
                                        {{--<button name="submit" class="btn btn-info float-right form-control-sm" type="submit" id="contact-submit" data-submit="...Sending">Send</button>--}}
                                    {{--</fieldset>--}}
 
-                               </form>
+
                            </div>
                            <div class="modal-footer">
                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                               <button type="button" class="btn btn-primary">Send</button>
+                               <button type="submit" class="btn btn-primary">Send</button>
                            </div>
+                           </form>
                        </div>
                    </div>
                </div>

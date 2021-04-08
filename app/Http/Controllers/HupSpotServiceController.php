@@ -519,7 +519,7 @@ class HupSpotServiceController extends Controller
      }
 
      public function post_hubspot_send_gift_request(Request $request){
-         dd($request->all(),$request->headers);
+         dd($request->all(), $request->headers);
         Log::channel('HubSpotCrmCardLog')->info('IFRAM REQUEST BULK');
         Log::channel('HubSpotCrmCardLog')->info($request->all());
 
