@@ -103,14 +103,17 @@
         var form_id = '#form-'+$(this).data('id');
         //console.log(url,form_id);
 
-       var data =  $(form_id).serialize();
-       //  var data1 =  $(form_id).serializeArray().map(){
-       //
+      // var data =  $(form_id).serialize();
+      //  var data =
+        var result = { };
+        $.each($(form_id).serializeArray(), function() {
+            result[this.name] = this.value;
+        });
        //  };
         console.log(data)
         // console.log(data1)
 
-        $.post(url, {data:data},function (data) {
+        $.post(url, {data:result},function (data) {
 
            console.log(data);
 
