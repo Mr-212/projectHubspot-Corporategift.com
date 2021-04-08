@@ -69,7 +69,7 @@
                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                <button type="button" id="send_gift_button" data-id="{{$card['data']['id']}}" data-url="{{url('/')."/post_hubspot_send_gift_request?product_id={$card['data']['id']}&name={$name}"}}" class="btn btn-primary">Send</button>
 
-                               <button class="btn btn-info" id="sending_button" type="button" style="display: none" disabled>
+                               <button class="btn btn-info" id="sending_button" type="button" style="display:none" disabled>
                                    <span class="spinner-border spinner-border-sm"></span>
                                    Sending...
                                </button>
@@ -123,13 +123,13 @@
 
             beforeSend: function( ) {
               _this.hide();
-              $('#sending_button').show();
+              $(_this).siblings('#sending_button').show();
             }
         }).done(function(data) {
 
             console.log(data );
             _this.show();
-            $('#sending_button').hide();
+            $(_this).siblings('#sending_button').hide();
 
         });
 
