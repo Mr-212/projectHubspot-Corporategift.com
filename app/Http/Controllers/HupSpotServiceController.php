@@ -547,8 +547,10 @@ class HupSpotServiceController extends Controller
                  "video_url" => "none",
                  "sender_name" => "Wojciech Kaminski",
                  "recipients" => [
-                     "firstname" => $name,
-                     "email" => "{$email}"
+                     [
+                         "firstname" => $name,
+                         "email" => "{$email}"
+                     ]
                  ],
              ];
 
