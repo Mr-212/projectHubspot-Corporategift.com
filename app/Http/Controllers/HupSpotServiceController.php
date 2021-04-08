@@ -525,7 +525,7 @@ class HupSpotServiceController extends Controller
      }
 
      public function post_hubspot_send_gift_request(Request $request){
-         //dd($request->all(), $request->headers);
+         dd($request->all(), $request->headers);
 
          $identifier = $request->get('identifier');
 
@@ -543,7 +543,7 @@ class HupSpotServiceController extends Controller
                  "sender_name" => "Wojciech Kaminski",
                  "recipients" => [
                      "firstname" => $name,
-                     "email" => $email
+                     "email" => "{$email}"
                  ],
              ];
          $data = json_encode($data,1);
