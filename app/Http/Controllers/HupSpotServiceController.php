@@ -501,11 +501,12 @@ class HupSpotServiceController extends Controller
      public function get_all_gift_products(Request $request){
        //  dd($request->all(),$request->headers);
          $email = @$request->get('email');
+         $name = @$request->get('name');
          $identifier = @$request->get('identifier');
 //         if(session()->has('identifier') && session('identifier') == $identifier) {
 //         $identifier = '0fe73d585d3a269ac72ea4c88e36eff800d1b56a8e65d29a67d1645d36bd3a80';
              $gift_products = $this->getGiftProducts($identifier);
-             $action = view('hubspot.gift_products', compact('gift_products', 'email', 'identifier'))->render();
+             $action = view('hubspot.gift_products', compact('gift_products', 'email', 'identifier','name'))->render();
              return  $action;
 
 //         }else{
