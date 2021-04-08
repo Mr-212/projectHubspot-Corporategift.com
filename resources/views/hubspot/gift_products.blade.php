@@ -105,7 +105,7 @@
     // $('.subject_modal').model('hidden.bs.modal',function () {
     //     //$(this).find("input['name'='subject']").empty();
     // });
-    $(document).on('click','#send_gift_button',function () {
+    $(document).on('click','#send_gift_button',function (e) {
         e.preventDefault();
         var url = $(this).data('url');
         var form_id = '#form-'+$(this).data('id');
