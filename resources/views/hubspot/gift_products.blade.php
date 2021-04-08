@@ -47,7 +47,7 @@
                                    {{--<input type="hidden" name="identifier" value="{{$identifier}}">--}}
                                    <div class="form-group">
                                    <fieldset>
-                                       <input placeholder="Email Address" class="form-control" type="text" name="email" value="{{$email}}" tabindex="2" disabled>
+                                       <input placeholder="Email Address" class="form-control" type="text" name="email" value="{{$email}}" tabindex="2" readonly>
                                    </fieldset>
                                    </div>
                                    <div class="form-group">
