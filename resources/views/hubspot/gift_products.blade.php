@@ -71,7 +71,7 @@
 
                                <button class="btn btn-info" id="sending_button" type="button" style="display: none" disabled>
                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                   <span class="sr-only">Sending...</span>
+                                   Sending...
                                </button>
                            </div>
                            </form>
