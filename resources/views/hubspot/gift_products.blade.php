@@ -62,15 +62,10 @@
                                    </fieldset>
                                    </div>
 
-                                   {{--<fieldset>--}}
-                                       {{--<button name="submit" class="btn btn-info float-right form-control-sm" type="submit" id="contact-submit" data-submit="...Sending">Send</button>--}}
-                                   {{--</fieldset>--}}
-
-
                            </div>
                            <div class="modal-footer">
                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                               <button type="submit" class="btn btn-primary">Send</button>
+                               <button type="button" id="send_gift_button" data-url="{{url('/')."/post_hubspot_send_gift_request?product_id={$card['data']['id']}&name={$name}"}}" class="btn btn-primary">Send</button>
                            </div>
                            </form>
                        </div>
@@ -102,6 +97,13 @@
 <script>
     $('.subject_modal').model('hidden.bs.modal',function () {
         //$(this).find("input['name'='subject']").empty();
-    })
+    });
+    $('#send_gift_button').onclick(function () {
+
+        var url = $(this).data('url');
+        console.log(url);
+
+
+    });
 </script>
 @endpush
