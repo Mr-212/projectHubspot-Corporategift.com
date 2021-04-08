@@ -525,20 +525,20 @@ class HupSpotServiceController extends Controller
      }
 
      public function post_hubspot_send_gift_request(Request $request){
-         dd($request->all(), $request->headers);
+        // dd($request->all(), $request->headers);
 
          $identifier = $request->get('identifier');
 
-         if(!empty($identifier) && $request->has('product_id') && $request->has('email') && $request->has('subject') && $request->has('message'))
+         if(!empty($identifier) && $request->has('product_id') && $request->has('email') && $request->has('subject') && $request->has('message')) {
              $email = $request->get('email');
              $name = $request->get('name');
              $product_id = $request->get('product_id');
              $data = [
                  "product_id" => $product_id,
-                 "gift_message"=>"Dear $name",
-                 "email_subject"=>"Hic Global Solution - Sent You a Gift!",
-                 "can_create_dedicated_links"=> false,
-                 "can_upgrade_regift"=> false,
+                 "gift_message" => "Dear $name",
+                 "email_subject" => "Hic Global Solution - Sent You a Gift!",
+                 "can_create_dedicated_links" => false,
+                 "can_upgrade_regift" => false,
                  "video_url" => "none",
                  "sender_name" => "Wojciech Kaminski",
                  "recipients" => [
@@ -546,9 +546,10 @@ class HupSpotServiceController extends Controller
                      "email" => "{$email}"
                  ],
              ];
-         $data = json_encode($data,1);
-         dd($data);
-         $this->corporateGiftHandler->createGift($data);
+             $data = json_encode($data, 1);
+             dd($data);
+             $this->corporateGiftHandler->createGift($data);
+         }
 
        // $action = view('hubspot.hubspot-sendgift')->render();
 
