@@ -329,7 +329,7 @@ class HupSpotServiceController extends Controller
         $gift_arr['primaryAction']['type']='IFRAME';
         $gift_arr['primaryAction']['width']=1100;
         $gift_arr['primaryAction']['height']=748;
-        $gift_arr['primaryAction']['uri'] = url('/')."/get_all_gift_products?identifier={$identifier}&email={$email}&name={$name}";
+        $gift_arr['primaryAction']['uri'] = url('/')."/get_all_gift_products?identifier={$identifier}&email={$email}";
         $gift_arr['primaryAction']['label']='View Gift Products';
 
 
