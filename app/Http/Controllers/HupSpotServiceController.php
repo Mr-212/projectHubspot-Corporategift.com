@@ -499,7 +499,7 @@ class HupSpotServiceController extends Controller
 
 
      public function get_all_gift_products(Request $request){
-         dd($request->all().$request->headers);
+         dd($request->all(),$request->headers);
          $email = @$request->get('email');
          $identifier = @$request->get('identifier');
 //         if(session()->has('identifier') && session('identifier') == $identifier) {
