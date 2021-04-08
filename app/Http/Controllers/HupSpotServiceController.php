@@ -535,11 +535,13 @@ class HupSpotServiceController extends Controller
                  $this->getCorporateGiftConnector($app->corporate_gift_token);
              $email = $request->get('email');
              $name = $request->get('name');
+             $subject = $request->get('subject');
              $product_id = $request->get('product_id');
+
              $data = [
                  "product_id" => $product_id,
-                 "gift_message" => "Dear $name",
-                 "email_subject" => "Hic Global Solution - Sent You a Gift!",
+                 "gift_message" => "Dear {$name}",
+                 "email_subject" => "{$subject}",
                  "can_create_dedicated_links" => false,
                  "can_upgrade_regift" => false,
                  "video_url" => "none",
@@ -549,10 +551,10 @@ class HupSpotServiceController extends Controller
                      "email" => "{$email}"
                  ],
              ];
-             $data = json_encode($data, 1);
 
-             dd($this->corporateGiftHandler->createGift($data));
-             dd($data);
+             $data = json_encode($data, 1);
+             $res = $this->corporateGiftHandler->createGift($data);
+             dd($res);
          }
          }
 
