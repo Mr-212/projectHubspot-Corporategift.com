@@ -110,7 +110,7 @@
             result[this.name] = this.value;
         });
        //  };
-        console.log(data)
+        //console.log(data)
         // console.log(data1)
 
         $.post(url, {data:result},function (data) {
