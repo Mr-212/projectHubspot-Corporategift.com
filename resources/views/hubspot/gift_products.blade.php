@@ -6,7 +6,7 @@
             <div class="row">
             @foreach($gift_products as $card)
                @php
-               $card = $card->toArray();
+             //  $card = $card->toArray();
                @endphp
                 <div class="col-md-4 col-sm-4 mt-4 pl-2">
 
@@ -81,7 +81,7 @@
             <div class="row">
                 <div class="col-12 d-flex justify-content-center pt-4">
 
-                {{ $gift_products->links() }}
+                {{--{{ $gift_products->links() }}--}}
                 </div>
             </div>
 

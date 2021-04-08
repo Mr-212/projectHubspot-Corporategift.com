@@ -348,8 +348,8 @@ class HupSpotServiceController extends Controller
         $app = $this->getAppByIdentifier($identifier);
         if($app) {
            $this->getCorporateGiftConnector($app->corporate_gift_token);
-//            $CorporateGiftGet = @GiftProduct::where('app_id',$app->id)->pluck('data')->toArray();
-            $CorporateGiftGet = @GiftProduct::where('app_id',$app->id)->paginate(9);
+            $CorporateGiftGet = @GiftProduct::where('app_id',$app->id)->get()->toArray();
+//            $CorporateGiftGet = @GiftProduct::where('app_id',$app->id)->paginate(9);
             if (empty($CorporateGiftGet)) {
                 $CorporateGiftGet = $this->corporateGiftHandler->getGiftProducts();
                 if (isset($CorporateGiftGet['status']) && $CorporateGiftGet['status']) {
@@ -357,8 +357,8 @@ class HupSpotServiceController extends Controller
                         GiftProduct::updateOrCreate(['app_id'=>$app->id,'product_id'=>$data['id']], ['product_id' => $data['id'], 'data' => $data]);
                     }
                 }
-//                $CorporateGiftGet = GiftProduct::pluck('data')->toArray();
-                $CorporateGiftGet = GiftProduct::where('app_id',$app->id)->paginate(9);
+                $CorporateGiftGet = GiftProduct::where('app_id',$app->id)->get()->toArray();
+//                $CorporateGiftGet = GiftProduct::where('app_id',$app->id)->paginate(9);
             }
         }
 //        dd($CorporateGiftGet);
