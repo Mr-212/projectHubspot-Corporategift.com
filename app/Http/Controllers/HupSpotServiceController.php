@@ -530,6 +530,9 @@ class HupSpotServiceController extends Controller
          $identifier = $request->get('identifier');
 
          if(!empty($identifier) && $request->has('product_id') && $request->has('email') && $request->has('subject') && $request->has('message')) {
+             $app = $this->getAppByIdentifier($identifier);
+             if ($app) {
+                 $this->getCorporateGiftConnector($app->corporate_gift_token);
              $email = $request->get('email');
              $name = $request->get('name');
              $product_id = $request->get('product_id');
@@ -550,6 +553,7 @@ class HupSpotServiceController extends Controller
 
              dd($this->corporateGiftHandler->createGift($data));
              dd($data);
+         }
          }
 
        // $action = view('hubspot.hubspot-sendgift')->render();
