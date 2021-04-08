@@ -544,20 +544,23 @@ class HupSpotServiceController extends Controller
      }
 
      public function post_hubspot_send_gift_request(Request $request){
-         //dd($request->all());
+         //dd($request->get('data'));
+         $identifier = $request->get('data')['identifier'];
+         $return = ['status'=>false,'data'=>$identifier];
 
-         $return = ['status'=>false,'data'=>$request->all()];
 
-         $identifier = $request->get('identifier');
+         $subject = $request->get('data')['subject'];
+         $email = $request->get('data')['email'];
+         $name = $request->get('name');
 
-         if(!empty($identifier) && $request->has('product_id') && $request->has('email') && $request->has('subject') && $request->has('message')) {
+         $product_id = $request->get('product_id');
+
+         if(!empty($identifier) && $subject && $email) {
+//         if(!empty($identifier) && $request->has('product_id') && $request->has('email') && $request->has('subject') && $request->has('message')) {
              $app = $this->getAppByIdentifier($identifier);
              if ($app) {
                  $this->getCorporateGiftConnector($app->corporate_gift_token);
-             $email = $request->get('email');
-             $name = $request->get('name');
-             $subject = $request->get('subject');
-             $product_id = $request->get('product_id');
+
 
              $data = [
                  "product_id" => $product_id,
