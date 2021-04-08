@@ -254,6 +254,9 @@ class HupSpotServiceController extends Controller
      ------------------------------------------------------------------------*/
 
     public function hupspot_data_fetch_request(Request $request){
+
+
+        Log::info($request->headers);
         $identifier = null;
         if($request->has('userId') && $request->has('portalId')) {
             $identifier =$this->getIdentifierByHubIdUserId($request->get('portalId'),$request->get('userId'));
@@ -499,7 +502,7 @@ class HupSpotServiceController extends Controller
 
 
      public function get_all_gift_products(Request $request){
-         dd($request->all(),$request->headers);
+       //  dd($request->all(),$request->headers);
          $email = @$request->get('email');
          $identifier = @$request->get('identifier');
 //         if(session()->has('identifier') && session('identifier') == $identifier) {
