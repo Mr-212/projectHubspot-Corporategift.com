@@ -547,8 +547,9 @@ class HupSpotServiceController extends Controller
                  ],
              ];
              $data = json_encode($data, 1);
+
+             dd($this->corporateGiftHandler->createGift($data));
              dd($data);
-             $this->corporateGiftHandler->createGift($data);
          }
 
        // $action = view('hubspot.hubspot-sendgift')->render();
