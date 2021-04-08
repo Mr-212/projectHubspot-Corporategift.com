@@ -70,7 +70,7 @@ Route::match(['get', 'post'], 'createGiftByProductId',[HupSpotServiceController:
 
 //Route::get('hupspot-data-fetch-request',[HupSpotServiceController::class,'hupspot_data_fetch_request']);
 Route::match(['get', 'post'], 'get_hupspot_send_gift_request/{identifier}',[HupSpotServiceController::class,'get_hupspot_send_gift_request']);
-Route::post(['get', 'post'], 'post_hubspot_send_gift_request',[HupSpotServiceController::class,'post_hubspot_send_gift_request']);
+Route::match(['get', 'post'], 'post_hubspot_send_gift_request',[HupSpotServiceController::class,'post_hubspot_send_gift_request']);
 Route::match(['get', 'post'], 'create_gift_form',[HupSpotServiceController::class,'create_gift_form']);
 //Route::match(['get', 'post'], 'create_gift_form',[HupSpotServiceController::class,'create_gift_form']);
 Route::post('post_corporate_gift_token',[HupSpotServiceController::class,'post_corporate_gift_token']);
