@@ -256,8 +256,8 @@ class HupSpotServiceController extends Controller
     public function hupspot_data_fetch_request(Request $request){
         $identifier = null;
         if($request->has('userId') && $request->has('portalId')) {
-//            Log::info(@$request->all());
             $identifier =$this->getIdentifierByHubIdUserId($request->get('portalId'),$request->get('userId'));
+            session()->put('identifier',$identifier);
         }
 
 
@@ -501,10 +501,15 @@ class HupSpotServiceController extends Controller
      public function get_all_gift_products(Request $request){
          $email = @$request->get('email');
          $identifier = @$request->get('identifier');
+         if(session()->has('identifier') && session('identifier') == $identifier) {
 //         $identifier = '0fe73d585d3a269ac72ea4c88e36eff800d1b56a8e65d29a67d1645d36bd3a80';
-         $gift_products = $this->getGiftProducts($identifier);
-         $action = view('hubspot.gift_products',compact('gift_products','email','identifier'))->render();
-         return  $action;
+             $gift_products = $this->getGiftProducts($identifier);
+             $action = view('hubspot.gift_products', compact('gift_products', 'email', 'identifier'))->render();
+             return  $action;
+
+         }else{
+             return response()->json('Not Verified');
+         }
 
 
      }
