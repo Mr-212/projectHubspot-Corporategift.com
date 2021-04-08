@@ -525,7 +525,7 @@ class HupSpotServiceController extends Controller
      }
 
      public function post_hubspot_send_gift_request(Request $request){
-         dd($request->all());
+         //dd($request->all());
 
          $identifier = $request->get('identifier');
 
