@@ -556,7 +556,7 @@ class HupSpotServiceController extends Controller
 
          $product_id = $request->get('product_id');
 
-         if(!empty($identifier) && $subject && $email) {
+         if(empty($identifier) && $subject && $email) {
 //         if(!empty($identifier) && $request->has('product_id') && $request->has('email') && $request->has('subject') && $request->has('message')) {
              $app = $this->getAppByIdentifier($identifier);
              if ($app) {
