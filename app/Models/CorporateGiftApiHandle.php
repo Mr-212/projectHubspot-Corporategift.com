@@ -85,8 +85,8 @@ class CorporateGiftApiHandle
     public function createGift($data){
         $url = $this->domain."/gift";
 //        dd(json_encode($data));
-        $response = $this->curl_request($url,$data,'POST',$this->headers);
-        dd($response);
+        return $this->curl_request($url,$data,'POST',$this->headers);
+//        dd($response);
     }
 
 }
