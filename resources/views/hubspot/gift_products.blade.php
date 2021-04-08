@@ -104,7 +104,7 @@
         console.log(url,form_id);
 
        var data =  $(form_id).serialize();
-       var dat1 =  $(form_id).serializeArray();
+       var data1 =  $(form_id).serializeArray();
         console.log(data)
         console.log(data1)
 
