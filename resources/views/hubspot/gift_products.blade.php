@@ -12,7 +12,7 @@
 
                 <div class="card" style="width: 18rem;">
                     {{--<img class="card-img-top" src="{{url('/uploads/gifts/gift.jpeg')}}" alt="Card image cap">--}}
-                    <img class="card-img-top" src="{{'https://development.corporategift.com/media/catalog/product/.@$card['data']['image']}}" alt="Card image cap">
+                    <img class="card-img-top" src="{{'https://development.corporategift.com/media/catalog/product/'.@$card['data']['image']}}" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title" style="height: 50px; overflow: auto">{{$card['data']['name']}}</h5>
                         <p class="card-text overflow-scroll"  style="height: 80px; overflow: auto">{{ strip_tags($card['data']['description'])}}</p>
