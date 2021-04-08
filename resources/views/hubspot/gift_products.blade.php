@@ -95,11 +95,10 @@
 
 @push('scripts')
 <script>
-    $('.subject_modal').model('hidden.bs.modal',function () {
-        //$(this).find("input['name'='subject']").empty();
-    });
-    $('#send_gift_button').onclick(function () {
-
+    // $('.subject_modal').model('hidden.bs.modal',function () {
+    //     //$(this).find("input['name'='subject']").empty();
+    // });
+    $(document).on('click','#send_gift_button',function () {
         var url = $(this).data('url');
         console.log(url);
 
