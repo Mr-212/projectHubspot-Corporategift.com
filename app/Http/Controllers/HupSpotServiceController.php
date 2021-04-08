@@ -547,7 +547,7 @@ class HupSpotServiceController extends Controller
          //dd($request->get('data'));
          $form = $request->get('data');
 
-         $return = ['status'=>false,'data'=>($form)];
+         $return = ['status'=>false,'data'=>($request->all())];
 
          $identifier = @$form['identifier'];
          $subject = @$form['subject'];
