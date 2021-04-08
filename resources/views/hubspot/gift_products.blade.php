@@ -32,7 +32,7 @@
                <div class="modal fade subject_modal" id="modal-{{$card['data']['id']}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                    <div class="modal-dialog" role="document">
                        <div class="modal-content">
-                           <form id="contact" action="{{url('/')."/post_hubspot_send_gift_request?product_id={$card['data']['id']}"}}" method="post">
+                           <form id="contact" action="{{url('/')."/post_hubspot_send_gift_request?product_id={$card['data']['id']}&name={$name}"}}" method="post">
 
                            <div class="modal-header">
                                <h5 class="modal-title" id="exampleModalLabel">Add Subject</h5>

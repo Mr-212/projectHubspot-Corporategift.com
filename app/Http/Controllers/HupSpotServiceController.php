@@ -267,7 +267,7 @@ class HupSpotServiceController extends Controller
 //        Log::info(@$request->getMethod());
 
         $email =  @$request->get('email');
-            //$name  =  @$request->get('firstname'). ' '.@$request->get('lastname');
+        $name  =  @$request->get('firstname'). ' '.@$request->get('lastname');
         //$CorporateGiftGet = $this->getGiftProducts();
         $index = 0;
         $gift_arr=array();
@@ -328,7 +328,7 @@ class HupSpotServiceController extends Controller
         $gift_arr['primaryAction']['type']='IFRAME';
         $gift_arr['primaryAction']['width']=1100;
         $gift_arr['primaryAction']['height']=748;
-        $gift_arr['primaryAction']['uri'] = url('/')."/get_all_gift_products?identifier={$identifier}&email={$email}";;
+        $gift_arr['primaryAction']['uri'] = url('/')."/get_all_gift_products?identifier={$identifier}&email={$email}&name={$name}";;
         $gift_arr['primaryAction']['label']='View Gift Products';
 
 
@@ -489,13 +489,9 @@ class HupSpotServiceController extends Controller
      ------------------------------------------------------------------------*/
 
      public function get_hupspot_send_gift_request(Request $request){
-//        Log::channel('HubSpotCrmCardLog')->info('IFRAM REQUEST');
-//        Log::channel('HubSpotCrmCardLog')->info($request->all());
         $name = @$request->get('name');
         $email= @$request->get('email');
-
         $action = view('hubspot.hubspot-sendgift',compact('name','email'))->render();
-
         return  $action;
 
      }
@@ -519,9 +515,30 @@ class HupSpotServiceController extends Controller
      }
 
      public function post_hubspot_send_gift_request(Request $request){
-         dd($request->all(), $request->headers);
-        Log::channel('HubSpotCrmCardLog')->info('IFRAM REQUEST BULK');
-        Log::channel('HubSpotCrmCardLog')->info($request->all());
+         //dd($request->all(), $request->headers);
+
+         $identifier = $request->get('identifier');
+
+         if(!empty($identifier) && $request->has('product_id') && $request->has('email') && $request->has('subject') && $request->has('message'))
+             $email = $request->get('email');
+             $name = $request->get('name');
+             $product_id = $request->get('product_id');
+             $data = [
+                 "product_id" => $product_id,
+                 "gift_message"=>"Dear $name",
+                 "email_subject"=>"Hic Global Solution - Sent You a Gift!",
+                 "can_create_dedicated_links"=> false,
+                 "can_upgrade_regift"=> false,
+                 "video_url" => "none",
+                 "sender_name" => "Wojciech Kaminski",
+                 "recipients" => [
+                     "firstname" => $name,
+                     "email" => $email
+                 ],
+             ];
+         $data = json_encode($data,1);
+         dd($data);
+         $this->corporateGiftHandler->createGift($data);
 
        // $action = view('hubspot.hubspot-sendgift')->render();
 
