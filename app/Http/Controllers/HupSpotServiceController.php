@@ -547,16 +547,16 @@ class HupSpotServiceController extends Controller
          //dd($request->get('data'));
          $form = $request->get('data');
 
-         $return = ['status'=>false,'data'=>($form)];
+        // $return = ['status'=>false,'data'=>($form)];
 
-         $identifier = @$request->get('data');
-         $subject =@ $request->get('data')['subject'];
-         $email = @$request->get('data')['email'];
-         $name = $request->get('name');
+         $identifier = @$form['identifier'];
+         $subject = @$form['subject'];
+         $email =  @$form['email'];
+         $name = @$form['name'];
 
-         $product_id = $request->get('product_id');
+         $product_id = $form['product_id'];
 
-         if(empty($identifier) && $subject && $email) {
+         if(!empty($identifier) && $subject && $email) {
 //         if(!empty($identifier) && $request->has('product_id') && $request->has('email') && $request->has('subject') && $request->has('message')) {
              $app = $this->getAppByIdentifier($identifier);
              if ($app) {
