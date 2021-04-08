@@ -117,7 +117,7 @@
             beforeSend: function( xhr ) {
 
             }
-        }).done(function( data ) {
+        }).done(function(data) {
 
                     console.log(data );
 
