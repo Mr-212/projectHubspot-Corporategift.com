@@ -128,7 +128,7 @@
             }
         }).done(function(data) {
             console.log(data );
-            _this.show();
+            //_this.show();
             $(_this).siblings('#sending_button').hide();
 
         });
