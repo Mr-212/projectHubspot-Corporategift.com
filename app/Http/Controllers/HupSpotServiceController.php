@@ -304,27 +304,30 @@ class HupSpotServiceController extends Controller
                 $action_counter=0;
                 //Properties arr
                 if(!empty($single_CorporateGiftGet_data['description'])){
-                    $properties_counter++;
+//
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['label'] = 'Description';
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['dataType'] = 'STRING';
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['value'] = strip_tags(@$single_CorporateGiftGet_data['description']);
+                    $properties_counter++;
 
                 }
                 if($order['status']) {
-                    $properties_counter++;
+
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['label'] = 'Status';
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['dataType'] = 'STRING';
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['value'] = $order['status'];
+                    $properties_counter++;
                 }
 
                 if(!empty($single_CorporateGiftGet_data['price'])){
 
-                    $properties_counter++;
+
 
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['label'] = 'Price';
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['dataType'] = 'CURRENCY';
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['value'] = @$single_CorporateGiftGet_data['price'];
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['currencyCode'] = 'USD';
+                    $properties_counter++;
 
                 }
                 //Action arr
