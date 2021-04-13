@@ -51,7 +51,7 @@
                            <div class="modal-body">
                                {{--@include('hubspot.hubspot-sendgift1',['email' =>$email])--}}
                                    @csrf
-                                   <input type="hidden" name="identifier" value="{{$params['identifier']}}">
+                                   {{--<input type="hidden" name="identifier" value="{{$params['identifier']}}">--}}
                                    {{--<input type="hidden" name="product_id" value="{{$card['data']['id']}}">--}}
                                    {{--<input type="hidden" name="name" value="{{$name}}">--}}
                                    {{--<input type="hidden" name="identifier" value="{{$identifier}}">--}}
