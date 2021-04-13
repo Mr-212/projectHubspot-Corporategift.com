@@ -293,8 +293,9 @@ class HupSpotServiceController extends Controller
                 $product_gift_id=$single_CorporateGiftGet_data['id'];
                 $gift_arr['results'][$key_index]['objectId']=$product_gift_id;
                 $gift_arr['results'][$key_index]['title'] = @$single_CorporateGiftGet_data['name'];
+                 $gift_arr['results'][$key_index]['link'] = "http://example.com/1";
                 $gift_arr['results'][$key_index]['status'] = @$order['status'];
-               // $gift_arr['results'][$key_index]['link'] = "https//abc.com";
+
                 //$gift_arr['results'][$key_index]['title']='Product gift '. $key_index;
 
 
