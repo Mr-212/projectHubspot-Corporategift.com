@@ -585,12 +585,11 @@ class HupSpotServiceController extends Controller
              $res = $this->corporateGiftHandler->createGift($data);
 
              if(isset($res['id'])){
-                 GiftOrder::create(['gift_id'=>$res['id'],'gift_number'=> @$res['number'], 'app_id' => $app->id, 'product_id' => $product_id, 'status'=> @$res['status'], 'api_response'=>json_encode($res)]);
-
+                 $is_added = GiftOrder::create(['gift_id'=>$res['id'],'gift_number'=> @$res['number'], 'app_id' => $app->id, 'product_id' => $product_id, 'status'=> @$res['status'], 'api_response'=>json_encode($res)]);
 
              }
 
-             $return = ['status'=>'','data'=>$res];
+             $return = ['status'=>'','record_id'=>$is_added];
 
             // dd($res,$data)
              }
