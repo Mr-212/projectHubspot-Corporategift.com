@@ -280,7 +280,7 @@ class HupSpotServiceController extends Controller
             'email'=>$email,
         ];
         //$CorporateGiftGet = $this->getGiftProducts();
-        $getGifts = GiftOrder::where('app_id', $app->id)->get();
+        $getGifts = GiftOrder::where('app_id', $app->id)->orderBy('created_at','desc')->get();
         $index = 0;
 
         $gift_arr=array();
