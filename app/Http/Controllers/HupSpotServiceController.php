@@ -282,6 +282,8 @@ class HupSpotServiceController extends Controller
             'object_id'=>$request->get('associatedObjectId'),
             'object_type'=>$request->get('associatedObjectType'),
         ];
+
+
         $getGifts = GiftOrder::where('app_id', $app->id)->orderBy('created_at','desc')->limit(10)->get();
         $gift_arr = array();
 
@@ -349,7 +351,7 @@ class HupSpotServiceController extends Controller
 //        $gift_arr['settingsAction']['uri']='https://example.com/settings-iframe-contents';
 //        $gift_arr['settingsAction']['label']='Settings';
 
-         $url =url('/')."/get_all_gift_products?".http_build_query($params);
+         $url =url('/')."/get_all_gift_products?param2=".base64_encode($params)."&".http_build_query($params);
         //Primaryaction create gift
         $gift_arr['primaryAction']['type']='IFRAME';
         $gift_arr['primaryAction']['width']=1100;
