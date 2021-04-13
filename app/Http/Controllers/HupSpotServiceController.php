@@ -258,6 +258,7 @@ class HupSpotServiceController extends Controller
 
 
         //Log::info($request->headers);
+        Log::info(@$request->all());
         $identifier = null;
         $app = null;
         if($request->has('userId') && $request->has('portalId')) {
@@ -267,7 +268,6 @@ class HupSpotServiceController extends Controller
         }
 
 
-//        Log::info(@$request->getMethod());
         $name = '';
         $email =  @$request->get('email');
         if($request->has('firstname') && $request->has('lastname'))
@@ -279,25 +279,20 @@ class HupSpotServiceController extends Controller
             'name'=>$name,
             'email'=>$email,
         ];
-        //$CorporateGiftGet = $this->getGiftProducts();
         $getGifts = GiftOrder::where('app_id', $app->id)->orderBy('created_at','desc')->limit(10)->get();
-        $index = 0;
-
-        $gift_arr=array();
-        //$gift_arr['results'] = null;
+        $gift_arr = array();
 
         if(!empty($getGifts)){
             foreach($getGifts as $key_index => $order){
                 $single_CorporateGiftGet_data = @GiftProduct::where('product_id',$order['product_id'])->first()->data;
-                Log::info(@$single_CorporateGiftGet_data);
+
                 $product_gift_id=$single_CorporateGiftGet_data['id'];
                 $gift_arr['results'][$key_index]['objectId']=$product_gift_id;
                 $gift_arr['results'][$key_index]['title'] = @$single_CorporateGiftGet_data['name'];
                 $gift_arr['results'][$key_index]['link'] = "https://development.corporategift.com/media/catalog/product/{$single_CorporateGiftGet_data['image']}";
-//                $gift_arr['results'][$key_index]['status'] = "IN PROGRESS";
 
 
-                //$gift_arr['results'][$key_index]['title']='Product gift '. $key_index;
+
 
 
                 $properties_counter=0;
