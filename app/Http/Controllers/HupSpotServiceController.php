@@ -544,7 +544,7 @@ class HupSpotServiceController extends Controller
 
      public function get_all_gift_products(Request $request){
 //         dd($request->all(),$request->headers,session('object_id'));
-         session()->put('object',123);
+         //session()->put('object',123);
          $email = @$request->get('email');
          $name = @$request->get('name');
          $identifier = @$request->get('identifier');
@@ -562,7 +562,7 @@ class HupSpotServiceController extends Controller
      }
 
      public function post_hubspot_send_gift_request(Request $request){
-         dd(session('object'));
+         //dd(session('object'));
          $form = $request->all();
 
          $return = ['status'=>false,'data'=>($request->all())];
