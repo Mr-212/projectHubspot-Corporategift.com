@@ -319,7 +319,7 @@ class HupSpotServiceController extends Controller
                     $properties_counter++;
                 }
 
-                if(($single_CorporateGiftGet_data['price'])){
+                if($single_CorporateGiftGet_data['price']){
 
 
 
