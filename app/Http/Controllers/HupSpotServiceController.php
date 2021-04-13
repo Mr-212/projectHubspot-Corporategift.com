@@ -42,7 +42,7 @@ class HupSpotServiceController extends Controller
     public function getAppByHubIdUserId($hub_id, $userId){
 
             $identifier = null;
-
+            $app = null;
             if(!empty($hub_id) && !empty($userId)) {
                 $app = App::where(['hub_id' => $hub_id, 'hub_user_id' => $userId])->first();
                 if ($app) {
@@ -52,7 +52,7 @@ class HupSpotServiceController extends Controller
                 }
             }
 
-            return $identifier;
+            return $app;
     }
 
 
@@ -282,6 +282,7 @@ class HupSpotServiceController extends Controller
         //$CorporateGiftGet = $this->getGiftProducts();
         $getGifts = GiftOrder::where('app_id', $app->id)->get();
         $index = 0;
+
         $gift_arr=array();
         $gift_arr['results'] = null;
 
