@@ -293,8 +293,8 @@ class HupSpotServiceController extends Controller
                 $product_gift_id=$single_CorporateGiftGet_data['id'];
                 $gift_arr['results'][$key_index]['objectId']=$product_gift_id;
                 $gift_arr['results'][$key_index]['title'] = @$single_CorporateGiftGet_data['name'];
-                 $gift_arr['results'][$key_index]['link'] = "http://example.com/1";
-                $gift_arr['results'][$key_index]['status'] = "In Progress";
+                $gift_arr['results'][$key_index]['link'] = "http://example.com/1";
+
 
                 //$gift_arr['results'][$key_index]['title']='Product gift '. $key_index;
 
@@ -309,6 +309,7 @@ class HupSpotServiceController extends Controller
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['value'] = strip_tags(@$single_CorporateGiftGet_data['description']);
 
                 }
+                $gift_arr['results'][$key_index]['status'] = "In Progress";
 
                 if(!empty($single_CorporateGiftGet_data['price'])){
 
