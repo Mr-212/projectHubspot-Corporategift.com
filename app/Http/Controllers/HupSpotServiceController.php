@@ -309,7 +309,11 @@ class HupSpotServiceController extends Controller
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['value'] = strip_tags(@$single_CorporateGiftGet_data['description']);
 
                 }
-                $gift_arr['results'][$key_index]['status'] = "In Progress";
+                if($order['status']) {
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['label'] = 'Status';
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['dataType'] = 'STRING';
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['value'] = $order['status'];
+                }
 
                 if(!empty($single_CorporateGiftGet_data['price'])){
 
