@@ -275,10 +275,12 @@ class HupSpotServiceController extends Controller
             $name  .=  @$request->get('firstname'). ' '.@$request->get('lastname');
 
 
-        $params = [
+        $params['params'] = [
             'identifier'=> @$identifier,
             'name'=>$name,
             'email'=>$email,
+            'object_id'=>$request->get('associatedObjectId'),
+            'object_type'=>$request->get('associatedObjectType'),
         ];
         $getGifts = GiftOrder::where('app_id', $app->id)->orderBy('created_at','desc')->limit(10)->get();
         $gift_arr = array();
@@ -347,13 +349,13 @@ class HupSpotServiceController extends Controller
 //        $gift_arr['settingsAction']['uri']='https://example.com/settings-iframe-contents';
 //        $gift_arr['settingsAction']['label']='Settings';
 
-
+         $url =url('/')."/get_all_gift_products?".http_build_query($params);
         //Primaryaction create gift
         $gift_arr['primaryAction']['type']='IFRAME';
         $gift_arr['primaryAction']['width']=1100;
         $gift_arr['primaryAction']['height']=748;
 //        $gift_arr['primaryAction']['uri'] = url('/')."/get_all_gift_products?identifier={$identifier}&email={$email}";
-        $gift_arr['primaryAction']['uri'] = url('/')."/get_all_gift_products?".http_build_query($params);
+        $gift_arr['primaryAction']['uri'] = $url;
         $gift_arr['primaryAction']['label']='View Gift Products';
 
 

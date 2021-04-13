@@ -15,11 +15,14 @@ class CreateGiftOrderTable extends Migration
     {
         Schema::create('gift_orders', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('app_id')->nullable();
+            $table->bigInteger('object_id')->nullable();
+            $table->bigInteger('object_type')->nullable();
+
+            $table->bigInteger('product_id')->nullable();
             $table->bigInteger('gift_id')->nullable();
             $table->bigInteger('gift_number')->nullable();
-            $table->bigInteger('app_id')->nullable();
-            $table->bigInteger('product_id')->nullable();
-            $table->bigInteger('object_id')->nullable();
+
             $table->string('status')->nullable();
             $table->text('api_request')->nullable();
             $table->text('api_response')->nullable();
