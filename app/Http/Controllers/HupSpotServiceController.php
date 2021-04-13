@@ -284,7 +284,7 @@ class HupSpotServiceController extends Controller
         $index = 0;
 
         $gift_arr=array();
-        $gift_arr['results'] = null;
+        //$gift_arr['results'] = null;
 
         if(!empty($getGifts)){
             foreach($getGifts as $key_index => $order){
