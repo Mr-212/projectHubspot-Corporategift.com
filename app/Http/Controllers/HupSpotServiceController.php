@@ -294,7 +294,7 @@ class HupSpotServiceController extends Controller
                 $gift_arr['results'][$key_index]['objectId']=$product_gift_id;
                 $gift_arr['results'][$key_index]['title'] = @$single_CorporateGiftGet_data['name'];
                 $gift_arr['results'][$key_index]['link'] = "https://development.corporategift.com/media/catalog/product/{$single_CorporateGiftGet_data['image']}";
-                $gift_arr['results'][$key_index]['status'] = "IN PROGRESS";
+//                $gift_arr['results'][$key_index]['status'] = "IN PROGRESS";
 
 
                 //$gift_arr['results'][$key_index]['title']='Product gift '. $key_index;
@@ -304,17 +304,18 @@ class HupSpotServiceController extends Controller
                 $action_counter=0;
                 //Properties arr
                 if(!empty($single_CorporateGiftGet_data['description'])){
-
+                    $properties_counter++;
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['label'] = 'Description';
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['dataType'] = 'STRING';
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['value'] = strip_tags(@$single_CorporateGiftGet_data['description']);
 
                 }
-//                if($order['status']) {
-//                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['label'] = 'Status';
-//                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['dataType'] = 'STRING';
-//                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['value'] = $order['status'];
-//                }
+                if($order['status']) {
+                    $properties_counter++;
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['label'] = 'Status';
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['dataType'] = 'STRING';
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['value'] = $order['status'];
+                }
 
                 if(!empty($single_CorporateGiftGet_data['price'])){
 
