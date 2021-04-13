@@ -301,9 +301,9 @@ class HupSpotServiceController extends Controller
                 //Properties arr
                 if(!empty($single_CorporateGiftGet_data['description'])){
 
-                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['label']='Description';
-                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['dataType']='STRING';
-                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['value']=strip_tags(@$single_CorporateGiftGet_data['description']);
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['label'] = 'Description';
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['dataType'] = 'STRING';
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['value'] = strip_tags(@$single_CorporateGiftGet_data['description']);
 
                 }
 
@@ -311,10 +311,10 @@ class HupSpotServiceController extends Controller
 
                     $properties_counter++;
 
-                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['label']='Price';
-                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['dataType']='CURRENCY';
-                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['value']=@$single_CorporateGiftGet_data['price'];
-                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['currencyCode']='USD';
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['label'] = 'Price';
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['dataType'] = 'CURRENCY';
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['value'] = @$single_CorporateGiftGet_data['price'];
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['currencyCode'] = 'USD';
 
                 }
                 //Action arr
@@ -322,7 +322,7 @@ class HupSpotServiceController extends Controller
                 $gift_arr['results'][$key_index]['actions'][$action_counter]['width']="890";
                 $gift_arr['results'][$key_index]['actions'][$action_counter]['height']="748";
                 $gift_arr['results'][$key_index]['actions'][$action_counter]['uri'] = url('/')."/get_hupspot_send_gift_request?product_id={$product_gift_id}&email={$email}";
-                $gift_arr['results'][$key_index]['actions'][$action_counter]['label']="Send Gift";
+                $gift_arr['results'][$key_index]['actions'][$action_counter]['label'] = "View Detail";
             }
         }
 
