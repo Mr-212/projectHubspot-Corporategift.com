@@ -288,11 +288,11 @@ class HupSpotServiceController extends Controller
 
         if(!empty($getGifts)){
             foreach($getGifts as $key_index => $order){
-                $single_CorporateGiftGet_data = GiftProduct::where('product_id',$order['product_id'])->first()->pluck('data');
+                $single_CorporateGiftGet_data = @GiftProduct::where('product_id',$order['product_id'])->first()->pluck('data');
                 Log::info(@$single_CorporateGiftGet_data);
                 $product_gift_id=$single_CorporateGiftGet_data['id'];
                 $gift_arr['results'][$key_index]['objectId']=$product_gift_id;
-                $gift_arr['results'][$key_index]['title']=@$single_CorporateGiftGet_data['name'];
+                $gift_arr['results'][$key_index]['title'] = @$single_CorporateGiftGet_data['name'];
                 //$gift_arr['results'][$key_index]['title']='Product gift '. $key_index;
 
 
