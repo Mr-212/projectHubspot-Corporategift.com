@@ -586,10 +586,11 @@ class HupSpotServiceController extends Controller
 
              if(isset($res['id'])){
                  $is_added = @GiftOrder::create(['gift_id'=>$res['id'],'gift_number'=> @$res['number'], 'app_id' => $app->id, 'product_id' => $product_id, 'status'=> @$res['status'], 'api_response'=>($res)]);
+                 $return = ['status'=> true,'record_id'=> @$is_added->id];
+             }else {
 
+                 $return = ['status' => false, 'record_id' => ''];
              }
-
-             $return = ['status'=>'','record_id'=>$is_added];
 
             // dd($res,$data)
              }
