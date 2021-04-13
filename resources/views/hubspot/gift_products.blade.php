@@ -33,7 +33,13 @@
                <div class="modal fade subject_modal" id="modal-{{$card['data']['id']}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  data-backdrop="static" data-keyboard="false">
                    <div class="modal-dialog" role="document">
                        <div class="modal-content">
-                           <form id="form-{{$card['data']['id']}}" action="{{url('/')."/post_hubspot_send_gift_request?product_id={$card['data']['id']}&params={$params}"}}" method="post">
+                           @php
+                              $params['product_id'] = $card['data']['id'];
+                              $query = http_build_query($params);
+                           @endphp
+
+
+                           <form id="form-{{$card['data']['id']}}" action="{{url('/')."/post_hubspot_send_gift_request?$query"}}" method="post">
 
                            <div class="modal-header">
                                <h5 class="modal-title" id="exampleModalLabel">Add Subject</h5>
