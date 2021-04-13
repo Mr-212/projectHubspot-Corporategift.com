@@ -293,7 +293,7 @@ class HupSpotServiceController extends Controller
                 $product_gift_id=$single_CorporateGiftGet_data['id'];
                 $gift_arr['results'][$key_index]['objectId']=$product_gift_id;
                 $gift_arr['results'][$key_index]['title'] = @$single_CorporateGiftGet_data['name'];
-                $gift_arr['results'][$key_index]['link'] = "http://example.com/1";
+                $gift_arr['results'][$key_index]['link'] = "https://development.corporategift.com/media/catalog/product/{$single_CorporateGiftGet_data['image']}";
                 $gift_arr['results'][$key_index]['status'] = "IN PROGRESS";
 
 
