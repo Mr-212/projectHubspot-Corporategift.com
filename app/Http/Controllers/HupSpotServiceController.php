@@ -259,6 +259,7 @@ class HupSpotServiceController extends Controller
 
         //Log::info($request->headers);
         Log::info(@$request->all());
+        session()->put('object_id',$request->get('associatedObjectId'));
         $identifier = null;
         $app = null;
         if($request->has('userId') && $request->has('portalId')) {
@@ -542,7 +543,7 @@ class HupSpotServiceController extends Controller
 
 
      public function get_all_gift_products(Request $request){
-       //  dd($request->all(),$request->headers);
+         dd($request->all(),$request->headers,session('object_id'));
          $email = @$request->get('email');
          $name = @$request->get('name');
          $identifier = @$request->get('identifier');
