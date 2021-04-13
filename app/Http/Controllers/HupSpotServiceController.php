@@ -351,7 +351,7 @@ class HupSpotServiceController extends Controller
 //        $gift_arr['settingsAction']['uri']='https://example.com/settings-iframe-contents';
 //        $gift_arr['settingsAction']['label']='Settings';
 
-         $url =url('/')."/get_all_gift_products?param2=".base64_encode($params)."&".http_build_query($params);
+         $url =url('/')."/get_all_gift_products?".http_build_query($params);
         //Primaryaction create gift
         $gift_arr['primaryAction']['type']='IFRAME';
         $gift_arr['primaryAction']['width']=1100;
@@ -547,15 +547,17 @@ class HupSpotServiceController extends Controller
 
 
      public function get_all_gift_products(Request $request){
-         dd($request->all(),$request->headers,session('object_id'));
+         //dd($request->all(),$request->headers,session('object_id'));
+         $params = $request->get('params');
          //session()->put('object',123);
          $email = @$request->get('email');
          $name = @$request->get('name');
-         $identifier = @$request->get('identifier');
+         $identifier = @$params['identifier'];
 //         if(session()->has('identifier') && session('identifier') == $identifier) {
 //         $identifier = '0fe73d585d3a269ac72ea4c88e36eff800d1b56a8e65d29a67d1645d36bd3a80';
              $gift_products = $this->getGiftProducts($identifier);
-             $action = view('hubspot.gift_products', compact('gift_products', 'email', 'identifier','name'))->render();
+//             $action = view('hubspot.gift_products', compact('gift_products', 'email', 'identifier','name'))->render();
+             $action = view('hubspot.gift_products', compact('gift_products', 'params'))->render();
              return  $action;
 
 //         }else{
@@ -568,7 +570,7 @@ class HupSpotServiceController extends Controller
      public function post_hubspot_send_gift_request(Request $request){
          //dd(session('object'));
          $form = $request->all();
-
+         dd($request->all());
          $return = ['status'=>false,'data'=>($request->all())];
 
          $identifier = @$request['identifier'];
