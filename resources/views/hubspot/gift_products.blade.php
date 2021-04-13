@@ -35,6 +35,7 @@
                        <div class="modal-content">
                            @php
                               $params['product_id'] = $card['data']['id'];
+                              $params['params'] =  $params;
                               $query = http_build_query($params);
                            @endphp
 
@@ -50,7 +51,7 @@
                            <div class="modal-body">
                                {{--@include('hubspot.hubspot-sendgift1',['email' =>$email])--}}
                                    @csrf
-                                   <input type="hidden" name="identifier" value="{{$params['identifier']}}">
+                                   <input type="hidden" name="identifier" value="{{$params['params']['identifier']}}">
                                    {{--<input type="hidden" name="product_id" value="{{$card['data']['id']}}">--}}
                                    {{--<input type="hidden" name="name" value="{{$name}}">--}}
                                    {{--<input type="hidden" name="identifier" value="{{$identifier}}">--}}
