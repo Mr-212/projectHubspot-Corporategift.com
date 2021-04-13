@@ -319,11 +319,11 @@ class HupSpotServiceController extends Controller
 
                 }
                 //Action arr
-                $gift_arr['results'][$key_index]['actions'][$action_counter]['type']="IFRAME";
-                $gift_arr['results'][$key_index]['actions'][$action_counter]['width']="890";
-                $gift_arr['results'][$key_index]['actions'][$action_counter]['height']="748";
-                $gift_arr['results'][$key_index]['actions'][$action_counter]['uri'] = url('/')."/get_hupspot_send_gift_request?product_id={$product_gift_id}&email={$email}";
-                $gift_arr['results'][$key_index]['actions'][$action_counter]['label'] = "View Detail";
+//                $gift_arr['results'][$key_index]['actions'][$action_counter]['type']="IFRAME";
+//                $gift_arr['results'][$key_index]['actions'][$action_counter]['width']="890";
+//                $gift_arr['results'][$key_index]['actions'][$action_counter]['height']="748";
+//                $gift_arr['results'][$key_index]['actions'][$action_counter]['uri'] = url('/')."/get_hupspot_send_gift_request?product_id={$product_gift_id}&email={$email}";
+//                $gift_arr['results'][$key_index]['actions'][$action_counter]['label'] = "View Detail";
             }
         }
 
