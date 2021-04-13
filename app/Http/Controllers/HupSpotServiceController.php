@@ -319,13 +319,13 @@ class HupSpotServiceController extends Controller
                     $properties_counter++;
                 }
 
-                if(!empty($single_CorporateGiftGet_data['price'])){
+                if(($single_CorporateGiftGet_data['price'])){
 
 
 
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['label'] = 'Price';
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['dataType'] = 'CURRENCY';
-                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['value'] = @$single_CorporateGiftGet_data['price'];
+                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['value'] = @$single_CorporateGiftGet_data['price']?:"--";
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['currencyCode'] = 'USD';
                     $properties_counter++;
 
