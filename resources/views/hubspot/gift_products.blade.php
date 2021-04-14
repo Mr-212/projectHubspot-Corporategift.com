@@ -35,7 +35,6 @@
                        <div class="modal-content">
                            @php
                               $params['product_id'] = $card['data']['id'];
-                              //$params['params'] =  $params;
                               $query = http_build_query($params);
                            @endphp
 
@@ -49,6 +48,9 @@
                                </button>
                            </div>
                            <div class="modal-body">
+                               <div id="message">
+
+                               </div>
                                {{--@include('hubspot.hubspot-sendgift1',['email' =>$email])--}}
                                    @csrf
                                    {{--<input type="hidden" name="identifier" value="{{$params['identifier']}}">--}}
@@ -117,6 +119,7 @@
         e.preventDefault();
         var url = $(this).data('url');
         var form_id = '#form-'+$(this).data('id');
+        var model_id = '#modal-'+$(this).data('id');
         var result = { };
         $.each($(form_id).serializeArray(), function() {
             result[this.name] = this.value;
@@ -135,9 +138,10 @@
               $(_this).siblings('#sending_button').show();
             }
         }).done(function(data) {
-            console.log(data );
+            console.log(data);
             //_this.show();
             $(_this).siblings('#sending_button').hide();
+            $(model_id).find('#message').html('<span>Gift successfully sent./</span>')
 
         });
 
