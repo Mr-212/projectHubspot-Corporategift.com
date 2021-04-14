@@ -5,7 +5,7 @@
 <div class="row h-100">
     <div class="col-md-12 my-auto">
         <form  action="{{url('/').'/post_corporate_gift_token'}}" method="post">
-            {{--@csrf--}}
+            @csrf
             <input type="hidden" name="hub_id" value="{{$identifier}}">
             <div class="form-group">
                 <div class="col-md-12">
