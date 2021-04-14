@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="row h-100">
-    <div class="col-md-12 my-auto">
+    <div class="col-md-12">
     <strong>Success!</strong>
     </div>
 </div>
