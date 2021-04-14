@@ -579,7 +579,7 @@ class HupSpotServiceController extends Controller
      }
 
      public function post_hubspot_send_gift_request(Request $request){
-         dd(cache()->get($request->get('identifier')));
+         //dd(cache()->get($request->get('identifier')));
          $form = $request->all();
          dd($request->all());
          $return = ['status'=>false,'data'=>($request->all())];
