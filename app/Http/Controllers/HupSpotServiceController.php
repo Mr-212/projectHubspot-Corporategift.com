@@ -27,8 +27,8 @@ class HupSpotServiceController extends Controller
     public function __construct()
     {
 
-        ini_set('session.cookie_samesite', 'None');
-        ini_set('session.cookie_secure', 'true');
+        //ini_set('session.cookie_samesite', 'None');
+        //ini_set('session.cookie_secure', 'true');
         $this->h_client_id= Config::get('constants.hubspot.client_id');
         $this->h_client_secret= Config::get('constants.hubspot.client_secret');
 //        $this->h_redirect_uri= Config::get('constants.hubspot.redirect_uri');
@@ -263,7 +263,7 @@ class HupSpotServiceController extends Controller
         //Log::info($request->headers);
         Log::info(@$request->all());
         session()->put('object_id',$request->get('associatedObjectId'));
-        cache()->put('object_id',$request->get('associatedObjectId'));
+        //cache()->put('object_id',$request->get('associatedObjectId'));
 
         $identifier = null;
         $app = null;
@@ -271,7 +271,7 @@ class HupSpotServiceController extends Controller
             $app = $this->getAppByHubIdUserId($request->get('portalId'),$request->get('userId'));
            $identifier = $app->identifier;
             session()->put('identifier',$app->identifier);
-            cache()->put($identifier,$identifier);
+            //cache()->put($identifier,$identifier);
         }
 
 
@@ -288,6 +288,8 @@ class HupSpotServiceController extends Controller
             'object_id'=>$request->get('associatedObjectId'),
             'object_type'=>$request->get('associatedObjectType'),
         ];
+
+        cache()->driver('apc')->put('app',$params);
 
 
         $getGifts = GiftOrder::where('app_id', $app->id)->orderBy('created_at','desc')->limit(10)->get();
@@ -554,14 +556,14 @@ class HupSpotServiceController extends Controller
 
      public function get_all_gift_products(Request $request){
          //dd(session('object_id'));
-
+         dd(cache()->driver('apc')->get('app'));
          $params = $request->get('params');
 
          //session()->put('object',123);
          $email = @$request->get('email');
          $name = @$request->get('name');
          $identifier = @$params['identifier'];
-         dd(cache()->pull('object_id'),cache()->pull($identifier));
+
 //         if(session()->has('identifier') && session('identifier') == $identifier) {
 //         $identifier = '0fe73d585d3a269ac72ea4c88e36eff800d1b56a8e65d29a67d1645d36bd3a80';
              $gift_products = $this->getGiftProducts($identifier);
