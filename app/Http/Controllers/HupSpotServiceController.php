@@ -289,7 +289,7 @@ class HupSpotServiceController extends Controller
             'object_type'=>$request->get('associatedObjectType'),
         ];
 
-        cache()->driver('apc')->put('app',$params);
+        cache()->put('app',$params);
 
 
         $getGifts = GiftOrder::where('app_id', $app->id)->orderBy('created_at','desc')->limit(10)->get();
@@ -556,7 +556,7 @@ class HupSpotServiceController extends Controller
 
      public function get_all_gift_products(Request $request){
          //dd(session('object_id'));
-         dd(cache()->driver('apc')->get('app'));
+         dd(cache()->get('app'));
          $params = $request->get('params');
 
          //session()->put('object',123);
