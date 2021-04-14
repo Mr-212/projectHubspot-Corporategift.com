@@ -289,7 +289,7 @@ class HupSpotServiceController extends Controller
             'object_type'=>$request->get('associatedObjectType'),
         ];
 
-        cache()->put('app',$params);
+        cache()->put($identifier,$params);
 
 
         $getGifts = GiftOrder::where('app_id', $app->id)->orderBy('created_at','desc')->limit(10)->get();
@@ -579,7 +579,7 @@ class HupSpotServiceController extends Controller
      }
 
      public function post_hubspot_send_gift_request(Request $request){
-         dd(cache()->get('app'));
+         dd(cache()->get($request->get('identifier')));
          $form = $request->all();
          dd($request->all());
          $return = ['status'=>false,'data'=>($request->all())];
