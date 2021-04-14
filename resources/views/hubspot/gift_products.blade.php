@@ -40,7 +40,7 @@
                            @endphp
 
 
-                           <form id="form-{{$card['data']['id']}}" action="{{url('/')."/post_hubspot_send_gift_request?params=$query"}}" method="post">
+                           <form id="form-{{$card['data']['id']}}" action="{{url('/')."/post_hubspot_send_gift_request?$query"}}" method="post">
 
                            <div class="modal-header">
                                <h5 class="modal-title" id="exampleModalLabel">Add Subject</h5>
@@ -75,7 +75,7 @@
                            <div class="modal-footer">
                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                {{--<button type="button" id="send_gift_button" data-id="{{$card['data']['id']}}" data-url="{{url('/')."/post_hubspot_send_gift_request?product_id={$card['data']['id']}&name={$name}"}}" class="btn btn-primary">Send</button>--}}
-                               <button type="button" id="send_gift_button" data-id="{{$card['data']['id']}}" data-url="{{url('/')."/post_hubspot_send_gift_request?params={$query}"}}" class="btn btn-primary">Send</button>
+                               <button type="button" id="send_gift_button" data-id="{{$card['data']['id']}}" data-url="{{url('/')."/post_hubspot_send_gift_request?{$query}"}}" class="btn btn-primary">Send</button>
 
                                <button class="btn btn-info" id="sending_button" type="button" style="display:none" disabled>
                                    <span class="spinner-border spinner-border-sm"></span>
