@@ -36,7 +36,7 @@ Route::get('/migrate_fresh', function() {
 
 Route::get('/migrate_rollback', function() {
 
-    Artisan::call('migrate:rollback --step1');
+    Artisan::call('migrate:rollback --step=1');
     Artisan::call('migrate');
     return 'migrations done!';
 
