@@ -410,7 +410,13 @@ class HupSpotServiceController extends Controller
 
 
     public function getGiftById(){
-        $this->corporateGiftHandler->getGiftById(15979);
+        $identifier = '0fe73d585d3a269ac72ea4c88e36eff800d1b56a8e65d29a67d1645d36bd3a80';
+        $app = $this->getAppByIdentifier($identifier);
+        if ($app)
+            $this->getCorporateGiftConnector($app->corporate_gift_token);
+        $gift_id = 43406;
+//        $gift_id = 100045828;
+        $this->corporateGiftHandler->getGiftById($gift_id);
     }
 
 
