@@ -266,8 +266,7 @@ class HupSpotServiceController extends Controller
 
 
         //Log::info($request->headers);
-        Log::info(@$request->all());
-        session()->put('object_id',$request->get('associatedObjectId'));
+//        Log::info(@$request->all());
         //cache()->put('object_id',$request->get('associatedObjectId'));
 
         $identifier = null;
@@ -275,8 +274,6 @@ class HupSpotServiceController extends Controller
         if($request->has('userId') && $request->has('portalId')) {
             $app = $this->getAppByHubIdUserId($request->get('portalId'),$request->get('userId'));
            $identifier = $app->identifier;
-            session()->put('identifier',$app->identifier);
-            //cache()->put($identifier,$identifier);
         }
 
 
@@ -297,7 +294,7 @@ class HupSpotServiceController extends Controller
         cache()->put($identifier,$params);
 
 
-        $getGifts = GiftOrder::where('app_id', $app->id)->orderBy('created_at','desc')->limit(10)->get();
+        $getGifts = GiftOrder::where(['app_id', $app->id,'object_id'=>$request->get('associatedObjectId'),'object_type'=>$request->get('associatedObjectType')])->orderBy('created_at','desc')->limit(10)->get();
         $gift_arr = array();
 
         if(!empty($getGifts)){
