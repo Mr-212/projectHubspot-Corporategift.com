@@ -294,7 +294,7 @@ class HupSpotServiceController extends Controller
         cache()->put($identifier,$params);
 
 
-        $getGifts = GiftOrder::where(['app_id', $app->id,'object_id'=>$request->get('associatedObjectId'),'object_type'=>$request->get('associatedObjectType')])->orderBy('created_at','desc')->limit(10)->get();
+        $getGifts = GiftOrder::where(['app_id' => $app->id,'object_id'=>$request->get('associatedObjectId'),'object_type'=>$request->get('associatedObjectType')])->orderBy('created_at','desc')->limit(10)->get();
         $gift_arr = array();
 
         if(!empty($getGifts)){
