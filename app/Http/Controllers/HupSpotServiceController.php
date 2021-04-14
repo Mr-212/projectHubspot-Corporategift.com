@@ -556,7 +556,7 @@ class HupSpotServiceController extends Controller
 
      public function get_all_gift_products(Request $request){
          //dd(session('object_id'));
-         dd(cache()->get('app'));
+         //dd(cache()->get('app'));
          $params = $request->get('params');
 
          //session()->put('object',123);
