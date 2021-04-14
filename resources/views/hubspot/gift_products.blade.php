@@ -141,7 +141,7 @@
             console.log(data);
             //_this.show();
             $(_this).siblings('#sending_button').hide();
-            $(model_id).find('#message').html('<span>Gift successfully sent./</span>')
+            $(model_id).find('#message').html('<strong  class="bg-success">Gift successfully sent.</strong >')
 
         });
 
