@@ -547,10 +547,10 @@ class HupSpotServiceController extends Controller
 
 
      public function get_all_gift_products(Request $request){
-         dd(session('object_id'));
+         //dd(session('object_id'));
          $params = $request->get('params');
 
-         session()->put('object',123);
+         //session()->put('object',123);
          $email = @$request->get('email');
          $name = @$request->get('name');
          $identifier = @$params['identifier'];
