@@ -141,7 +141,13 @@
             console.log(data);
             //_this.show();
             $(_this).siblings('#sending_button').hide();
-            $(model_id).find('#message').html('<span class="col-md-12 bg-success"><strong  class="">Gift sent successfully.</strong></span>')
+            // $(model_id).find('#message').html('<span class="col-md-12 bg-success"><strong  class="">Gift sent successfully.</strong></span>');
+            $(model_id).find('#message').html('<div class="alert alert-success alert-dismissible fade show" role="alert">\n' +
+                '  <strong>Holy guacamole!</strong> Gift sent successfully.' +
+                '  <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                '    <span aria-hidden="true">&times;</span>\n' +
+                '  </button>\n' +
+                '</div>');
 
         });
 
