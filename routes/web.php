@@ -34,6 +34,14 @@ Route::get('/migrate_fresh', function() {
 
 });
 
+Route::get('/migrate_rollback', function() {
+
+    Artisan::call('migrate:rollback --step1');
+    Artisan::call('migrate');
+    return 'migrations done!';
+
+});
+
 Route::get('/generate-key', function() {
 
     Artisan::call('key:generate');
