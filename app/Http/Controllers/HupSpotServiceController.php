@@ -26,6 +26,10 @@ class HupSpotServiceController extends Controller
     private $hubspotConnector;
     public function __construct()
     {
+
+        ini_set('session.cookie_samesite', 'None');
+        ini_set('session.cookie_secure', 'true');
+        session_start();
         $this->h_client_id= Config::get('constants.hubspot.client_id');
         $this->h_client_secret= Config::get('constants.hubspot.client_secret');
 //        $this->h_redirect_uri= Config::get('constants.hubspot.redirect_uri');
