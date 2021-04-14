@@ -170,8 +170,8 @@ class HupSpotServiceController extends Controller
                 return redirect()->back();
             }
         }
-        echo "<script>window.close();</script>";
-        //return response()->json($res);
+        //echo "<script>window.close();</script>";
+        return view('auth.after_verification',compact('res'));
     }
 
 
