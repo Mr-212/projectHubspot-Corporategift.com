@@ -49,6 +49,11 @@ class HupSpotServiceController extends Controller
             if(!empty($hub_id) && !empty($userId)) {
                 $app = App::where(['hub_id' => $hub_id, 'hub_user_id' => $userId])->first();
                 if ($app) {
+
+                    if(cache()->has($app->identifier)){
+                        cache()->delete($app->identifier);
+                    }
+
                     $newIdentifier = hash('sha256',$app->identifier.$hub_id.$userId);
                     if($app->update(['identifier' => $newIdentifier]))
                         $identifier = $newIdentifier;
@@ -579,9 +584,11 @@ class HupSpotServiceController extends Controller
      }
 
      public function post_hubspot_send_gift_request(Request $request){
-         dd(cache()->get($request->get('identifier')));
+         //dd(cache()->get($request->get('identifier')));
+         $params = cache()->get($request->get('identifier'));
+
          $form = $request->all();
-         dd($request->all());
+         //dd($request->all());
          $return = ['status'=>false,'data'=>($request->all())];
 
          $identifier = @$request['identifier'];
