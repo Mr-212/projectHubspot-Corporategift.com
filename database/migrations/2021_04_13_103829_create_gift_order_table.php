@@ -17,7 +17,7 @@ class CreateGiftOrderTable extends Migration
             $table->id();
             $table->bigInteger('app_id')->nullable();
             $table->bigInteger('object_id')->nullable();
-            $table->bigInteger('object_type')->nullable();
+            $table->string('object_type')->nullable();
 
             $table->bigInteger('product_id')->nullable();
             $table->bigInteger('gift_id')->nullable();
