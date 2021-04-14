@@ -164,6 +164,7 @@ class HupSpotServiceController extends Controller
                 if ($appExist) {
                     $appExist->update(['corporate_gift_token' => $corporate_gift_token]);
                     $res = ['status' => true, 'message' => 'Token updated successfully.'];
+                    echo "<script>window.close();</script>";
                 }
             }catch (Exception $e){
                 return redirect()->back();
