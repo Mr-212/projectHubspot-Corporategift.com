@@ -97,7 +97,7 @@ class HupSpotServiceController extends Controller
             if (isset($token['refresh_token'])) {
                 $token_info_arr['refresh_token'] = $token['refresh_token'];
                 $token_info_arr['access_token']  = $token['access_token'];
-                $token_info_arr['expires_in']     =   Carbon::now()->addSeconds($token['expires_in']);
+                $token_info_arr['expires_in']     =   Carbon::now()->addSeconds($token['expires_in'])->toDateTimeString();
                 $token_info_arr['token_current_date_time'] = Carbon::now()->format('Y-m-d H:i:s');
                 //file_put_contents(app_path().'/hupspot-token.txt',json_encode($token_info_arr));
 
