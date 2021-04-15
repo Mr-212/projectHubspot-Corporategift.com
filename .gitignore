@@ -3,7 +3,7 @@
 /public/storage
 /storage/
 .idea
-
+.vscode/
 /vendor
 .env
 .env.backup
