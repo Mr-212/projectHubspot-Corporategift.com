@@ -71,4 +71,73 @@ class HubspotConnector
         return $this->curl_request($url,NULL,'GET',NULL);
     }
 
+    public function get_access_token(){
+
+        $data_array=array();
+        try {
+
+            $verifiy_access_token=file_get_contents(app_path().'/hupspot-token.txt');
+            $verifiy_access_token=json_decode($verifiy_access_token,true);
+            
+            $current_date=Carbon::now()->format('Y-m-d H:i:s');
+            $token_current_date_time=$verifiy_access_token['token_current_date_time'];
+            $mindiff = round((strtotime($current_date) - strtotime($token_current_date_time))/60);
+
+            if($mindiff > 50){
+
+                $params['form_params'] = [
+                    'refresh_token' => $verifiy_access_token['refresh_token'],
+                    'client_id' =>  $this->h_client_id,
+                    'client_secret' => $this->h_client_secret,
+                    'grant_type' => 'refresh_token',
+                    'redirect_uri' =>   $this->h_redirect_uri,
+                ];
+                $client = new Client();
+
+                $post_url='https://api.hubapi.com/oauth/'.$this->h_version.'/token';
+                //Log::channel('HubSpotCrmCardLog')->info('API LOG');
+                //Log::channel('HubSpotCrmCardLog')->info($params);
+                $response = $client->post($post_url, $params);
+
+                $token = json_decode($response->getBody());
+                $token_info_arr=array();
+                if (isset($token->refresh_token)) {
+
+                    $token_info_arr['refresh_token']=$token->refresh_token;
+                    $token_info_arr['access_token']=$token->access_token;
+                    $token_info_arr['expires_in']=$token->refresh_token;
+                    $token_info_arr['token_current_date_time']=Carbon::now()->format('Y-m-d H:i:s');
+                    file_put_contents(app_path().'/hupspot-token.txt',json_encode($token_info_arr));
+                }
+
+            }
+
+
+            $verifiy_access_token=file_get_contents(app_path().'/hupspot-token.txt');
+            $verifiy_access_token=json_decode($verifiy_access_token,true);
+            if(!empty($verifiy_access_token['access_token'])){
+
+                $data_array['status']=true;
+                $data_array['access_token']=$verifiy_access_token['access_token'];
+
+            }
+            else{
+                $data_array['status']=false;
+                $data_array['message']='No Token Found!';
+            }
+
+        }
+        catch(Exception $e) {
+
+            $data_array['status']=false;
+            $data_array['message']='Catch Error, No Token Found!';
+            //echo 'Message: ' .$e->getMessage();
+        }
+
+    
+       return $data_array;
+
+
+    }
+
 }

@@ -7,20 +7,24 @@ class CorporateGiftApiHandle
 {
 
     private $headers = [];
-    private $acces_token, $domain ;
+    private $access_token, $domain ;
 
     public function __construct($access_token = null,$domain = null)
     {
-        $this->acces_token = $access_token ?: Config::get('constants.cg_settings.token');
+        $this->access_token = $access_token ?: Config::get('constants.cg_settings.token');
         $this->domain = $domain ?: Config::get('constants.cg_settings.domain_uri');
         $this->setHeaders();
     }
 
     private function setHeaders(){
      $this->headers = array(
-         "Authorization: Bearer {$this->acces_token}",
+         "Authorization: Bearer {$this->access_token}",
          'Accept: application/json',
      );
+    }
+
+    public function setAccessToken($acces_token){
+          $this->access_token = $acces_token;
     }
 
 
@@ -39,10 +43,11 @@ class CorporateGiftApiHandle
             curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $res = curl_exec($ch);
-        $_res = json_decode($res,1);
+         $_res = json_decode($res,1);
 
         curl_close($ch);
         return $_res;
+        // return $res;
     }
 
 
@@ -72,8 +77,8 @@ class CorporateGiftApiHandle
 
     public function getGiftById($id){
         $url = $this->domain."/gift/$id";
-        $response = $this->curl_request($url,null,'GET',$this->headers);
-        dd('here',$response);
+        return $response = $this->curl_request($url,null,'GET',$this->headers);
+        //dd('here',$response);
     }
 
     public function createGiftProductOrder($data){

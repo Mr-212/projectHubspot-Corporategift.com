@@ -37,7 +37,7 @@ class HupSpotServiceController extends Controller
         $this->h_version= Config::get('constants.hubspot.version');
         $this->hubspot_url = 'https://api.hubapi.com';
 
-//        $this->corporateGiftHandler = new CorporateGiftApiHandle(Config::get('constants.cg_settings.token'),Config::get('constants.cg_settings.domain_uri'));
+        $this->corporateGiftHandler = new CorporateGiftApiHandle(Config::get('constants.cg_settings.token'),Config::get('constants.cg_settings.domain_uri'));
         $this->hubspotConnector = new HubspotConnector($this->h_client_id, $this->h_client_secret, $this->hubspot_url, $this->h_redirect_uri, $this->h_version);
 
     }
@@ -72,7 +72,9 @@ class HupSpotServiceController extends Controller
     public function getCorporateGiftConnector($corporateGiftToken){
 
        if(!empty($corporateGiftToken)){
-            $this->corporateGiftHandler = new CorporateGiftApiHandle($corporateGiftToken,Config::get('constants.cg_settings.domain_uri'));
+            //$this->corporateGiftHandler = new CorporateGiftApiHandle($corporateGiftToken,Config::get('constants.cg_settings.domain_uri'));
+            $this->corporateGiftHandler->setAccessToken($corporateGiftToken);
+
         }else{
             return response()->json(['message' =>'Session expired please refresh the page']);
         }
@@ -407,9 +409,11 @@ class HupSpotServiceController extends Controller
         $app = $this->getAppByIdentifier($identifier);
         if ($app)
             $this->getCorporateGiftConnector($app->corporate_gift_token);
-        $gift_id = 43406;
-//        $gift_id = 100045828;
-        $this->corporateGiftHandler->getGiftById($gift_id);
+          $gift_id = 10655;
+        //$gift_id = 42091;
+        // $gift_id = 11622;
+        $res = $this->corporateGiftHandler->getGiftById($gift_id);
+        dd($res);
     }
 
 
@@ -417,7 +421,7 @@ class HupSpotServiceController extends Controller
         $data = [
             "product_id"=> 16723,
             "customer_id" => 1,
-            "gift_message"=>"Dear <First Name> <Last Name>\n\n",
+            "gift_message"=>"Test",
             "email_subject"=>"Hic Global Solution - Sent You a Gift!",
             "can_create_dedicated_links"=> false,
             "can_upgrade_regift"=> false,
@@ -441,7 +445,7 @@ class HupSpotServiceController extends Controller
 
         $data = [
             "product_id" => $product_id,
-            "gift_message"=>"Dear <First Name> <Last Name>\n\n",
+            "gift_message"=>"testing",
             "email_subject"=>"Hic Global Solution - Sent You a Gift!",
             "can_create_dedicated_links"=> false,
             "can_upgrade_regift"=> false,
@@ -455,20 +459,6 @@ class HupSpotServiceController extends Controller
                  ]
             ],
         ];
-//        $data = "{
-//\"product_id\":11623,
-//\"gift_message\":\"Dear <First Name> <Last Name>\",
-//\"email_subject\":\"Hic Global Solution - Sent You a Gift!\",
-//\"can_create_dedicated_links\":false,
-//\"can_upgrade_regift\":false,
-//\"video_url\":\"none\",
-//\"sender_name\":\"Wojciech kaminski\",
-//\"recipients\":[{
-//\"firstname\":\"jon\",
-//\"email\":\"jon@john.con\"
-//}]
-//}";
-        //dd($data);
         $res = $this->corporateGiftHandler->createGift(http_build_query($data));
         dd($res);
     }
