@@ -49,11 +49,9 @@ class HupSpotServiceController extends Controller
             if(!empty($hub_id) && !empty($userId)) {
                 $app = App::where(['hub_id' => $hub_id, 'hub_user_id' => $userId])->first();
                 if ($app) {
-
                     if(cache()->has($app->identifier)){
                         cache()->delete($app->identifier);
                     }
-
                     $newIdentifier = hash('sha256',$app->identifier.$hub_id.$userId);
                     if($app->update(['identifier' => $newIdentifier]))
                         $identifier = $newIdentifier;
@@ -65,20 +63,15 @@ class HupSpotServiceController extends Controller
 
 
     public function getAppByIdentifier($identifier){
-
        return App::where('identifier',"{$identifier}")->first();
     }
 
     public function getCorporateGiftConnector($corporateGiftToken){
 
-       if(!empty($corporateGiftToken)){
-            //$this->corporateGiftHandler = new CorporateGiftApiHandle($corporateGiftToken,Config::get('constants.cg_settings.domain_uri'));
+       if(!empty($corporateGiftToken))
             $this->corporateGiftHandler->setAccessToken($corporateGiftToken);
-
-        }else{
+        else
             return response()->json(['message' =>'Session expired please refresh the page']);
-        }
-
     }
 
     /**
@@ -89,7 +82,6 @@ class HupSpotServiceController extends Controller
     public function hupspot_auth_token_generator(Request $request)
     {
         $data_array=array();
-
         try {
             $token = $this->hubspotConnector->authorize($request->code);
             Log::info('token: '.@json_encode($token));
@@ -102,8 +94,6 @@ class HupSpotServiceController extends Controller
                 $token_info_arr['expires_in']     =   Carbon::now()->addSeconds($token['expires_in'])->toDateTimeString();
                 $token_info_arr['token_current_date_time'] = Carbon::now()->format('Y-m-d H:i:s');
                 //file_put_contents(app_path().'/hupspot-token.txt',json_encode($token_info_arr));
-
-
                 $res = $this->hubspotConnector->getOauthInfo($token['access_token']);
                 if(isset($res['token']) && !empty($res['token'])){
                     $appData['hub_refresh_token'] = @$token_info_arr['refresh_token'];
@@ -301,15 +291,10 @@ class HupSpotServiceController extends Controller
                 $gift_arr['results'][$key_index]['title'] = @$single_CorporateGiftGet_data['name'];
                 $gift_arr['results'][$key_index]['link'] = "https://development.corporategift.com/media/catalog/product/{$single_CorporateGiftGet_data['image']}";
 
-
-
-
-
                 $properties_counter=0;
                 $action_counter=0;
                 //Properties arr
                 if(!empty($single_CorporateGiftGet_data['description'])){
-//
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['label'] = 'Description';
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['dataType'] = 'STRING';
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['value'] = strip_tags(@$single_CorporateGiftGet_data['description']);
@@ -317,7 +302,6 @@ class HupSpotServiceController extends Controller
 
                 }
                 if($order['status']) {
-
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['label'] = 'Status';
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['dataType'] = 'STRING';
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['value'] = $order['status'];
@@ -325,9 +309,6 @@ class HupSpotServiceController extends Controller
                 }
 
                 if($single_CorporateGiftGet_data['price']){
-
-
-
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['label'] = 'Price';
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['dataType'] = 'CURRENCY';
                     $gift_arr['results'][$key_index]['properties'][$properties_counter]['value'] = @$single_CorporateGiftGet_data['price']?:"--";
@@ -365,16 +346,8 @@ class HupSpotServiceController extends Controller
         $gift_arr['primaryAction']['uri'] = $url;
         $gift_arr['primaryAction']['label']='View Gift Products';
 
-
-        //$gift_arr['allItemsLink']='Create Gift';
-        //$gift_arr['totalCount']=isset($CorporateGiftGet['data'])?count($CorporateGiftGet['data']):0;
-
-
         // echo '<pre>';
         // print_r($CorporateGiftGet);
-
-        //Log::channel('HubSpotCrmCardLog')->info($request->all());
-
       // dd($gift_arr['results']);
         return  json_encode($gift_arr);
     }
