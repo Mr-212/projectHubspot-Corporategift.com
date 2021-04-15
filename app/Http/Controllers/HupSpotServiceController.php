@@ -104,9 +104,9 @@ class HupSpotServiceController extends Controller
 
                 $res = $this->hubspotConnector->getOauthInfo($token['access_token']);
                 if(isset($res['token']) && !empty($res['token'])){
-                    $appData['hub_refresh_token'] =    @$token_info_arr['refresh_token'];
+                    $appData['hub_refresh_token'] = @$token_info_arr['refresh_token'];
                     $appData['hub_access_token']  = @$token_info_arr['access_token'] ;
-                    $appData['hub_expires_in']    =   @$token_info_arr['expires_in'] ;
+                    $appData['hub_expires_in']    = @$token_info_arr['expires_in'] ;
                     $appData['hub_app_id']    =   $res['app_id'];
                     $appData['hub_id']    =   $res['hub_id'];
                     $appData['hub_user']    =   $res['user'];
