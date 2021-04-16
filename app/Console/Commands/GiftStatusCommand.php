@@ -55,7 +55,7 @@ class GiftStatusCommand extends Command
                 $this->corporateGiftAPIHandler->setAccessToken($app->corporate_gift_token);
                 $get_gift = $this->corporateGiftAPIHandler->getGiftById($gift->gift_id);
                 //dd($get_gift);
-                
+                Log::channel('slack')->critical($get_gift);
                 if($get_gift && isset($get_gift['data'])){
                      $gift->status = $get_gift['data']['status'];
                     //  $gift->api_response = $get_gift['data'];
