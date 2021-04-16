@@ -6,6 +6,7 @@ use App\Models\App;
 use App\Models\CorporateGiftApiHandle;
 use App\Models\GiftOrder;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class GiftStatusCommand extends Command
 {
@@ -45,6 +46,8 @@ class GiftStatusCommand extends Command
     {
         $gift_orders = GiftOrder::where('status','Not paid')->get();
         //dd($gift_orders);
+        Log::critical($gift_orders);
+        
         if($gift_orders){
             foreach($gift_orders as $gift){
                 $app = App::find($gift['app_id']);
@@ -57,6 +60,7 @@ class GiftStatusCommand extends Command
                     $gift->status = 'NOT PAID';
                     $gift->save();
                     //dd('done');
+                    Log::critical($gift->status);
                 }
 
             }
