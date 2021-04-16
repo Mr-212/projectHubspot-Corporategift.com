@@ -44,17 +44,19 @@ class GiftStatusCommand extends Command
     public function handle()
     {
         $gift_orders = GiftOrder::where('status','Not paid')->get();
+        //dd($gift_orders);
         if($gift_orders){
             foreach($gift_orders as $gift){
                 $app = App::find($gift['app_id']);
                 $this->corporateGiftAPIHandler->setAccessToken($app->corporate_gift_token);
                 $get_gift = $this->corporateGiftAPIHandler->getGiftById($gift->gift_id);
-                dd($get_gift);
+                //dd($get_gift);
                 
                 if($get_gift && isset($get_gift['data'])){
-                    $gift->status = $get_gift['data']['status'];
+                    // $gift->status = $get_gift['data']['status'];
+                    $gift->status = 'NOT PAID';
                     $gift->save();
-
+                    //dd('done');
                 }
 
             }
