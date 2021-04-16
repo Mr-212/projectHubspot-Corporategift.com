@@ -46,7 +46,7 @@ class GiftStatusCommand extends Command
     {
         $gift_orders = GiftOrder::where('status','Not paid')->get();
         //dd($gift_orders);
-        //Log::channel('slack')->critical($gift_orders);
+        Log::channel('slack')->critical($gift_orders);
         
         if($gift_orders){
             foreach($gift_orders as $gift){
