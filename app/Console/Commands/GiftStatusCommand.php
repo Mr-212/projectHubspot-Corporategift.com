@@ -49,6 +49,7 @@ class GiftStatusCommand extends Command
         
         if($gift_orders){
             foreach($gift_orders as $gift){
+                Log::channel('slack')->critical($gift->app_id);
                 $app = App::where('app_id',$gift->app_id)->select('corporate_gift_token')->first();
                 Log::channel('slack')->critical($app->corporate_gift_token);
                 $this->corporateGiftAPIHandler->setAccessToken($app->corporate_gift_token);
