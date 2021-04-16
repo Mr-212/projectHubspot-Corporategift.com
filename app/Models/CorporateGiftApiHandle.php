@@ -77,7 +77,7 @@ class CorporateGiftApiHandle
 
     public function getGiftById($id){
         $url = $this->domain."/gift/$id";
-        return $response = $this->curl_request($url,null,'GET',$this->headers);
+        return  $this->curl_request($url,null,'GET',$this->headers);
         //dd('here',$response);
     }
 

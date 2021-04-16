@@ -44,7 +44,7 @@ class GiftStatusCommand extends Command
      */
     public function handle()
     {
-        $gift_orders = GiftOrder::where('status','Not paid')->select('app_id','status','api_response')->get();
+        $gift_orders = GiftOrder::where('status','Not paid')->select('gift_id','app_id','status','api_response')->get();
         Log::channel('slack')->critical($gift_orders);
         
         if($gift_orders){
