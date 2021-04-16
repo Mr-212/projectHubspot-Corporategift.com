@@ -4,6 +4,9 @@ use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
 
+
+$stack_channels = ['slack','single'];
+
 return [
 
     /*
@@ -37,7 +40,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => $stack_channels,
             'ignore_exceptions' => false,
         ],
 
@@ -59,7 +62,8 @@ return [
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
             'username' => 'Laravel Log',
             'emoji' => ':boom:',
-            'level' => env('LOG_LEVEL', 'critical'),
+            // 'level' => env('LOG_LEVEL', 'critical'),
+            'level' => ['info','critical','error'],
         ],
 
         'papertrail' => [
