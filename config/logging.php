@@ -63,7 +63,8 @@ return [
             'username' => 'Laravel Log',
             'emoji' => ':boom:',
             // 'level' => env('LOG_LEVEL', 'critical'),
-            'level' => ['info','critical','error'],
+            // 'level' => ['info','critical','error'],
+            'level' => 'info'
         ],
 
         'papertrail' => [
