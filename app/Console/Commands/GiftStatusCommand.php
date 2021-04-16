@@ -58,7 +58,7 @@ class GiftStatusCommand extends Command
                 
                 if($get_gift && isset($get_gift['data'])){
                      $gift->status = $get_gift['data']['status'];
-                     $gift->api_response = $get_gift['data'];
+                    //  $gift->api_response = $get_gift['data'];
                      $gift->save();
                      Log::channel('slack')->critical($gift->status);
                 }
