@@ -51,11 +51,10 @@ class GiftStatusCommand extends Command
         
         if($gift_orders){
             foreach($gift_orders as $gift){
-                // Log::channel('slack')->critical($gift->app_id);
                 $app = App::where('id',$gift->app_id)
                 ->select('corporate_gift_token')
                 ->first();
-                // Log::channel('slack')->critical($app->corporate_gift_token);
+
                 $this->corporateGiftAPIHandler->setAccessToken($app->corporate_gift_token);
                 $get_gift = $this->corporateGiftAPIHandler->getGiftById($gift->gift_id);
                 //dd($get_gift);
@@ -64,7 +63,10 @@ class GiftStatusCommand extends Command
                      $gift->status = $get_gift['data']['status'];
                      $gift->api_response = $get_gift['data'];
                      $gift->save();
-                     Log::channel('slack')->critical($gift->status);
+                     Log::channel('slack')->critical('gift_status_update:'.$gift->gift_id." ".$gift->status);
+                }
+                elseif(isset($gift_orders['message'])){
+                    Log::channel('slack')->critical('gift_status_update_error: '.$gift_orders['message']);
                 }
 
             }
