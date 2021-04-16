@@ -573,7 +573,7 @@ class HupSpotServiceController extends Controller
                  "can_create_dedicated_links" => false,
                  "can_upgrade_regift" => false,
                  "video_url" => "none",
-                 "sender_name" => "Wojciech Kaminski",
+                 "sender_name" => "{$app->hub_user}",
                  "recipients" => [
                      [
                          "firstname" => $name,
