@@ -46,7 +46,7 @@ class GiftStatusCommand extends Command
     {
         $gift_orders = GiftOrder::where('status','Not paid')->get();
         //dd($gift_orders);
-        Log::channel('slack')->critical($gift_orders);
+        //Log::channel('slack')->critical($gift_orders);
         
         if($gift_orders){
             foreach($gift_orders as $gift){
@@ -56,11 +56,11 @@ class GiftStatusCommand extends Command
                 //dd($get_gift);
                 
                 if($get_gift && isset($get_gift['data'])){
-                    // $gift->status = $get_gift['data']['status'];
-                    $gift->status = 'NOT PAID';
+                     $gift->status = $get_gift['data']['status'];
+                   // $gift->status = 'NOT PAID';
                     $gift->save();
                     //dd('done');
-                    Log::channel('slack')->critical($gift->status);
+                   // Log::channel('slack')->critical($gift->status);
                 }
 
             }
