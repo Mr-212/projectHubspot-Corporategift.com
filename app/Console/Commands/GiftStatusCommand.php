@@ -50,7 +50,7 @@ class GiftStatusCommand extends Command
         
         if($gift_orders){
             foreach($gift_orders as $gift){
-                $app = App::find($gift['app_id']);
+                $app = App::where('app_id',$gift['app_id'])->select('corporate_gift_token')->first();
                 $this->corporateGiftAPIHandler->setAccessToken($app->corporate_gift_token);
                 $get_gift = $this->corporateGiftAPIHandler->getGiftById($gift->gift_id);
                 //dd($get_gift);
