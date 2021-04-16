@@ -44,12 +44,12 @@ class GiftStatusCommand extends Command
      */
     public function handle()
     {
-        $gift_orders = GiftOrder::where('status','Not paid')->select('status','api_response')->get();
+        $gift_orders = GiftOrder::where('status','Not paid')->select('app_id','status','api_response')->get();
         Log::channel('slack')->critical($gift_orders);
         
         if($gift_orders){
             foreach($gift_orders as $gift){
-                $app = App::where('app_id',$gift['app_id'])->select('corporate_gift_token')->first();
+                $app = App::where('app_id',$gift->app_id)->select('corporate_gift_token')->first();
                 Log::channel('slack')->critical($app->corporate_gift_token);
                 $this->corporateGiftAPIHandler->setAccessToken($app->corporate_gift_token);
                 $get_gift = $this->corporateGiftAPIHandler->getGiftById($gift->gift_id);
