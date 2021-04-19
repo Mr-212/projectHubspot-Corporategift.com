@@ -14,7 +14,7 @@ class AddIndexToGiftProducts extends Migration
     public function up()
     {
         Schema::table('gift_products', function (Blueprint $table) {
-            //
+            $table->index(['app_id','product_id'],'app_product_id_index');
         });
     }
 
@@ -26,7 +26,7 @@ class AddIndexToGiftProducts extends Migration
     public function down()
     {
         Schema::table('gift_products', function (Blueprint $table) {
-            //
+            $table->dropIndex('app_product_id_index');
         });
     }
 }
