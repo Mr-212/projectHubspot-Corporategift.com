@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\FetchGiftProducts;
 use App\Console\Commands\GiftStatusCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -15,6 +16,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         GiftStatusCommand::class,
+        FetchGiftProducts::class,
     ];
 
     /**
@@ -28,6 +30,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         //$schedule->command('gift:fetch_gift_status')->everyMinute();
          $schedule->command('gift:fetch_gift_status')->hourly();
+         $schedule->command('gift:fetch_products')->everyMinute();
     }
 
     /**

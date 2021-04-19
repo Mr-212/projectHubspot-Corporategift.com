@@ -384,7 +384,7 @@ class HupSpotServiceController extends Controller
             $this->getCorporateGiftConnector($app->corporate_gift_token);
           $gift_id = 10655;
         //$gift_id = 42091;
-          $gift_id = 10857;
+          $gift_id = 10874;
         $res = $this->corporateGiftHandler->getGiftById($gift_id);
         dd($res);
     }
