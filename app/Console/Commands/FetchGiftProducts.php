@@ -64,7 +64,7 @@ class FetchGiftProducts extends Command
                 if (isset($CorporateGiftGet['status']) && $CorporateGiftGet['status']) {
                     foreach ($CorporateGiftGet['data'] as $data) {
                         $update = GiftProduct::updateOrCreate(['app_id'=>$app->id,'product_id'=>$data['id']], ['product_id' => $data['id'], 'data' => $data]);
-                        Log::info('updated-'.$data['id'].$update);
+                        Log::info('updated-'.$update->id);
                     }
                 }
             }
