@@ -60,10 +60,11 @@ class FetchGiftProducts extends Command
                 $CorporateGiftGet = $this->corporateGiftAPIHandler->setAccessToken($app->corporate_gift_token);
                 $CorporateGiftGet = $this->corporateGiftAPIHandler->getGiftProducts();
                 Log::info("gift products:");
-                Log::info($CorporateGiftGet);
+                // Log::info($CorporateGiftGet);
                 if (isset($CorporateGiftGet['status']) && $CorporateGiftGet['status']) {
                     foreach ($CorporateGiftGet['data'] as $data) {
-                        GiftProduct::updateOrCreate(['app_id'=>$app->id,'product_id'=>$data['id']], ['product_id' => $data['id'], 'data' => $data]);
+                        $update = GiftProduct::updateOrCreate(['app_id'=>$app->id,'product_id'=>$data['id']], ['product_id' => $data['id'], 'data' => $data]);
+                        Log::infot('updated-'.$data['id'].$update);
                     }
                 }
             }
