@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         //$schedule->command('gift:fetch_gift_status')->everyMinute();
          $schedule->command('gift:fetch_gift_status')->hourly();
-         $schedule->command('gift:fetch_products')->everyMinute();
+         $schedule->command('gift:fetch_products')->everyMinute()->withoutOverlapping();
     }
 
     /**
