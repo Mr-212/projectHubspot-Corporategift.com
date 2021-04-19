@@ -21,7 +21,7 @@ class AddIndexAppTable extends Migration
            if(!array_key_exists("hub_app_user_index", $indexesFound))
                 $table->index(['hub_app_id','hub_id','hub_user_id'],'hub_app_user_index');
            if(!array_key_exists("identifier_index", $indexesFound))
-                $table->index('identifier','identifier_index');
+                // $table->index('identifier','identifier_index');
         });
     }
 
@@ -34,7 +34,7 @@ class AddIndexAppTable extends Migration
     {
         Schema::table('app', function (Blueprint $table) {
             $table->dropIndex('hub_app_user_index');
-            $table->dropIndex('identifier_index');
+            // $table->dropIndex('identifier_index');
         });
     }
 }
