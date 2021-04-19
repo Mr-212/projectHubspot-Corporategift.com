@@ -52,6 +52,7 @@ class FetchGiftProducts extends Command
         $apps = App::select('corporate_gift_token','id')
         ->whereNull('is_active')
         ->get();
+        Log::info("apps" . $apps);
 
         foreach($apps as $app){
             $CorporateGiftGet = null;
