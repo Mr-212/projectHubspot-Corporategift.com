@@ -44,11 +44,11 @@ class FetchGiftProducts extends Command
      */
     public function handle()
     {
-        
+        $this->getGiftProducts();
     }
 
 
-    public function getGiftProducts($identifier){
+    public function getGiftProducts(){
         $apps = App::select('corporate_gift_token','id')
         ->whereNull('is_active')
         ->get();
