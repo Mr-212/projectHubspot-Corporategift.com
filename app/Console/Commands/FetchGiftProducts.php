@@ -50,14 +50,15 @@ class FetchGiftProducts extends Command
 
     public function getGiftProducts(){
         $apps = App::select('corporate_gift_token','id')
-        ->whereNull('is_active')
+        // ->whereNull('is_active')
         ->get();
         Log::info("apps" . $apps);
 
         foreach($apps as $app){
             $CorporateGiftGet = null;
             if($app) {
-                $CorporateGiftGet = $this->corporateGiftHandler->getGiftProducts();
+                $CorporateGiftGet = $this->corporateGiftAPIHandler->setAccessToken($app->corporate_gift_token);
+                $CorporateGiftGet = $this->corporateGiftAPIHandler->getGiftProducts();
                 Log::info("gift products" . $CorporateGiftGet);
                 if (isset($CorporateGiftGet['status']) && $CorporateGiftGet['status']) {
                     foreach ($CorporateGiftGet['data'] as $data) {
