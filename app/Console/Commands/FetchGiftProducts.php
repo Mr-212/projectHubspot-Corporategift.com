@@ -50,7 +50,7 @@ class FetchGiftProducts extends Command
 
     public function getGiftProducts(){
         $apps = App::select('corporate_gift_token','id')
-        // ->whereNull('is_active')
+       // ->whereNull('is_active')
         ->get();
         Log::info("apps" . $apps);
 
