@@ -90,3 +90,5 @@ Route::prefix('webhook')->group(function () {
     });
     
 });
+
+Route::match(['get', 'post'], 'webhook/hubspot/contact',[WebhookController::class,'hubspot_contact']);
