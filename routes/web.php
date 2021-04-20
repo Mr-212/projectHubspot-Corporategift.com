@@ -85,8 +85,8 @@ Route::match(['get', 'post'], 'create_gift_form',[HupSpotServiceController::clas
 Route::post('post_corporate_gift_token',[HupSpotServiceController::class,'post_corporate_gift_token']);
 
 Route::prefix('webhook')->group(function () {
-    Route::prefix('/hubspot')->group(function () {
-        Route::post('/contact',[WebhookController::class,'hubspot_contact'] );
+    Route::prefix('hubspot')->group(function () {
+        Route::match(['get', 'post'], 'contact',[WebhookController::class,'hubspot_contact']);
     });
     
 });
