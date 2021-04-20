@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        'post_hubspot_send_gift_request'
+        'post_hubspot_send_gift_request',
+        'webhook/hubspot/contact'
     ];
 }
