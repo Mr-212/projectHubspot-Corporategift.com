@@ -99,8 +99,8 @@ class HupSpotServiceController extends Controller
                     $appData['hub_refresh_token'] = @$token_info_arr['refresh_token'];
                     $appData['hub_access_token']  = @$token_info_arr['access_token'] ;
                     $appData['hub_expires_in']    = @$token_info_arr['expires_in'] ;
-                    $appData['hub_app_id']    =   $res['app_id'];
-                    $appData['hub_id']    =   $res['hub_id'];
+                    $appData['hub_app_id']        = $res['app_id'];
+                    $appData['hub_id']       =   $res['hub_id'];
                     $appData['hub_user']    =   $res['user'];
                     $appData['hub_user_id']    =   $res['user_id'];
                     // $token_info_arr['token_current_date_time']=Carbon::now()->format('Y-m-d H:i:s');

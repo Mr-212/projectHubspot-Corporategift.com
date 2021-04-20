@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HupSpotServiceController;
-use App\Http\Controllers\WebhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,7 +85,7 @@ Route::post('post_corporate_gift_token',[HupSpotServiceController::class,'post_c
 
 Route::prefix('webhook')->group(function () {
     Route::prefix('hubspot')->group(function () {
-        Route::post('contact',[WebhookController::class,'hubspot_contact'] );
+        
     });
     
 });
