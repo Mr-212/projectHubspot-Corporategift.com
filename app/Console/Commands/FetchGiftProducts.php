@@ -6,6 +6,7 @@ use App\Models\App;
 use App\Models\CorporateGiftApiHandle;
 use Illuminate\Console\Command;
 use App\Models\GiftProduct;
+use Carbon\Carbon;
 use Fruitcake\Cors\CorsServiceProvider;
 use Illuminate\Support\Facades\Log;
 
@@ -51,6 +52,7 @@ class FetchGiftProducts extends Command
     public function getGiftProducts(){
         $apps = App::select('corporate_gift_token','id')
         ->active()
+        ->where('updatet_at','>=',Carbon::now()->subDays(30)->toDateTimeString())
         ->get();
         Log::info("apps" . $apps);
 
