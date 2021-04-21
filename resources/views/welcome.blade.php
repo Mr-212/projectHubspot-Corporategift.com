@@ -45,8 +45,8 @@
                             <div class="flex items-center">
                                
                                 <div class="ml-4 text-center text-lg leading-7 font-semibold">
-                                    <h3>Connect to Hubspot</h3>
-                                    <a href="https://app.hubspot.com/oauth/authorize?client_id=3cbf1a7e-914a-4934-9b8b-285dd93fe43b&redirect_uri=https://corporategift.dev-techloyce.com/hupspot-authentication&scope=contacts%20oauth%20tickets" class="underline text-gray-900 dark:text-white"><img border="0" alt="W3Schools" src="{{url('/').'/uploads/system/hubspotlogo-web-color.svg'}}" width="300" height="200"></a>
+                                    <h3>Connect to </h3>
+                                    <a href="https://app.hubspot.com/oauth/authorize?client_id=3cbf1a7e-914a-4934-9b8b-285dd93fe43b&redirect_uri=https://corporategift.dev-techloyce.com/hupspot-authentication&scope=contacts%20oauth%20tickets" class="underline text-gray-900 dark:text-white"><img border="0" alt="W3Schools" src="{{url('/').'/uploads/system/hubspotlogo-web-color.svg'}}" width="300" height="100"></a>
 
                                 </div>
 
