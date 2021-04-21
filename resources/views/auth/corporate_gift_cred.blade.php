@@ -1,5 +1,5 @@
 
-@extends('layouts.layoutiframe')
+@extends('layouts.app')
 @section('content')
 
 <div class="row h-100">
