@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HupSpotServiceController;
 use App\Http\Controllers\KnowledgeBaseController;
@@ -52,12 +53,17 @@ Route::get('/generate-key', function() {
 
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 
 Route::prefix('/')->group(function () {
+    // Route::get('/', function () {
+    //     return view('hubspot.home');
+    // });
+     Route::get( '/', [HomeController::class,'index']);
+
     Route::match(['get', 'post'], 'hupspot-authentication',[HupSpotServiceController::class,'hupspot_auth_token_generator']);
     Route::match(['get', 'post'], 'callback',[HupSpotServiceController::class,'callback']);
 

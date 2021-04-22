@@ -42,6 +42,8 @@ class HupSpotServiceController extends Controller
 
     }
 
+    
+
     public function getAppByHubIdUserId($hub_id, $userId){
 
             $identifier = null;
@@ -57,7 +59,6 @@ class HupSpotServiceController extends Controller
                         $identifier = $newIdentifier;
                 }
             }
-
             return $app;
     }
 
