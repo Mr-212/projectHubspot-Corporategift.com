@@ -89,12 +89,12 @@ body {
 				<h2>Sign Up</h2>
 			</div>	
       	</div>			
-        {{-- <div class="form-group row">
+        <div class="form-group row">
 			<label class="col-form-label col-4">Username</label>
 			<div class="col-8">
                 <input type="text" class="form-control" name="username" required="required">
             </div>        	
-        </div> --}}
+        </div>
 		<div class="form-group row">
 			<label class="col-form-label col-4">Email Address</label>
 			<div class="col-8">

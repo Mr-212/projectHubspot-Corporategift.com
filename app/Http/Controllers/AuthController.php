@@ -9,6 +9,7 @@ class AuthController extends Controller
 {
 
     public function index(){
+        return view('hubspot.home');
         if(Auth::id()){
             return view('hubspot.home');
         }else{
