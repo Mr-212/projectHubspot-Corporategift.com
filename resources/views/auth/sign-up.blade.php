@@ -83,7 +83,7 @@ body {
         
    
 <div class="signup-form">
-    <form action="{{url('/').'/auth/sign-up'}}" method="post" class="form-horizontal">
+    <form action="{{url('/auth/sign-up')}}" method="post" class="form-horizontal">
     
 	@csrf	
 	<div class="row">
@@ -130,6 +130,6 @@ body {
 			</div>  
 		</div>		      
     </form>
-	<div class="text-center">Already have an account? <a href="{{url('/').'/auth/login'}}">Login here</a></div>
+	<div class="text-center">Already have an account? <a href="{{url('/auth/login')}}">Login here</a></div>
 </div>
 @endsection

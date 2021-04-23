@@ -8,7 +8,12 @@ use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller
 {
 
+    public function __construct(){
+
+    }
+    
+
     public function index(){
-            return view('hubspot.home');
+        return view('hubspot.home');
     }
 }
