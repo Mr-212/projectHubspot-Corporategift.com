@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HupSpotServiceController;
 use App\Http\Controllers\KnowledgeBaseController;
 use App\Http\Controllers\WebhookController;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,19 +55,13 @@ Route::get('/generate-key', function() {
 
 });
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
+Route::middleware(['auth'])->group(function(){
+    Route::get('/dashboard', [DashboardController::class,'index']);
+});
 
 Route::prefix('/')->group(function () {
-    // Route::get('/', function () {
-    //     return view('hubspot.home');
-    // });
-     Route::get('/', [AuthController::class,'index']);
-     Route::get('login', [AuthController::class, 'login']);
-     Route::get('sign-up', [AuthController::class, 'sign_up']);
-
+   
+   // Route::get('/', [DashboardController::class,'index']);
     Route::match(['get', 'post'], 'hupspot-authentication',[HupSpotServiceController::class,'hupspot_auth_token_generator']);
     Route::match(['get', 'post'], 'callback',[HupSpotServiceController::class,'callback']);
 

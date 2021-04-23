@@ -77,23 +77,30 @@ body {
 }
 </style>
 @endpush
-{{-- </head>
-<body> --}}
-    @section('content')
+
+@section('content')
         
    
 <div class="signup-form">
-    <form action="/examples/actions/confirmation.php" method="post" class="form-horizontal">
-      	<div class="row">
+    <form action="{{url('/auth/login')}}" method="post" class="form-horizontal">
+      @csrf
+		<div class="row">
         	<div class="col-8 offset-4">
 				<h2>Sign In</h2>
 			</div>	
-      	</div>			
+      	</div>	
+		  @if($errors->any())
+			<div class="col-8 offset-4">
+				@foreach ($errors->all() as $message) 
+					<p class="">{{$message}}</p>
+				@endforeach
+			</div>
+			@endif		
    
 		<div class="form-group row">
 			<label class="col-form-label col-4">Email Address</label>
 			<div class="col-8">
-                <input type="email" class="form-control" name="email" required="required">
+                <input type="email" class="form-control" name="email" value="{{old('email')}}" required="required">
             </div>        	
         </div>
 		<div class="form-group row">
@@ -108,7 +115,7 @@ body {
 			</div>  
 		</div>		      
     </form>
-	<div class="text-center">Dont't have an account? <a href="{{url('/').'/sign-up'}}">Sign Up here</a></div>
+	<div class="text-center">Dont't have an account? <a href="{{url('/auth/sign-up')}}">Sign Up here</a></div>
 
 </div>
 @endsection

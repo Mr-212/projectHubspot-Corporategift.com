@@ -83,22 +83,31 @@ body {
         
    
 <div class="signup-form">
-    <form action="/examples/actions/confirmation.php" method="post" class="form-horizontal">
-      	<div class="row">
+    <form action="{{url('/').'/auth/sign-up'}}" method="post" class="form-horizontal">
+    
+	@csrf	
+	<div class="row">
         	<div class="col-8 offset-4">
 				<h2>Sign Up</h2>
-			</div>	
+			</div>
+			@if($errors->any())
+			<div class="col-8 offset-4">
+				@foreach ($errors->all() as $message) 
+					<p class="">{{$message}}</p>
+				@endforeach
+			</div>
+			@endif
       	</div>			
         <div class="form-group row">
-			<label class="col-form-label col-4">Username</label>
+			<label class="col-form-label col-4">Name</label>
 			<div class="col-8">
-                <input type="text" class="form-control" name="username" required="required">
+                <input type="text" class="form-control" name="name" value="{{old('name')}}" required="required">
             </div>        	
         </div>
 		<div class="form-group row">
 			<label class="col-form-label col-4">Email Address</label>
 			<div class="col-8">
-                <input type="email" class="form-control" name="email" required="required">
+                <input type="email" class="form-control" name="email"  value="{{old('email')}}" required="required">
             </div>        	
         </div>
 		<div class="form-group row">
@@ -107,10 +116,11 @@ body {
                 <input type="password" class="form-control" name="password" required="required">
             </div>        	
         </div>
+		{{-- <div class="col-12 error">{{ $errors->first('password') }}</div> --}}
 		<div class="form-group row">
 			<label class="col-form-label col-4">Confirm Password</label>
 			<div class="col-8">
-                <input type="password" class="form-control" name="confirm_password" required="required">
+                <input type="password" class="form-control" name="password_confirmation" required="required">
             </div>        	
         </div>
 		<div class="form-group row">
@@ -120,6 +130,6 @@ body {
 			</div>  
 		</div>		      
     </form>
-	<div class="text-center">Already have an account? <a href="{{url('/').'/login'}}">Login here</a></div>
+	<div class="text-center">Already have an account? <a href="{{url('/').'/auth/login'}}">Login here</a></div>
 </div>
 @endsection

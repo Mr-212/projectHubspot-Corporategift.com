@@ -47,6 +47,8 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
         });
+
+        $this->mapAuthRoutes();
     }
 
     /**
@@ -59,5 +61,14 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
         });
+    }
+
+
+    private  function mapAuthRoutes()
+    {
+        Route::prefix('auth')
+        ->middleware('web')
+        ->namespace($this->namespace)
+        ->group(base_path('routes/auth.php'));
     }
 }
