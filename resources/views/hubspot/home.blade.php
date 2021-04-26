@@ -38,7 +38,9 @@
                             </div>
                             @if(isset(auth()->user()->app->unique_app_id))
                             <div class="ml-12">
-                                <div>   <p>App ID: {{ auth()->user()->app->unique_app_id}} </p></div>
+                                <div class="col-md-12">
+                                     <p>App ID: {{ auth()->user()->app->unique_app_id}} </p>
+                                </div>
                               
                                 <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
                                     <form  action="{{url('/').'/post_corporate_gift_token'}}" method="post">
