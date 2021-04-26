@@ -33,9 +33,8 @@
                             <div class="Col-md-12">
                                     <p>User Name: <strong>{{ auth()->user()->name}}</strong> </p>
                                     <p>Email: <strong>{{ auth()->user()->email}}</strong> </p>
-                                    
-                               
                             </div>
+
                             @if(isset(auth()->user()->app->unique_app_id))
                             <div class="ml-12">
                                 <div class="col-md-12">
