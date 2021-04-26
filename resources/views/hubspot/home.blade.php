@@ -30,7 +30,7 @@
                         @if(isset(auth()->user()->app->unique_app_id))
                         <div class="p-6">
                            
-                            <div class="flex items-center">
+                            <div class="Col-md-12">
                               
                                     <div>App ID: {{ auth()->user()->app->unique_app_id}} </div>
                                
