@@ -43,7 +43,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4 float-right max-w-6xl mx-auto sm:px-6 lg:px-8 {{ isset( auth()->user()->app->unique_app_id)?:'':'disabled' }}" >
+            <div class="col-md-4 float-right max-w-6xl mx-auto sm:px-6 lg:px-8 {{ isset( auth()->user()->app->unique_app_id)?'':'disabled' }}" >
                 <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                     <div class="grid grid-cols-1 md:grid-cols-1">
                         <div class="p-6">
