@@ -31,8 +31,8 @@
                         <div class="p-6">
                            
                             <div class="Col-md-12">
-                                    <p>User Name: {{ auth()->user()->name}} </p>
-                                    <p>Email: {{ auth()->user()->email}} </p>
+                                    <p>User Name: <strong>{{ auth()->user()->name}}</strong> </p>
+                                    <p>Email: <strong>{{ auth()->user()->email}}</strong> </p>
                                     
                                
                             </div>
