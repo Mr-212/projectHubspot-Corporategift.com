@@ -162,7 +162,8 @@ class HupSpotServiceController extends Controller
             }
         }
         //echo "<script>window.close();</script>";
-        return view('auth.after_verification',compact('res'));
+        return redirect('/dashboard');
+        // return view('auth.after_verification',compact('res'));
     }
 
 

@@ -20,10 +20,14 @@
                 <a href="{{ route('login') }}" class="nav-item nav-link text-sm text-gray-700 underline">Log in</a>
 
                     @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="nav-item nav-link ml-4 text-sm text-gray-700 underline">Register</a>
+                         <a href="{{ route('register') }}" class="nav-item nav-link ml-4 text-sm text-gray-700 underline">Register</a>
                     @endif
                 @endauth
                 <ul class="navbar-nav ml-auto">
+                    {{-- <li class="nav-item">
+                       <strong class="">{{ auth()->user()->name}}:{{ auth()->user()->email}} </strong>
+                    </li> --}}
+                   
                     <li class="nav-item">
                         <a href="{{ url('/auth/logout') }}" class="nav-item nav-link text-sm text-gray-700 underline">Logout</a>
                     </li>
@@ -47,7 +51,7 @@
                     <div class="p-1">
                        
                         <div class="Col-md-12">
-                                <p>User Name: <strong>{{ auth()->user()->name}}</strong> </p>
+                                <p>Name:  <strong>{{ auth()->user()->name}}</strong> </p>
                                 <p>Email: <strong>{{ auth()->user()->email}}</strong> </p>
                         </div>
 
