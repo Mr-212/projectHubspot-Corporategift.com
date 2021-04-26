@@ -128,8 +128,10 @@ class HupSpotServiceController extends Controller
             $data_array['status']  = @$token['status'];
             $data_array['message'] = @$token['message'];
             if(session()->has('identifier') && $app && !empty($app->identifier)){
-                $hub_id =  session('identifier');
-                return view('auth.corporate_gift_cred',compact('identifier'));
+                $identifier =  session('identifier');
+                return redirect('/dashboard');
+
+                // return view('auth.corporate_gift_cred',compact('identifier'));
             }
         }
         catch(Exception $e) {
