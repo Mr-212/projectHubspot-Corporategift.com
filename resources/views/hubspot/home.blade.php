@@ -74,11 +74,11 @@
                                         <div class="col-md-12">
                                             <input type="text"  class="form-control form-control" id="staticEmail" name="corporate_gift_token" value="{{ auth()->user()->app->corporate_gift_token }}" required>
                                         </div>
-                        
+                                        <div class="col-md-12">
+                                            <button type="submit"  class="btn btn-primary float-right" id="" value="Submit">Update</button>
+                                        </div>
                                     </div>
-                                    <div class="col-md-12">
-                                        <button type="submit"  class="btn btn-primary float-right" id="" value="Submit">Update</button>
-                                    </div>
+                                   
                                 </form>
                             </div>
                            
