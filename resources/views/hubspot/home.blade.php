@@ -9,8 +9,25 @@
     
 @section('content')   
     <div class="antialiased">   
+        @if (Route::has('login'))
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-            @if (Route::has('login'))
+            <nav class="navbar navbar-expand-lg  bg-light shadow sm:rounded-lg">
+                @auth
+                <a href="{{ url('/Dashboard') }}" class="nav-item nav-link text-sm text-gray-700 underline disabled" >Dashboard</a>
+                <a href="{{ url('/auth/logout') }}" class="nav-item nav-link text-sm text-gray-700 underline">Logout</a>
+                @else
+                <a href="{{ route('login') }}" class="nav-item nav-link text-sm text-gray-700 underline">Log in</a>
+
+                    @if (Route::has('register'))
+                                <a href="{{ route('register') }}" class="nav-item nav-link ml-4 text-sm text-gray-700 underline">Register</a>
+                    @endif
+                @endauth
+                 
+                </div>
+              </nav>
+        @endif      
+           
+            {{-- @if (Route::has('login'))
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                     @auth
                         <a href="{{ url('/home') }}" class="text-sm text-gray-700 underline">Home</a>
@@ -23,7 +40,7 @@
                         @endif
                     @endauth
                 </div>
-            @endif
+            @endif --}}
             <div class="col-md-6 float-left max-w-6xl mx-auto sm:px-6 lg:px-8">
                 <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                     <div class="grid grid-cols-1 md:grid-cols-1">
