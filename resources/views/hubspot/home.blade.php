@@ -29,7 +29,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-1">
                         <div class="p-6">
                             <div class="flex items-center">
-                                @if(isset(auth()->user()->app))
+                                @if(isset(auth()->user()->app->unique_app_id))
                                 <h3>App : {{ auth()->user()->app->unique_app_id}}</h3>
                                 @endif
                             </div>
