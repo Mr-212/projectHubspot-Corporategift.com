@@ -14,7 +14,7 @@ class DashboardController extends Controller
 
     public function index(){
         if(Auth::check())
-           return view('hubspot.home');
+            return view('hubspot.home');
         else
             return redirect('auth/login');
           

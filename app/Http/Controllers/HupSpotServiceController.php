@@ -109,6 +109,8 @@ class HupSpotServiceController extends Controller
                     $identifier = \hash('sha256',$appData['hub_id'].$appData['hub_user_id']);
                     $appData['identifier'] = $identifier;
                     $appData['is_active'] = 1;
+                    $appData['user_id'] = auth()->id;
+                    $appData['unique_app_id'] = mt_rand(1000,99999);
                     $app = App::where(['hub_app_id'=>$appData['hub_app_id'] ,'hub_id'=> $appData['hub_id'], 'hub_user_id' => $appData['hub_user_id']])->first();
                     if(empty($app)) {
                         $app = @App::create($appData);
