@@ -32,7 +32,7 @@
                            
                             <div class="flex items-center">
                               
-                                    <h3>App ID: {{ auth()->user()->app->unique_app_id}}</h3>
+                                    <div>App ID: {{ auth()->user()->app->unique_app_id}} </div>
                                
                             </div>
                             <div class="ml-12">
@@ -51,7 +51,7 @@
                             
                                         </div>
                                         <div class="col-md-12">
-                                            <button type="submit"  class="btn btn-primary float-right" id="" value="Submit">Update</button>
+                                            {{-- <button type="submit"  class="btn btn-primary float-right" id="" value="Submit">Update</button> --}}
                                         </div>
                                     </form>
                                 </div>
