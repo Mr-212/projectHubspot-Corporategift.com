@@ -39,7 +39,7 @@
                             @if(isset(auth()->user()->app->unique_app_id))
                             <div class="ml-12">
                                 <div class="col-md-12">
-                                     <h4>App ID: {{ auth()->user()->app->unique_app_id}} </h4>
+                                     <p>App ID: <strong>{{ auth()->user()->app->unique_app_id}}</strong> </h4>
                                 </div>
                               
                                 <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
