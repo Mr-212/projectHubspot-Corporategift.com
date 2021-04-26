@@ -64,8 +64,7 @@
                             <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
                                 <form  action="{{url('/').'/post_corporate_gift_token'}}" method="post">
                                     @csrf
-                                    <input type="hidden" name="hub_id" value="{{auth()->user()->app->identifier}}">
-                                    <input type="hidden" name="hub_id" value="">
+                                    <input type="hidden" name="identifier" value="{{auth()->user()->app->identifier}}">
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <label for="staticEmail" class=""><strong>Corporate Gift Token</strong></label>
