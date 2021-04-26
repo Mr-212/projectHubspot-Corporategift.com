@@ -56,7 +56,7 @@ Route::get('/generate-key', function() {
 });
 
 Route::middleware(['auth'])->group(function(){
-    Route::get('/dashboard', [DashboardController::class,'index']);
+    Route::get('/dashboard', [DashboardController::class,'dashboard']);
     Route::match(['get', 'post'], 'hupspot-authentication',[HupSpotServiceController::class,'hupspot_auth_token_generator']);
 
 });
