@@ -26,85 +26,76 @@
                 </div>
               </nav>
         @endif      
-           
-            {{-- @if (Route::has('login'))
-                <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-                    @auth
-                        <a href="{{ url('/home') }}" class="text-sm text-gray-700 underline">Home</a>
-                        <a href="{{ url('/auth/logout') }}" class="text-sm text-gray-700 underline">Logout</a>
-                    @else
-                        <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a>
+    <div class="col-md-12">
+        <div class="col-md-6 float-left max-w-6xl mx-auto sm:px-6 lg:px-8">
+            <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
+                <div class="grid grid-cols-1 md:grid-cols-1">
+                    
+                    <div class="p-1">
+                       
+                        <div class="Col-md-12">
+                                <p>User Name: <strong>{{ auth()->user()->name}}</strong> </p>
+                                <p>Email: <strong>{{ auth()->user()->email}}</strong> </p>
+                        </div>
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif --}}
-            <div class="col-md-6 float-left max-w-6xl mx-auto sm:px-6 lg:px-8">
-                <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
-                    <div class="grid grid-cols-1 md:grid-cols-1">
-                        
-                        <div class="p-6">
-                           
-                            <div class="Col-md-12">
-                                    <p>User Name: <strong>{{ auth()->user()->name}}</strong> </p>
-                                    <p>Email: <strong>{{ auth()->user()->email}}</strong> </p>
+                        @if(isset(auth()->user()->app->unique_app_id))
+                        <div class="ml-12">
+                            <div class="col-md-12">
+                                 <p>App ID: <strong>{{ auth()->user()->app->unique_app_id}}</strong> </h4>
                             </div>
-
-                            @if(isset(auth()->user()->app->unique_app_id))
-                            <div class="ml-12">
-                                <div class="col-md-12">
-                                     <p>App ID: <strong>{{ auth()->user()->app->unique_app_id}}</strong> </h4>
-                                </div>
-                              
-                                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                    <form  action="{{url('/').'/post_corporate_gift_token'}}" method="post">
-                                        @csrf
-                                        <input type="hidden" name="hub_id" value="">
-                                        <div class="form-group">
-                                            <div class="col-md-12">
-                                                <label for="staticEmail" class=""><strong>Corporate Gift Token</strong></label>
-                                            </div>
-                            
-                                            <div class="col-md-12">
-                                                <input type="text"  class="form-control form-control" id="staticEmail" name="corporate_gift_token" value="{{ auth()->user()->app->corporate_gift_token }}" required>
-                                            </div>
-                            
-                                        </div>
+                          
+                            <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
+                                <form  action="{{url('/').'/post_corporate_gift_token'}}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="hub_id" value="">
+                                    <div class="form-group">
                                         <div class="col-md-12">
-                                            {{-- <button type="submit"  class="btn btn-primary float-right" id="" value="Submit">Update</button> --}}
+                                            <label for="staticEmail" class=""><strong>Corporate Gift Token</strong></label>
                                         </div>
-                                    </form>
-                                </div>
+                        
+                                        <div class="col-md-12">
+                                            <input type="text"  class="form-control form-control" id="staticEmail" name="corporate_gift_token" value="{{ auth()->user()->app->corporate_gift_token }}" required>
+                                        </div>
+                        
+                                    </div>
+                                    <div class="col-md-12">
+                                        {{-- <button type="submit"  class="btn btn-primary float-right" id="" value="Submit">Update</button> --}}
+                                    </div>
+                                </form>
+                            </div>
+                           
+                        </div>
+                        @endif
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-3 float-right max-w-6xl mx-auto sm:px-6 lg:px-8 {{ isset( auth()->user()->app->unique_app_id)?'disabled':'' }}" >
+            <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
+                <div class="grid grid-cols-1 md:grid-cols-1">
+                    <div class="p-1">
+                        <div class="flex items-center">
+                            <div class="text-center text-lg leading-7 font-semibold">
+                                <h3>Connect to </h3>
+                                <a href="https://app.hubspot.com/oauth/authorize?client_id=3cbf1a7e-914a-4934-9b8b-285dd93fe43b&redirect_uri=https://corporategift.dev-techloyce.com/hupspot-authentication&scope=contacts%20oauth%20tickets" class="underline text-gray-900 dark:text-white"><img border="0" alt="W3Schools" src="{{url('/').'/uploads/system/hubspotlogo-web-color.svg'}}" width="180" height="60"></a>
+                            </div>
+                        </div>
+                        <div class="ml-12">
+                            <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
                                
                             </div>
-                            @endif
                         </div>
-                       
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+            
 
-            <div class="col-md-4 float-right max-w-6xl mx-auto sm:px-6 lg:px-8 {{ isset( auth()->user()->app->unique_app_id)?'disabled':'' }}" >
-                <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
-                    <div class="grid grid-cols-1 md:grid-cols-1">
-                        <div class="p-6">
-                            <div class="flex items-center">
-                                <div class="ml-4 text-center text-lg leading-7 font-semibold">
-                                    <h3>Connect to </h3>
-                                    <a href="https://app.hubspot.com/oauth/authorize?client_id=3cbf1a7e-914a-4934-9b8b-285dd93fe43b&redirect_uri=https://corporategift.dev-techloyce.com/hupspot-authentication&scope=contacts%20oauth%20tickets" class="underline text-gray-900 dark:text-white"><img border="0" alt="W3Schools" src="{{url('/').'/uploads/system/hubspotlogo-web-color.svg'}}" width="300" height="100"></a>
-                                </div>
-                            </div>
-                            <div class="ml-12">
-                                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                   
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          
         </div>
     </div>  
 @stop
