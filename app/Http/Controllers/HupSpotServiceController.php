@@ -130,7 +130,6 @@ class HupSpotServiceController extends Controller
             if(session()->has('identifier') && $app && !empty($app->identifier)){
                 $identifier =  session('identifier');
                 return redirect('/dashboard');
-
                 // return view('auth.corporate_gift_cred',compact('identifier'));
             }
         }
@@ -164,7 +163,7 @@ class HupSpotServiceController extends Controller
             }
         }
         //echo "<script>window.close();</script>";
-        return redirect('/dashboard');
+        return redirect()->back();
         // return view('auth.after_verification',compact('res'));
     }
 

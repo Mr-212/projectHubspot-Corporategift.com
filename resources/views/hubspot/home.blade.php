@@ -64,6 +64,7 @@
                             <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
                                 <form  action="{{url('/').'/post_corporate_gift_token'}}" method="post">
                                     @csrf
+                                    <input type="hidden" name="hub_id" value="{{auth()->user()->app->identifier}}">
                                     <input type="hidden" name="hub_id" value="">
                                     <div class="form-group">
                                         <div class="col-md-12">
@@ -76,7 +77,7 @@
                         
                                     </div>
                                     <div class="col-md-12">
-                                        {{-- <button type="submit"  class="btn btn-primary float-right" id="" value="Submit">Update</button> --}}
+                                        <button type="submit"  class="btn btn-primary float-right" id="" value="Submit">Update</button>
                                     </div>
                                 </form>
                             </div>
