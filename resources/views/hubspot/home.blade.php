@@ -27,18 +27,38 @@
             <div class="col-md-4 float-left max-w-6xl mx-auto sm:px-6 lg:px-8">
                 <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                     <div class="grid grid-cols-1 md:grid-cols-1">
+                        @if(isset(auth()->user()->app->unique_app_id))
                         <div class="p-6">
+                           
                             <div class="flex items-center">
-                                @if(isset(auth()->user()->app->unique_app_id))
+                              
                                     <h3>App ID: {{ auth()->user()->app->unique_app_id}}</h3>
-                                @endif
+                               
                             </div>
                             <div class="ml-12">
                                 <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                   
+                                    <form  action="{{url('/').'/post_corporate_gift_token'}}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="hub_id" value="">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <label for="staticEmail" class=""><strong>Corporate Gift Token</strong></label>
+                                            </div>
+                            
+                                            <div class="col-md-12">
+                                                <input type="text"  class="form-control form-control" id="staticEmail" name="corporate_gift_token" value="{{ auth()->user()->app->corporate_gift_token }}" required>
+                                            </div>
+                            
+                                        </div>
+                                        <div class="col-md-12">
+                                            <button type="submit"  class="btn btn-primary float-right" id="" value="Submit">Update</button>
+                                        </div>
+                                    </form>
                                 </div>
+                               
                             </div>
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>
