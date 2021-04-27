@@ -52,6 +52,7 @@ class FetchGiftProducts extends Command
     public function getGiftProducts(){
         $apps = App::select('corporate_gift_token','id')
         ->active()
+        ->whereNotNULL('corporate_gift_token')
         ->where('updated_at','>=',Carbon::now()->subDays(30)->toDateTimeString())
         ->get();
         Log::info("apps" . $apps);
