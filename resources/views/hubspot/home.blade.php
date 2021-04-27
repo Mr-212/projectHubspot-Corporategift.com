@@ -71,7 +71,7 @@
                                         </div>
                         
                                         <div class="col-md-12">
-                                            <input type="text"  class="form-control form-control" id="corporate_gift_token_input" name="corporate_gift_token" value="{{ auth()->user()->app->corporate_gift_token }}" required>
+                                            <input type="text"  class="form-control form-control" id="corporate_gift_token_input" name="corporate_gift_token" disabled value="{{ auth()->user()->app->corporate_gift_token }}" required>
                                         </div>
 
                                         {{-- <div class="col-md-12 my-4">
