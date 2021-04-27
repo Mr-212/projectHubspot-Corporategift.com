@@ -8,12 +8,17 @@
        
         <ul class="navbar-nav ml-auto">
             @auth
-            <a href="{{ url('/Dashboard') }}" class="nav-item nav-link text-sm text-gray-700 underline disabled" >Dashboard</a>
+            <li class="nav-item ">
+                <a href="{{ url('/dashboard') }}" class="nav-link text-sm text-info-700 bg-light underline" >Dashboard</a>
+            </li>
             <li class="nav-item">
-                <a href="{{ url('/auth/logout') }}" class="nav-item nav-link text-sm text-gray-700 underline">Logout</a>
+                <a href="{{ url('/auth/logout') }}" class="btn btn-md nav-link  text-sm text-gray-700 underline">Logout</a>
             </li>
             @else
-            <a href="{{ route('login') }}" class="nav-item nav-link text-sm text-gray-700 underline">Log in</a>
+            <li class="nav-item">
+                <a href="{{ route('login') }}" class="btn nav-link text-sm text-gray-700 underline">Log in</a>
+
+            </li>
     
             @if(Route::has('register'))
                 <a href="{{ route('register') }}" class="nav-item nav-link ml-4 text-sm text-gray-700 underline">Register</a>
