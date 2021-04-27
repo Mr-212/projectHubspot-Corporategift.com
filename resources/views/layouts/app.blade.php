@@ -4,7 +4,7 @@
     </head>
     <body>
         @include('layouts.nav-bar')
-        <div class="container-fluid">
+        <div class="container">
         
             
             @yield('content')
