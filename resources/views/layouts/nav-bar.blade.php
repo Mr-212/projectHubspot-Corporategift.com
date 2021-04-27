@@ -1,7 +1,7 @@
 
 @if (Route::has('login'))
 <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-    <nav class="navbar navbar-expand-lg  bg-light shadow sm:rounded-lg">
+    <nav class="navbar fixed-top navbar-expand-lg  bg-light shadow sm:rounded-lg">
         <a class="navbar-brand desktop-navbar-brand" href="https://corporategift.com/" title="CorporateGift.com">
             <img src="https://corporategift.com/skin/frontend/corporategift/default/images/logonew.png" alt="CorporateGift.com" class="logo-image">
         </a>

@@ -7,11 +7,9 @@
 
 @endpush
     
-@section('content')   
-   
-    <div class="antialiased">   
-        
-    <div class="row">
+@section('content')  
+    <div class="antialiased">    
+    <div class="row mt-5">
     <div class="col-md-6">
         <div class="col-md-12 mx-auto sm:px-6 lg:px-8">
             <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
@@ -62,8 +60,6 @@
             </div>
         </div>
     </div>
-
-        
 
     <div class="col-md-6">
         <div class="col-md-6 float-right mx-auto sm:px-6 lg:px-8 {{ isset( auth()->user()->app->unique_app_id)?'disabled':'' }}" >
