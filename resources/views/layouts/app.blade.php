@@ -5,8 +5,6 @@
     <body>
         @include('layouts.nav-bar')
         <div class="container">
-        
-            
             @yield('content')
         </div>
     </body>

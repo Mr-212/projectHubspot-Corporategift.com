@@ -34,10 +34,12 @@ class AuthController extends Controller
             if(Auth::attempt($credentials)){
                 $request->session()->regenerate();
                 return redirect()->intended('/dashboard');
+            }else{
+                return redirect()->back()->withErrors(['error' =>'Invalid User Or/Password.']);
             }
         }
         else
-            return redirect('auth/login')->withErrors($validator)->withInput();
+            return redirect()->back()->withErrors($validator)->withInput();
       
     }
 
