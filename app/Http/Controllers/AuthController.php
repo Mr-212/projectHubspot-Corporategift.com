@@ -35,7 +35,7 @@ class AuthController extends Controller
                 $request->session()->regenerate();
                 return redirect()->intended('/dashboard');
             }else{
-                return redirect()->back()->withErrors(['error' =>'Invalid User Or/Password.']);
+                return redirect()->back()->withErrors(['error' =>'Invalid Email Or/Password.']);
             }
         }
         else
