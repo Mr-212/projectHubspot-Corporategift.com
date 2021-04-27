@@ -127,13 +127,13 @@
 
 @push('scripts')
 <script>
-    $(document).ready(function ({
+    $(document).ready(function (){
       $('.edit_token_btn').on('click', function(){
             $('#corporate_gift_token').attr('disabled',false);
             $('.update_token_btn').show();
       });
 
-    }));
+    });
 </script>
 
 @endpush
