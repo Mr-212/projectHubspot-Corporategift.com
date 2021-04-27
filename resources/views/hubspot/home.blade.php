@@ -71,10 +71,15 @@
                                         </div>
                         
                                         <div class="col-md-12">
-                                            <input type="text"  class="form-control form-control" id="staticEmail" name="corporate_gift_token" value="{{ auth()->user()->app->corporate_gift_token }}" required>
+                                            <input type="text"  class="form-control form-control" id="corporate_gift_token_input" name="corporate_gift_token" value="{{ auth()->user()->app->corporate_gift_token }}" required>
                                         </div>
+
                                         <div class="col-md-12 my-4">
-                                            <button type="submit"  class="btn btn-primary float-right" id="" value="Submit">Update</button>
+                                            <button type="submit"  class="btn btn-primary float-right edit_toekn_btn" id="" value="edit" >Edit</button>
+                                        </div>
+
+                                        <div class="col-md-12 my-4">
+                                            <button type="submit"  class="btn btn-primary float-right update_token_btn" id="" style="display: none" value="Submit">Update</button>
                                         </div>
                                     </div>
                                    
@@ -92,7 +97,6 @@
         
 
     <div class="col-md-6">
-
         <div class="col-md-6 float-right mx-auto sm:px-6 lg:px-8 {{ isset( auth()->user()->app->unique_app_id)?'disabled':'' }}" >
             <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                 <div class="grid grid-cols-1 md:grid-cols-1">
@@ -113,9 +117,21 @@
             </div>
         </div>
     </div>
-    </div>
+</div>
              
         </div>
     </div>  
 @stop
 
+@push('scripts')
+<script>
+    $(document).ready(function ({
+      $('.edit_token_btn').on('click', function(){
+            $('#corporate_gift_token').attr('disabled',false);
+            $('.update_token_btn').show();
+      });
+
+    }));
+</script>
+
+@endpush
