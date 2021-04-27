@@ -12,7 +12,7 @@
                 <a href="{{ url('/dashboard') }}" class="nav-link text-sm text-info-700 bg-light underline" >Dashboard</a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/auth/logout') }}" class="btn btn-md nav-link  text-sm text-gray-700 underline">Logout</a>
+                <a href="{{ url('/auth/logout') }}" class="btn btn-sm btn-outline-secondary nav-link  text-sm text-gray-700 underline">Logout</a>
             </li>
             @else
             <li class="nav-item">
