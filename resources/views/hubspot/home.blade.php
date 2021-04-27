@@ -79,9 +79,11 @@
                                         </div> --}}
 
                                         <div class="col-md-12 my-4">
-                                            <button type="button"  class="btn btn-primary float-right edit_token_btn" id="" value="" >Edit</button>
 
                                             <button type="submit"  class="btn btn-primary float-right update_token_btn" id="" style="display: none" value="Submit">Update</button>
+                                            
+                                            <button type="button"  class="btn btn-primary float-right edit_token_btn" id="" value="" >Edit</button>
+
                                         </div>
                                     </div>
                                    
@@ -129,7 +131,7 @@
 <script>
     $(document).ready(function (){
       $('.edit_token_btn').on('click', function(){
-            $('#corporate_gift_token').attr('disabled', false);
+            $('#corporate_gift_token_input').attr('disabled', '');
             $('.update_token_btn').show();
       });
 
