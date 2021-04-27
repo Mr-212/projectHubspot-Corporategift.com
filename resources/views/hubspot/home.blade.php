@@ -131,8 +131,13 @@
 <script>
     $(document).ready(function (){
       $('.edit_token_btn').on('click', function(){
-            $('#corporate_gift_token_input').attr('disabled', false);
-            $('.update_token_btn').show();
+            // $('#corporate_gift_token_input').attr('disabled', false);
+            $('.update_token_btn').toggle();
+            if($('.update_token_btn').hasClass('disabled'))
+                $('#corporate_gift_token_input').attr('disabled', false);
+            else
+                $('#corporate_gift_token_input').attr('disabled', true);
+
       });
 
     });
