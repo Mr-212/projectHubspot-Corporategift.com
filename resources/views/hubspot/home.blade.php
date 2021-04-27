@@ -82,7 +82,7 @@
 
                                             <button type="submit"  class="btn btn-primary float-right update_token_btn" id="" style="display: none" value="Submit">Update</button>
 
-                                            <button type="button"  class="btn btn-primary float-right edit_token_btn" id="" value="" >Edit</button>
+                                            <button type="button"  class="btn btn-info float-right edit_token_btn" id="" value="" >Edit</button>
 
                                         </div>
                                     </div>
