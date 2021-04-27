@@ -22,6 +22,6 @@ class DashboardController extends Controller
 
 
     public function dashboard(){
-        return view('hubspot.home');
+        return view('hubspot.dashboard');
     }
 }
