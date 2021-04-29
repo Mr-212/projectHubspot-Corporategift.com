@@ -15,12 +15,10 @@ class AddForiegnKeys extends Migration
     {
     
         Schema::table('users', function (Blueprint $table) {
-        //  if(!Schema::hasForeign('users','app_id'))
             $table->foreign('app_id')->references("id")->on('app')->cascadeOnUpdate()->nullOnDelete();
         });
 
         Schema::table('gift_orders', function (Blueprint $table) {
-            // if(!Schema::hasForeign('gift_orders','app_id'));
                 $table->foreign('app_id')->references("id")->on('app')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
@@ -33,12 +31,10 @@ class AddForiegnKeys extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            // if(Schema::hasForeign('users','app_id'));
             $table->dropForeign('users_app_id_foreign');
         });
 
         Schema::table('gift_orders', function (Blueprint $table) {
-            // if(Schema::hasForeign('gift_orders','app_id'));
             $table->dropForeign('gift_orders_app_id_foreign');
         });
     }
