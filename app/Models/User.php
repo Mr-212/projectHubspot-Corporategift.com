@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'app_id',
     ];
 
     /**
@@ -44,6 +45,6 @@ class User extends Authenticatable
 
 
     public function app(){
-        return $this->hasOne(App::class, 'user_id','id');
+        return $this->hasOne(App::class, 'id','app_id');
     }
 }
