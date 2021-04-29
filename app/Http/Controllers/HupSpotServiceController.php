@@ -261,7 +261,7 @@ class HupSpotServiceController extends Controller
     public function hupspot_data_fetch_request(Request $request){
 
 
-        //Log::info($request->headers);
+        Log::info($request->headers);
 //        Log::info(@$request->all());
         //cache()->put('object_id',$request->get('associatedObjectId'));
         //Log::channel('slack')->critical('critical');
