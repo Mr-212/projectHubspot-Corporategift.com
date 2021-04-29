@@ -69,7 +69,7 @@
                         <div class="flex items-center">
                             <div class="text-center text-lg leading-7 font-semibold">
                                 <h3>Connect to </h3>
-                                <a href="https://app.hubspot.com/oauth/authorize?client_id=3cbf1a7e-914a-4934-9b8b-285dd93fe43b&redirect_uri=https://corporategift.dev-techloyce.com/hupspot-authentication&scope=contacts%20oauth%20tickets" class="underline text-gray-900 dark:text-white"><img border="0" alt="W3Schools" src="{{url('/').'/uploads/system/hubspotlogo-web-color.svg'}}" width="180" height="60"></a>
+                                <a href="{{ config('constants.hubspot.auth_url') }}" class="underline text-gray-900 dark:text-white"><img border="0" alt="W3Schools" src="{{url('/').'/uploads/system/hubspotlogo-web-color.svg'}}" width="180" height="60"></a>
                             </div>
                         </div>
                         <div class="ml-12">
