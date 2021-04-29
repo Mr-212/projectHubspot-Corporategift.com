@@ -597,7 +597,17 @@ class HupSpotServiceController extends Controller
 
              if(isset($res['data']) && isset($res['data']['id'])){
                  $responseData = $res['data'];
-                 $is_added = @GiftOrder::create(['object_id' => $object_id, 'object_type' => $object_type, 'gift_id'=> $responseData['id'],'gift_number'=> @$responseData['number'], 'app_id' => $app->id, 'product_id' => $product_id, 'status'=> @$responseData['status'], 'api_response'=>$responseData ]);
+                 $is_added = @GiftOrder::create(
+                     ['object_id' => $object_id, 
+                     'object_type' => $object_type, 
+                     'gift_id'=> $responseData['id'],
+                     'gift_number'=> @$responseData['number'], 
+                     'app_id' => $app->id, 
+                     'product_id' => $product_id, 
+                     'status'=> @$responseData['status'], 
+                     'api_response'=>$responseData,
+                     'api_request' =>  $data,
+                     ]);
                  $return = ['status'=> true,'record_id'=> @$is_added->id];
              }else {
 
