@@ -16,12 +16,12 @@ class AddForiegnKeys extends Migration
     
         Schema::table('users', function (Blueprint $table) {
         //  if(!Schema::hasForeign('users','app_id'))
-            $table->foreign('app_id')->reference("app")->cascadeOnUpdate()->nullOnDelete();;
+            $table->foreign('app_id')->reference("id")->on('app')->cascadeOnUpdate()->nullOnDelete();;
         });
 
         Schema::table('gift_orders', function (Blueprint $table) {
             // if(!Schema::hasForeign('gift_orders','app_id'));
-                $table->foreign('app_id')->reference("app")->cascadeOnUpdate()->cascadeOnDelete();;
+                $table->foreign('app_id')->reference("id")->on('app')->cascadeOnUpdate()->cascadeOnDelete();;
         });
     }
 
