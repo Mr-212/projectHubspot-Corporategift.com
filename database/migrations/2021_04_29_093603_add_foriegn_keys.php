@@ -15,13 +15,13 @@ class AddForiegnKeys extends Migration
     {
     
         Schema::table('users', function (Blueprint $table) {
-         if(!Schema::hasForeign('users','app_id'))
-            $table->foreignId('app_id')->nullable()->constrained("app")->cascadeOnUpdate()->nullOnDelete();;
+        //  if(!Schema::hasForeign('users','app_id'))
+            $table->foreign('app_id')->reference("app")->cascadeOnUpdate()->nullOnDelete();;
         });
 
         Schema::table('gift_orders', function (Blueprint $table) {
-            if(!Schema::hasForeign('gift_orders','app_id'));
-                $table->foreignId('app_id')->nullable()->constrained("app")->cascadeOnUpdate()->cascadeOnDelete();;
+            // if(!Schema::hasForeign('gift_orders','app_id'));
+                $table->foreign('app_id')->reference("app")->cascadeOnUpdate()->cascadeOnDelete();;
         });
     }
 
@@ -33,12 +33,12 @@ class AddForiegnKeys extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            if(Schema::hasForeign('users','app_id'));
+            // if(Schema::hasForeign('users','app_id'));
             $table->dropForeign('app_id');
         });
 
         Schema::table('gift_orders', function (Blueprint $table) {
-            if(Schema::hasForeign('gift_orders','app_id'));
+            // if(Schema::hasForeign('gift_orders','app_id'));
             $table->dropForeign('app_id');
         });
     }
