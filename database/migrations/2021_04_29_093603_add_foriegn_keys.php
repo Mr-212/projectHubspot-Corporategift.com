@@ -14,11 +14,11 @@ class AddForiegnKeys extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreign('app_id')->nullable()->constrained("app")->cascadeOnUpdate()->nullOnDelete();;
+            $table->foreignId('app_id')->nullable()->constrained("app")->cascadeOnUpdate()->nullOnDelete();;
         });
 
         Schema::table('gift_orders', function (Blueprint $table) {
-            $table->foreign('app_id')->nullable()->constrained("app")->cascadeOnUpdate()->cascadeOnDelete();;
+            $table->foreignId('app_id')->nullable()->constrained("app")->cascadeOnUpdate()->cascadeOnDelete();;
         });
     }
 
