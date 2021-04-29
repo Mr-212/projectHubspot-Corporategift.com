@@ -261,7 +261,7 @@ class HupSpotServiceController extends Controller
     public function hupspot_data_fetch_request(Request $request){
 
 
-        Log::info($request->all());
+        //Log::info($request->all());
         $identifier = null;
         $app = null;
         if($request->has('userId') && $request->has('portalId')) {
