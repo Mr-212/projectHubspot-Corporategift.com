@@ -34,12 +34,12 @@ class AddForiegnKeys extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             // if(Schema::hasForeign('users','app_id'));
-            $table->dropForeign('app_id');
+            $table->dropForeign('users_app_id_foreign');
         });
 
         Schema::table('gift_orders', function (Blueprint $table) {
             // if(Schema::hasForeign('gift_orders','app_id'));
-            $table->dropForeign('app_id');
+            $table->dropForeign('gift_orders_app_id_foreign');
         });
     }
 }
