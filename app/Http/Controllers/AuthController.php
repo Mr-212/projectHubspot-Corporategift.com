@@ -27,12 +27,10 @@ class AuthController extends Controller
     }
     public function post_login(Request $request)
     {
-        // dd($request->all());
         $rules = ['email'=>'required|email','password'=>'required'];
         $validator = Validator::make($request->all(),$rules);
         if(!$validator->fails()){
             $credentials = $request->only('email', 'password');
-            //dd($credentials);
             if(Auth::attempt($credentials)){
                 $request->session()->regenerate();
                 return redirect()->intended('/dashboard');
