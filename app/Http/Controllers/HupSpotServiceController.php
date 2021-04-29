@@ -97,7 +97,7 @@ class HupSpotServiceController extends Controller
                 $token_info_arr['token_current_date_time'] = Carbon::now()->format('Y-m-d H:i:s');
                 //file_put_contents(app_path().'/hupspot-token.txt',json_encode($token_info_arr));
                 $res = $this->hubspotConnector->getOauthInfo($token['access_token']);
-                Log::info($res);
+                //Log::info($res);
                 if(isset($res['token']) && !empty($res['token'])){
                     $appData['hub_refresh_token'] = @$token_info_arr['refresh_token'];
                     $appData['hub_access_token']  = @$token_info_arr['access_token'] ;
@@ -264,7 +264,7 @@ class HupSpotServiceController extends Controller
      ------------------------------------------------------------------------*/
 
     public function hupspot_data_fetch_request(Request $request){
-        //Log::info($request->all());
+        Log::info($request->all());
         $identifier = null;
         $app = null;
         if($request->has('userId') && $request->has('portalId')) {
