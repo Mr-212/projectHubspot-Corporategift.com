@@ -262,9 +262,6 @@ class HupSpotServiceController extends Controller
 
 
         Log::info($request->headers);
-//        Log::info(@$request->all());
-        //cache()->put('object_id',$request->get('associatedObjectId'));
-        //Log::channel('slack')->critical('critical');
         $identifier = null;
         $app = null;
         if($request->has('userId') && $request->has('portalId')) {
