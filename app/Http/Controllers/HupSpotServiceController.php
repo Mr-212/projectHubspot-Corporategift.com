@@ -82,9 +82,11 @@ class HupSpotServiceController extends Controller
      */
     public function hupspot_auth_token_generator(Request $request)
     {
-        $data_array=array();
+        //dd($request->all());
+        //$data_array=array();
         try {
-            $token = $this->hubspotConnector->authorize($request->code);
+            $code = $request->get('code');
+            $token = $this->hubspotConnector->authorize($code);
             Log::info('token: '.@json_encode($token));
             //var_dump($token);
             $token_info_arr=array();
@@ -140,7 +142,7 @@ class HupSpotServiceController extends Controller
             echo 'Message: ' .$e->getMessage();
         }
 
-       // return $data_array;
+        return $data_array;
 
     }
 
