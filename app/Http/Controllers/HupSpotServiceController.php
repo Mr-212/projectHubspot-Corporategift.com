@@ -87,8 +87,7 @@ class HupSpotServiceController extends Controller
         try {
             $code = $request->get('code');
             $token = $this->hubspotConnector->authorize($code);
-            Log::info('token: '.@json_encode($token));
-            //var_dump($token);
+            //Log::info('token: '.@json_encode($token));
             $token_info_arr=array();
             $app = null;
             if (isset($token['refresh_token'])) {
@@ -117,11 +116,16 @@ class HupSpotServiceController extends Controller
                     if(empty($app)) {
                         $appData['unique_app_id'] = mt_rand(1000,99999);
                         $app = @App::create($appData);
+                        auth()->user()->app_id = $app->id;
                     }
                     else{
                         if(empty($app->unique_app_id))
                             $appData['unique_app_id'] = mt_rand(1000,99999);
                         $app->update($appData);
+                    }
+                    if($app){
+                        auth()->user()->app_id = $app->id;
+                        auth()->user()->save();
                     }
                     session()->put('identifier', @$app->identifier);
 
@@ -259,8 +263,6 @@ class HupSpotServiceController extends Controller
      ------------------------------------------------------------------------*/
 
     public function hupspot_data_fetch_request(Request $request){
-
-
         //Log::info($request->all());
         $identifier = null;
         $app = null;
