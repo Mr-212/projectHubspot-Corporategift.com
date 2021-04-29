@@ -14,11 +14,11 @@ class AddForiegnKeys extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreign('app_id')->reference('id')->on('apps')->nullOnDelete()->onUpdate('cascade');
+            $table->foreign('app_id')->reference('id')->on('app')->nullOnDelete()->onUpdate('cascade');
         });
 
         Schema::table('gift_orders', function (Blueprint $table) {
-            $table->foreign('app_id')->reference('id')->on('apps')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('app_id')->reference('id')->on('app')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
