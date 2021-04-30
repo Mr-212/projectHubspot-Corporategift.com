@@ -31,17 +31,10 @@
                                             <form  action="{{url('/').'/post_corporate_gift_token'}}" method="post">
                                                 @csrf
                                                 <input type="hidden" name="identifier" value="{{auth()->user()->app->identifier}}">
-                                                <div class="row col form-group">
-                                                    <div class="col-md-12">
+                                                <div class="form-group">
                                                         <label for="staticEmail" class=""><strong>Corporate Gift Token</strong></label>
-                                                    </div>
-                                    
-                                                    <div class="col-md-12">
                                                         <input type="text"  class="form-control form-control" id="corporate_gift_token_input" name="corporate_gift_token" disabled value="{{ auth()->user()->app->corporate_gift_token }}" required>
-                                                    </div>
-
-                                                    <div class="col-md-12 my-4">
-
+                                                    <div class="my-4">
                                                         <button type="submit"  class="btn btn-primary float-right update_token_btn" id="" style="display: none" value="Submit">Update</button>
 
                                                         <button type="button"  class="btn btn-info float-right edit_token_btn" id="" value="" >Edit</button>
