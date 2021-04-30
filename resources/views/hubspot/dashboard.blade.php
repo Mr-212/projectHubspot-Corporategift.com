@@ -60,16 +60,15 @@
                                     <div class="">
                                     
                                         <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                            <form  action="{{url('/').'/post_corporate_gift_token'}}" method="post">
+                                            <form  action="{{url('/refresh_access_token')}}" method="post">
                                                 @csrf
                                                 <input type="hidden" name="identifier" value="{{auth()->user()->app->identifier}}">
                                                 <div class="form-group">
                                                     <div class="my-4">
-                                                        <button type="button"  class="btn btn-success edit_token_btn" id="" value="" >Refresh Access Token</button>
-
+                                                        <button type="submit"  class="btn btn-success refresh_access_token_btn" id="" value="" >Refresh Access Token</button>
                                                     </div>
                                                 </div>
-                                            
+                                    
                                             </form>
                                         </div>
                                     </div>

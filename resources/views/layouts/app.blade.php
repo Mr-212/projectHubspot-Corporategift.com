@@ -5,6 +5,15 @@
     <body>
         @include('layouts.nav-bar')
         <div class="container">
+            @if ( Session::has('flash_message') )
+                <div class="alert {{ Session::get('flash_type') }} alert-dismissible fade show mt-5" role="alert">
+                    <strong>{{ Session::get('flash_message') }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                </div>
+  
+            @endif
             @yield('content')
         </div>
     </body>

@@ -91,6 +91,7 @@ Route::prefix('/')->group(function () {
     Route::match(['get', 'post'], 'create_gift_form',[HupSpotServiceController::class,'create_gift_form']);
     //Route::match(['get', 'post'], 'create_gift_form',[HupSpotServiceController::class,'create_gift_form']);
     Route::post('post_corporate_gift_token',[HupSpotServiceController::class,'post_corporate_gift_token']);
+    Route::post('refresh_access_token',[HupSpotServiceController::class,'refresh_access_token']);
 
 });
 

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Config;
 use Mockery\Exception;
+use Session;
 
 class HupSpotServiceController extends Controller
 {
@@ -163,7 +164,9 @@ class HupSpotServiceController extends Controller
                 if ($appExist) {
                     $appExist->update(['corporate_gift_token' => $corporate_gift_token]);
                     $res = ['status' => true, 'message' => 'Token updated successfully.'];
-//                    echo "<script>window.close();</script>";
+                    Session::flash('flash_message', 'Coporategift access token updated successfully.');
+                    Session::flash('flash_type', 'alert-success');
+//                   
                 }
             }catch (Exception $e){
                 return redirect()->back();
@@ -181,72 +184,35 @@ class HupSpotServiceController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function get_access_token(){
-
-        $data_array=array();
+    public function refresh_access_token(Request $request){
+        
+        $data_array = array();
         try {
-
-            $verifiy_access_token=file_get_contents(app_path().'/hupspot-token.txt');
-            $verifiy_access_token=json_decode($verifiy_access_token,true);
-            
-            $current_date=Carbon::now()->format('Y-m-d H:i:s');
-            $token_current_date_time=$verifiy_access_token['token_current_date_time'];
-            $mindiff = round((strtotime($current_date) - strtotime($token_current_date_time))/60);
-
-            if($mindiff > 50){
-
-                $params['form_params'] = [
-                    'refresh_token' => $verifiy_access_token['refresh_token'],
-                    'client_id' =>  $this->h_client_id,
-                    'client_secret' => $this->h_client_secret,
-                    'grant_type' => 'refresh_token',
-                    'redirect_uri' =>   $this->h_redirect_uri,
-                ];
-                $client = new Client();
-
-                $post_url='https://api.hubapi.com/oauth/'.$this->h_version.'/token';
-                //Log::channel('HubSpotCrmCardLog')->info('API LOG');
-                //Log::channel('HubSpotCrmCardLog')->info($params);
-                $response = $client->post($post_url, $params);
-
-                $token = json_decode($response->getBody());
-                $token_info_arr=array();
-                if (isset($token->refresh_token)) {
-
-                    $token_info_arr['refresh_token']=$token->refresh_token;
-                    $token_info_arr['access_token']=$token->access_token;
-                    $token_info_arr['expires_in']=$token->refresh_token;
-                    $token_info_arr['token_current_date_time']=Carbon::now()->format('Y-m-d H:i:s');
-                    file_put_contents(app_path().'/hupspot-token.txt',json_encode($token_info_arr));
+            $app = $this->getAppByIdentifier($request->get('identifier'));
+            //dd($app);
+            $mindiff = Carbon::now()->diffInMinutes($app->hub_expires_in,false);
+            if($mindiff <= 30){
+                $token = $this->hubspotConnector->refresh_access_token($app->hub_refresh_token);
+                if (isset($token['refresh_token'])) {
+                    $token_info_arr['hub_refresh_token']= $token['refresh_token'];
+                    $token_info_arr['hub_access_token'] = $token['access_token'];
+                    $token_info_arr['hub_expires_in']   = Carbon::now()->addMinutes($token['expires_in']);
+                    if($app->update($token_info_arr)){
+                        Session::flash('flash_message', 'Access token refreshed successfully.');
+	                    Session::flash('flash_type', 'alert-success');
+                    }
                 }
-
+            }else{
+                Session::flash('flash_message', 'Access token has '.$mindiff. ' minutes left to refresh');
+                Session::flash('flash_type', 'alert-warning');
             }
-
-
-            $verifiy_access_token=file_get_contents(app_path().'/hupspot-token.txt');
-            $verifiy_access_token=json_decode($verifiy_access_token,true);
-            if(!empty($verifiy_access_token['access_token'])){
-
-                $data_array['status']=true;
-                $data_array['access_token']=$verifiy_access_token['access_token'];
-
-            }
-            else{
-                $data_array['status']=false;
-                $data_array['message']='No Token Found!';
-            }
-
         }
         catch(Exception $e) {
 
-            $data_array['status']=false;
-            $data_array['message']='Catch Error, No Token Found!';
-            //echo 'Message: ' .$e->getMessage();
         }
-
-    
-       return $data_array;
-
+        
+       
+       return redirect()->back();
 
     }
 
