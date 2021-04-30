@@ -10,7 +10,7 @@ return [
 
         'client_id' => '339cbfeb-f042-4523-b862-b8bf61647c81',
         'client_secret' => '0f4f32da-cf89-42ee-b3dd-e0a3e478b370',
-        'auth_url' => 'https://app.hubspot.com/oauth/authorize?client_id=339cbfeb-f042-4523-b862-b8bf61647c81&redirect_uri=https://corporategift.dev-techloyce.com/hupspot-authenticatio&scope=contacts%20content%20automation%20tickets',
+        'auth_url' => 'https://app.hubspot.com/oauth/authorize?client_id=339cbfeb-f042-4523-b862-b8bf61647c81&redirect_uri=https://corporategift.dev-techloyce.com/hupspot-authentication&scope=contacts%20content%20automation%20tickets',
 
         'redirect_uri' => 'https://corporategift.dev-techloyce.com/hupspot-authentication',
         'version' => 'v1',

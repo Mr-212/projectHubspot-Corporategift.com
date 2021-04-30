@@ -33,7 +33,7 @@ class HupSpotServiceController extends Controller
         $this->h_client_id= Config::get('constants.hubspot.client_id');
         $this->h_client_secret= Config::get('constants.hubspot.client_secret');
 //        $this->h_redirect_uri= Config::get('constants.hubspot.redirect_uri');
-        $this->h_redirect_uri= 'https://corporategift.dev-techloyce.com/hupspot-authentication';
+        $this->h_redirect_uri= url('/hupspot-authentication');
 //        $this->h_redirect_uri= 'https://tame-bobcat-18.loca.lt'.   '/hupspot-authentication';
         $this->h_version= Config::get('constants.hubspot.version');
         $this->hubspot_url = 'https://api.hubapi.com';
