@@ -50,7 +50,7 @@ class HupSpotServiceController extends Controller
             $identifier = null;
             $app = null;
             if(!empty($hub_id) && !empty($userId)) {
-                $app = App::where(['hub_id' => $hub_id, 'hub_user_id' => $userId])->first();
+                $app = App::where(['hub_id' => $hub_id, 'hub_user_id' => $userId])->latet()->first();
                 if ($app) {
                     if(cache()->has($app->identifier)){
                         cache()->delete($app->identifier);
