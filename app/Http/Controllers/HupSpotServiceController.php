@@ -271,8 +271,6 @@ class HupSpotServiceController extends Controller
             $app = $this->getAppByHubIdUserId($request->get('portalId'),$request->get('userId'));
            $identifier = $app->identifier;
         }
-
-
         $name = '';
         $email =  @$request->get('email');
         if($request->has('firstname') && $request->has('lastname'))

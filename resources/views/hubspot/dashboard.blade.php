@@ -10,58 +10,68 @@
 @section('content')  
     <div class="antialiased">    
     <div class="row mt-5">
-    <div class="col-md-6">
-        <div class="col-md-12 mx-auto sm:px-6 lg:px-8">
+    <div class="col-md-12">
+        <div class="mx-auto sm:px-6 lg:px-8">
             <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                 <div class="grid grid-cols-1 md:grid-cols-1">
                     
-                    <div class="p-1">
-                       
-                        <div class="Col-md-12">
+                    <div class="row">
+                        <div class="col-md-8 m-3">
                                 <p>Name:  <strong>{{ auth()->user()->name}}</strong> </p>
                                 <p>Email: <strong>{{ auth()->user()->email}}</strong> </p>
-                        </div>
-
-                        @if(isset(auth()->user()->app->unique_app_id))
-                        <div class="ml-12">
-                            <div class="col-md-12">
-                                 <p>App ID: <strong>{{ auth()->user()->app->unique_app_id}}</strong> </h4>
-                            </div>
-                          
-                            <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                <form  action="{{url('/').'/post_corporate_gift_token'}}" method="post">
-                                    @csrf
-                                    <input type="hidden" name="identifier" value="{{auth()->user()->app->identifier}}">
-                                    <div class="row col form-group">
-                                        <div class="col-md-12">
-                                            <label for="staticEmail" class=""><strong>Corporate Gift Token</strong></label>
-                                        </div>
                         
-                                        <div class="col-md-12">
-                                            <input type="text"  class="form-control form-control" id="corporate_gift_token_input" name="corporate_gift_token" disabled value="{{ auth()->user()->app->corporate_gift_token }}" required>
+
+                                @if(isset(auth()->user()->app->unique_app_id))
+                                    <div class="ml-12">
+                                        <div class="">
+                                            <p>App ID: <strong>{{ auth()->user()->app->unique_app_id}}</strong> </h4>
                                         </div>
+                                    
+                                        <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
+                                            <form  action="{{url('/').'/post_corporate_gift_token'}}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="identifier" value="{{auth()->user()->app->identifier}}">
+                                                <div class="row col form-group">
+                                                    <div class="col-md-12">
+                                                        <label for="staticEmail" class=""><strong>Corporate Gift Token</strong></label>
+                                                    </div>
+                                    
+                                                    <div class="col-md-12">
+                                                        <input type="text"  class="form-control form-control" id="corporate_gift_token_input" name="corporate_gift_token" disabled value="{{ auth()->user()->app->corporate_gift_token }}" required>
+                                                    </div>
 
-                                        <div class="col-md-12 my-4">
+                                                    <div class="col-md-12 my-4">
 
-                                            <button type="submit"  class="btn btn-primary float-right update_token_btn" id="" style="display: none" value="Submit">Update</button>
+                                                        <button type="submit"  class="btn btn-primary float-right update_token_btn" id="" style="display: none" value="Submit">Update</button>
 
-                                            <button type="button"  class="btn btn-info float-right edit_token_btn" id="" value="" >Edit</button>
+                                                        <button type="button"  class="btn btn-info float-right edit_token_btn" id="" value="" >Edit</button>
 
+                                                    </div>
+                                                </div>
+                                            
+                                            </form>
                                         </div>
                                     </div>
-                                   
-                                </form>
+                                @endif
+                        </div>
+
+                        <div class="col-md-3 float-right">
+                                <div class="flex items-center">
+                                    <div class="text-center text-lg leading-7 font-semibold">
+                                        <h3>Connect to </h3>
+                                        <a href="{{ config('constants.hubspot.auth_url') }}" class="underline text-gray-900 dark:text-white"><img border="0" alt="W3Schools" src="{{url('/').'/uploads/system/hubspotlogo-web-color.svg'}}" width="180" height="60"></a>
+                                    </div>
+                                </div>
+                            
                             </div>
                         </div>
-                        @endif
-                    </div>
                    
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-md-6">
+    {{-- <div class="col-md-6">
         <div class="col-md-6 float-right mx-auto sm:px-6 lg:px-8 {{ isset( auth()->user()->app->unique_app_id)?'disabled':'' }}" >
             <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                 <div class="grid grid-cols-1 md:grid-cols-1">
@@ -81,7 +91,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>
              
         </div>
