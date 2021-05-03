@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Config;
 use Mockery\Exception;
 use Session;
+use App\Utilites\HubspotUtility;
 
 class HupSpotServiceController extends Controller
 {
@@ -25,21 +26,21 @@ class HupSpotServiceController extends Controller
     private $h_version;
     private $corporateGiftHandler;
     private $hubspotConnector;
+    private $hubspotBridge;
     public function __construct()
     {
 
-        //ini_set('session.cookie_samesite', 'None');
-        //ini_set('session.cookie_secure', 'true');
+    
         $this->h_client_id= Config::get('constants.hubspot.client_id');
         $this->h_client_secret= Config::get('constants.hubspot.client_secret');
-//        $this->h_redirect_uri= Config::get('constants.hubspot.redirect_uri');
-        $this->h_redirect_uri= url('/hupspot-authentication');
-//        $this->h_redirect_uri= 'https://tame-bobcat-18.loca.lt'.   '/hupspot-authentication';
+        $this->h_redirect_uri= Config::get('constants.hubspot.redirect_uri');
         $this->h_version= Config::get('constants.hubspot.version');
         $this->hubspot_url = 'https://api.hubapi.com';
 
         $this->corporateGiftHandler = new CorporateGiftApiHandle(Config::get('constants.cg_settings.token'),Config::get('constants.cg_settings.domain_uri'));
         $this->hubspotConnector = new HubspotConnector($this->h_client_id, $this->h_client_secret, $this->hubspot_url, $this->h_redirect_uri, $this->h_version);
+        $this->hubspotUtility = new HubspotUtility();
+
 
     }
 
@@ -81,76 +82,92 @@ class HupSpotServiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+//     public function hupspot_auth_token_generator(Request $request)
+//     {
+//         try {
+//             $code = $request->get('code');
+//             $token = $this->hubspotConnector->authorize($code);
+//             //Log::info('token: '.@json_encode($token));
+//             $token_info_arr=array();
+//             $app = null;
+//             if (isset($token['refresh_token'])) {
+//                 $token_info_arr['refresh_token'] = $token['refresh_token'];
+//                 $token_info_arr['access_token']  = $token['access_token'];
+//                 $token_info_arr['expires_in']     =   Carbon::now()->addSeconds($token['expires_in'])->toDateTimeString();
+//                 $token_info_arr['token_current_date_time'] = Carbon::now()->format('Y-m-d H:i:s');
+//                 //file_put_contents(app_path().'/hupspot-token.txt',json_encode($token_info_arr));
+//                 $res = $this->hubspotConnector->getOauthInfo($token['access_token']);
+//                 //Log::info($res);
+//                 if(isset($res['token']) && !empty($res['token'])){
+//                     $appData['hub_refresh_token'] = @$token_info_arr['refresh_token'];
+//                     $appData['hub_access_token']  = @$token_info_arr['access_token'] ;
+//                     $appData['hub_expires_in']    = @$token_info_arr['expires_in'] ;
+//                     $appData['hub_app_id']        = $res['app_id'];
+//                     $appData['hub_id']       =   $res['hub_id'];
+//                     $appData['hub_user']    =   $res['user'];
+//                     $appData['hub_user_id']    =   $res['user_id'];
+//                     // $token_info_arr['token_current_date_time']=Carbon::now()->format('Y-m-d H:i:s');
+
+//                     $identifier = \hash('sha256',$appData['hub_id'].$appData['hub_user_id']);
+//                     $appData['identifier'] = $identifier;
+//                     $appData['is_active'] = 1;
+//                     $appData['user_id'] = auth()->id();
+                   
+//                     $app = App::where(['hub_app_id'=>$appData['hub_app_id'] ,'hub_id'=> $appData['hub_id'], 'hub_user_id' => $appData['hub_user_id']])->first();
+//                     if(empty($app)) {
+//                         $appData['unique_app_id'] = mt_rand(1000,99999);
+//                         $app = @App::create($appData);
+//                         auth()->user()->app_id = $app->id;
+//                     }
+//                     else{
+//                         if(empty($app->unique_app_id))
+//                             $appData['unique_app_id'] = mt_rand(1000,99999);
+//                         $app->update($appData);
+//                     }
+//                     if($app){
+//                         auth()->user()->app_id = $app->id;
+//                         auth()->user()->save();
+//                     }
+//                     session()->put('identifier', @$app->identifier);
+
+//                 }
+//             }
+//             $data_array['status']  = @$token['status'];
+//             $data_array['message'] = @$token['message'];
+//             if(session()->has('identifier') && $app && !empty($app->identifier)){
+//                 $identifier =  session('identifier');
+//                 return redirect('/dashboard');
+//                 // return view('auth.corporate_gift_cred',compact('identifier'));
+//             }
+//         }
+//         catch(Exception $e) {
+
+// //            $data_array['status']=false;
+// //            $data_array['message']='Catch Error, API Request Failed';
+//             echo 'Message: ' .$e->getMessage();
+//         }
+
+//         return $data_array;
+
+//     }
+
     public function hupspot_auth_token_generator(Request $request)
     {
-        //dd($request->all());
-        //$data_array=array();
+        $res = [];
         try {
             $code = $request->get('code');
-            $token = $this->hubspotConnector->authorize($code);
-            //Log::info('token: '.@json_encode($token));
-            $token_info_arr=array();
-            $app = null;
-            if (isset($token['refresh_token'])) {
-                $token_info_arr['refresh_token'] = $token['refresh_token'];
-                $token_info_arr['access_token']  = $token['access_token'];
-                $token_info_arr['expires_in']     =   Carbon::now()->addSeconds($token['expires_in'])->toDateTimeString();
-                $token_info_arr['token_current_date_time'] = Carbon::now()->format('Y-m-d H:i:s');
-                //file_put_contents(app_path().'/hupspot-token.txt',json_encode($token_info_arr));
-                $res = $this->hubspotConnector->getOauthInfo($token['access_token']);
-                //Log::info($res);
-                if(isset($res['token']) && !empty($res['token'])){
-                    $appData['hub_refresh_token'] = @$token_info_arr['refresh_token'];
-                    $appData['hub_access_token']  = @$token_info_arr['access_token'] ;
-                    $appData['hub_expires_in']    = @$token_info_arr['expires_in'] ;
-                    $appData['hub_app_id']        = $res['app_id'];
-                    $appData['hub_id']       =   $res['hub_id'];
-                    $appData['hub_user']    =   $res['user'];
-                    $appData['hub_user_id']    =   $res['user_id'];
-                    // $token_info_arr['token_current_date_time']=Carbon::now()->format('Y-m-d H:i:s');
-
-                    $identifier = \hash('sha256',$appData['hub_id'].$appData['hub_user_id']);
-                    $appData['identifier'] = $identifier;
-                    $appData['is_active'] = 1;
-                    $appData['user_id'] = auth()->id();
-                   
-                    $app = App::where(['hub_app_id'=>$appData['hub_app_id'] ,'hub_id'=> $appData['hub_id'], 'hub_user_id' => $appData['hub_user_id']])->first();
-                    if(empty($app)) {
-                        $appData['unique_app_id'] = mt_rand(1000,99999);
-                        $app = @App::create($appData);
-                        auth()->user()->app_id = $app->id;
-                    }
-                    else{
-                        if(empty($app->unique_app_id))
-                            $appData['unique_app_id'] = mt_rand(1000,99999);
-                        $app->update($appData);
-                    }
-                    if($app){
-                        auth()->user()->app_id = $app->id;
-                        auth()->user()->save();
-                    }
-                    session()->put('identifier', @$app->identifier);
-
-                }
-            }
-            $data_array['status']  = @$token['status'];
-            $data_array['message'] = @$token['message'];
-            if(session()->has('identifier') && $app && !empty($app->identifier)){
-                $identifier =  session('identifier');
+            $$res = $this->hubspotUtility->authenticate($code);
+            if($res['error'] == false)
                 return redirect('/dashboard');
-                // return view('auth.corporate_gift_cred',compact('identifier'));
-            }
+
         }
         catch(Exception $e) {
 
-//            $data_array['status']=false;
-//            $data_array['message']='Catch Error, API Request Failed';
-            echo 'Message: ' .$e->getMessage();
         }
-
         return $data_array;
 
     }
+
 
     public function post_corporate_gift_token(Request $request){
         //dd($request->all());
@@ -184,37 +201,24 @@ class HupSpotServiceController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+
     public function refresh_access_token(Request $request){
-        
         $data_array = array();
+        $identifier = $request->get('identifier');
         try {
-            $app = $this->getAppByIdentifier($request->get('identifier'));
-            //dd($app);
-            $mindiff = Carbon::now()->diffInMinutes($app->hub_expires_in,false);
-            if($mindiff <= 30){
-                $token = $this->hubspotConnector->refresh_access_token($app->hub_refresh_token);
-                Log::info($token);
-                if (isset($token['refresh_token'])) {
-                    $token_info_arr['hub_refresh_token']= $token['refresh_token'];
-                    $token_info_arr['hub_access_token'] = $token['access_token'];
-                    $token_info_arr['hub_expires_in']   = Carbon::now()->addMinutes($token['expires_in']);
-                    if($app->update($token_info_arr)){
-                        Session::flash('flash_message', 'Access token refreshed successfully.');
-	                    Session::flash('flash_type', 'alert-success');
-                    }
-                }
-            }else{
-                Session::flash('flash_message', 'Access token has '.$mindiff. ' minutes left to refresh');
-                Session::flash('flash_type', 'alert-warning');
-            }
+              $res = $this->hubspotUtility->refresh_access_token($identifier);
+              if(!$res['error']){
+                  
+              }else{
+
+              }
+              Session::flash('flash_message', $res['message']);
+	          Session::flash('flash_type', $res['alert_type']);
+    
         }
         catch(Exception $e) {
-
-        }
-        
-       
+        }  
        return redirect()->back();
-
     }
 
 
