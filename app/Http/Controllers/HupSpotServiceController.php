@@ -193,6 +193,7 @@ class HupSpotServiceController extends Controller
             $mindiff = Carbon::now()->diffInMinutes($app->hub_expires_in,false);
             if($mindiff <= 30){
                 $token = $this->hubspotConnector->refresh_access_token($app->hub_refresh_token);
+                Log::info($token);
                 if (isset($token['refresh_token'])) {
                     $token_info_arr['hub_refresh_token']= $token['refresh_token'];
                     $token_info_arr['hub_access_token'] = $token['access_token'];
