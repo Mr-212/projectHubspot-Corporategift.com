@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Config;
 use Mockery\Exception;
 use Session;
-use App\Utilites\HubspotUtility;
+use App\Utilities\HubspotUtility;
 
 class HupSpotServiceController extends Controller
 {
@@ -26,7 +26,7 @@ class HupSpotServiceController extends Controller
     private $h_version;
     private $corporateGiftHandler;
     private $hubspotConnector;
-    private $hubspotBridge;
+    private $hubspotUtility;
     public function __construct()
     {
 
