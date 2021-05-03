@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Utilities\HubspotUtility;
-use App\Services\Hubspot\HubspotConnector;
 use App\Models\CorporateGiftApiHandle;
 use GuzzleHttp\Client;
 use Carbon\Carbon;
@@ -14,10 +13,10 @@ use Illuminate\Support\Facades\Config;
 
 class DashboardController extends Controller
 {
-
+    
+    private $hubspotUtility;
     public function __construct(){
   
-
          $this->hubspotUtility = new HubspotUtility();
     }
 
