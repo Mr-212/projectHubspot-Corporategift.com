@@ -159,7 +159,6 @@ class HupSpotServiceController extends Controller
             $res = $this->hubspotUtility->authenticate($code);
             if($res['error'] == false)
                 return redirect('/dashboard');
-
         }
         catch(Exception $e) {
 

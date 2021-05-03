@@ -158,12 +158,10 @@ class HubspotUtility {
             ];
 
         try {
-            // $app = $this->getAppByIdentifier($identifier);
             // $app = $app ?: auth()->user()->app;
             $mindiff = Carbon::now()->diffInMinutes($app->hub_expires_in,false);
           
                 $token = $this->hubspotConnector->refresh_access_token($app->hub_refresh_token);
-                //Log::info($token);
                 if (isset($token['refresh_token'])) {
                     $token_info_arr['hub_refresh_token']= $token['refresh_token'];
                     $token_info_arr['hub_access_token'] = $token['access_token'];
@@ -182,12 +180,6 @@ class HubspotUtility {
                     $resp_array['message'] = 'App is disconnected or malfunctioned refresh token.';
                 }
             
-            // else{
-            //     $resp_array['error'] = false;
-            //     $resp_array['type'] = 'warning';
-            //     $resp_array['alert_type'] = 'alert-warning';
-            //     $resp_array['message'] = 'Access token has '.$mindiff. ' minutes left to refresh';
-            // }
         }
         catch(Exception $e) {
                         $resp_array['error'] = true;

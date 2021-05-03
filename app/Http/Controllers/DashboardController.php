@@ -22,7 +22,11 @@ class DashboardController extends Controller
 
     public function index(){
         if(Auth::check()){
-            $this->check_hub_app_status();
+            $res = $this->check_hub_app_status();
+            if($res['alert_type']){
+                session()->flash('flash_type',$res['alert_type']);
+                session()->flash('flash_message',$res['message']);
+            }
             return redirect('/dashboard');
         }
         else
@@ -36,9 +40,12 @@ class DashboardController extends Controller
     }
 
     private function check_hub_app_status(){
+       $res = null;
         if(auth()->user()->app_id){
             $app = auth()->user()->app;
-            $this->hubspotUtility->hub_app_status($app);
+            $res = $this->hubspotUtility->hub_app_status($app);
         }
+
+        return $res;
     }
 }
