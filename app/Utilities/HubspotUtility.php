@@ -16,6 +16,8 @@ class HubspotUtility {
         $this->h_client_secret= Config::get('constants.hubspot.client_secret');
         $this->h_redirect_uri= Config::get('constants.hubspot.redirect_uri');
         $this->h_version= Config::get('constants.hubspot.version');
+        // $this->hubspot_url = 'https://api.hubapi.com';
+        $this->hubspot_url = Config::get('constants.hubspot.api_url');
         $this->hubspotConnector = new HubspotConnector($this->h_client_id, $this->h_client_secret, $this->hubspot_url, $this->h_redirect_uri, $this->h_version);
     }
 
