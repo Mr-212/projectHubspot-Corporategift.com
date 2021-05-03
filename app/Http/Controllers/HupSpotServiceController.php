@@ -164,7 +164,7 @@ class HupSpotServiceController extends Controller
         catch(Exception $e) {
 
         }
-        return $data_array;
+        return $res;
 
     }
 
