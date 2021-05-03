@@ -23,11 +23,7 @@ class DashboardController extends Controller
 
     public function index(){
         if(Auth::check()){
-            if(auth()->user()->app_id){
-                //dd('here');
-                $app = auth()->user()->app;
-                $this->hubspotUtility->hub_app_status($app);
-            }
+            $this->check_hub_app_status();
             return redirect('/dashboard');
         }
         else
@@ -38,5 +34,12 @@ class DashboardController extends Controller
 
     public function dashboard(){
         return view('hubspot.dashboard');
+    }
+
+    private function check_hub_app_status(){
+        if(auth()->user()->app_id){
+            $app = auth()->user()->app;
+            $this->hubspotUtility->hub_app_status($app);
+        }
     }
 }
