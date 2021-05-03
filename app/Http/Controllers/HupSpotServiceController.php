@@ -156,7 +156,7 @@ class HupSpotServiceController extends Controller
         $res = [];
         try {
             $code = $request->get('code');
-            $$res = $this->hubspotUtility->authenticate($code);
+            $res = $this->hubspotUtility->authenticate($code);
             if($res['error'] == false)
                 return redirect('/dashboard');
 
