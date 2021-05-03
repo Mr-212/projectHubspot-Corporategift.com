@@ -18,13 +18,18 @@ class DashboardController extends Controller
     public function __construct(){
   
 
-        // $this->corporateGiftHandler = new CorporateGiftApiHandle(Config::get('constants.cg_settings.token'),Config::get('constants.cg_settings.domain_uri'));
          $this->hubspotUtility = new HubspotUtility();
     }
 
     public function index(){
-        if(Auth::check())
+        if(Auth::check()){
+            if(auth()->user()->app_id){
+                //dd('here');
+                $app = auth()->user()->app;
+                $this->hubspotUtility->hub_app_status($app);
+            }
             return redirect('/dashboard');
+        }
         else
             return redirect('auth/login');
           

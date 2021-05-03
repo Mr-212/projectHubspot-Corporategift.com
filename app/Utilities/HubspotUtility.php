@@ -98,7 +98,7 @@ class HubspotUtility {
     }
 
 
-    public function refresh_access_token($identifier){
+    public function refresh_access_token($pp=null){
         
         $resp_array = [
                 'error'=> true,
@@ -108,7 +108,8 @@ class HubspotUtility {
             ];
 
         try {
-            $app = $this->getAppByIdentifier($identifier);
+            // $app = $this->getAppByIdentifier($identifier);
+            $app = $app ?: auth()->user()->app;
             $mindiff = Carbon::now()->diffInMinutes($app->hub_expires_in,false);
             if($mindiff <= 30){
                 $token = $this->hubspotConnector->refresh_access_token($app->hub_refresh_token);
@@ -146,6 +147,60 @@ class HubspotUtility {
         }  
        return $resp_array;
     }
+
+    public function hub_app_status($app){
+        
+        $resp_array = [
+                'error'=> true,
+                'type'=> null,
+                'alert_type' => null,
+                'message' => null,
+            ];
+
+        try {
+            // $app = $this->getAppByIdentifier($identifier);
+            // $app = $app ?: auth()->user()->app;
+            $mindiff = Carbon::now()->diffInMinutes($app->hub_expires_in,false);
+          
+                $token = $this->hubspotConnector->refresh_access_token($app->hub_refresh_token);
+                //Log::info($token);
+                if (isset($token['refresh_token'])) {
+                    $token_info_arr['hub_refresh_token']= $token['refresh_token'];
+                    $token_info_arr['hub_access_token'] = $token['access_token'];
+                    $token_info_arr['hub_expires_in']   = Carbon::now()->addMinutes($token['expires_in']);
+                    if($app->update($token_info_arr)){
+                        $resp_array['error'] = false;
+                        $resp_array['type'] = 'success';
+                        $resp_array['alert_type'] = 'alert-success';
+                        $resp_array['message'] = 'Access token refreshed successfully.';
+                    }
+                }else{
+                    auth()->user()->update(['app_id'=>null]);
+                    $resp_array['error'] = true;
+                    $resp_array['type'] = 'disconnected';
+                    $resp_array['alert_type'] = 'alert-warning';
+                    $resp_array['message'] = 'App is disconnected or malfunctioned refresh token.';
+                }
+            
+            // else{
+            //     $resp_array['error'] = false;
+            //     $resp_array['type'] = 'warning';
+            //     $resp_array['alert_type'] = 'alert-warning';
+            //     $resp_array['message'] = 'Access token has '.$mindiff. ' minutes left to refresh';
+            // }
+        }
+        catch(Exception $e) {
+                        $resp_array['error'] = true;
+                        $resp_array['type'] = 'error';
+                        $resp_array['alert_type'] = 'alert-danger';
+                        $resp_array['message'] = $e->getMessage();
+                        Log::error($e->getMessage());
+        }  
+       return $resp_array;
+    }
+
+
+
 
 
     public function getAppByIdentifier($identifier){
