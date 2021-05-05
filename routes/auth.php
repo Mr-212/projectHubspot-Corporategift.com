@@ -24,8 +24,20 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 // });
 
 
-Route::get('login', [AuthController::class, 'get_login'])->name('login');
-Route::post('login', [AuthController::class, 'post_login']);
-Route::get('sign-up', [AuthController::class, 'get_sign_up']);
-Route::post('sign-up', [AuthController::class, 'post_sign_up']);
-Route::get('logout', [AuthController::class, 'logout']);
+
+ Route::prefix('auth')->group(function(){
+    Route::get('login', [AuthController::class, 'get_login'])->name('login');
+    Route::post('login', [AuthController::class, 'post_login']);
+    Route::get('sign-up', [AuthController::class, 'get_sign_up']);
+    Route::post('sign-up', [AuthController::class, 'post_sign_up']);
+    Route::get('logout', [AuthController::class, 'logout']);
+    Route::get('forget-password', [AuthController::class, 'get_forget_password']);
+    Route::post('forget-password', [AuthController::class, 'post_forget_password']);
+ });
+
+ Route::prefix('password')->group(function(){
+    
+ });
+ Route::get('/reset-password/{token}', function ($token) {
+    return view('auth.reset-password', ['token' => $token]);
+})->middleware('guest')->name('password.reset');

@@ -111,3 +111,5 @@ Route::get('privacy-policy',[KnowledgeBaseController::class,'privacy_policy']);
 Route::get('terms-of-services',[KnowledgeBaseController::class,'terms_of_services']);
 
 // Route::match(['get', 'post'], 'webhook/hubspot/contact',[WebhookController::class,'hubspot_contact']);
+
+

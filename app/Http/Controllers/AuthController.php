@@ -8,10 +8,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Password;
+
+
 
 class AuthController extends Controller
 {
-    private $user ;
+    private $user;
     public function __construct(){
        $this->user = User::class;
     }
@@ -78,5 +81,23 @@ class AuthController extends Controller
           Auth::logout();
           return redirect('auth/login');
         }
+    }
+
+    public function get_forget_password(){
+        return view('auth.forget-password');
+    }
+
+
+    public function post_forget_password(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+        //dd(__($status),Password::RESET_LINK_SENT);
+        // return $status === Password::RESET_LINK_SENT
+        return $status === Password::RESET_LINK_SENT
+                ? back()->with(['status' => __($status)])
+                : back()->withErrors(['email' => __($status)]);
     }
 }

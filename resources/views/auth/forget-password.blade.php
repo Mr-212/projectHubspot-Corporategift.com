@@ -82,11 +82,11 @@ body {
         
    
 <div class="signup-form">
-    <form action="{{url('/auth/login')}}" method="post" class="form-horizontal">
+    <form action="{{url('/auth/forget-password')}}" method="post" class="form-horizontal">
       @csrf
 		<div class="row">
         	<div class="col-8 offset-4">
-				<h2>Sign In</h2>
+				<h2>Forget Password</h2>
 			</div>	
       	</div>	
 		  @if($errors->any())
@@ -95,7 +95,12 @@ body {
 					<p class="">{{$message}}</p>
 				@endforeach
 			</div>
-			@endif		
+			@endif
+			<div class="col-8 offset-4">
+				@if(isset($status) && $status)
+				<p class="">{{$status}}</p>
+				@endif
+			</div>		
    
 		<div class="form-group row">
 			<label class="col-form-label col-4">Email Address</label>
@@ -103,19 +108,10 @@ body {
                 <input type="email" class="form-control" name="email" value="{{old('email')}}" required="required">
             </div>        	
         </div>
-		<div class="form-group row">
-			<label class="col-form-label col-4">Password</label>
-			<div class="col-8">
-                <input type="password" class="form-control" name="password" required="required">
-				<a class="pt-2" style="margin-top: 10px" href="{{url('/auth/forget-password')}}">Forget Password</a>
-
-			</div>  
-      	
-        </div>	
+		
 		<div class="form-group row">
 			<div class="col-8 offset-4">
-
-				<button type="submit" class="btn btn-primary btn-lg">Sign In</button>
+				<button type="submit" class="btn btn-primary btn-lg">Submit</button>
 			</div>  
 		</div>		      
     </form>
