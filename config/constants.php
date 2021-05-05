@@ -1,5 +1,6 @@
 <?php
-$redirect_url = url('/hupspot-authentication');
+$redirect_url = env('APP_URL').'/hupspot-authentication';
+
 return [
 
     'hubspot' => [

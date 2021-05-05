@@ -25,7 +25,7 @@ class DashboardController extends Controller
             return redirect('/dashboard');
         }
         else
-            return redirect('auth/login');
+            return redirect('setup-guide');
           
     }
 

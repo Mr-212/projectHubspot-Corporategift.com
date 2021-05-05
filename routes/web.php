@@ -106,7 +106,7 @@ Route::prefix('webhook')->group(function () {
     
 });
 
-Route::get('setup',[KnowledgeBaseController::class,'setup_guide_doc']);
+Route::get('setup-guide',[KnowledgeBaseController::class,'setup_guide_doc']);
 Route::get('privacy-policy',[KnowledgeBaseController::class,'privacy_policy']);
 Route::get('terms-of-services',[KnowledgeBaseController::class,'terms_of_services']);
 
