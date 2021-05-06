@@ -37,14 +37,14 @@ class HubspotUtility {
             $token = $this->hubspotConnector->authorize($code);
             $token_info_arr=array();
             $app = null;
-            var_dump($token);
+            //var_dump($token);
             if (isset($token['refresh_token'])) {
                 $token_info_arr['refresh_token'] = $token['refresh_token'];
                 $token_info_arr['access_token']  = $token['access_token'];
                 $token_info_arr['expires_in']     =   Carbon::now()->addSeconds($token['expires_in'])->toDateTimeString();
                 $token_info_arr['token_current_date_time'] = Carbon::now()->format('Y-m-d H:i:s');
                 $res = $this->hubspotConnector->getOauthInfo($token['access_token']);
-                var_dump($res);
+                //var_dump($res);
                 if(isset($res['token']) && !empty($res['token'])){
                     $appData['hub_refresh_token'] = @$token_info_arr['refresh_token'];
                     $appData['hub_access_token']  = @$token_info_arr['access_token'] ;
@@ -86,17 +86,12 @@ class HubspotUtility {
                 $resp_array['error'] = false;
                 $resp_array['message'] = 'App installed successfully.';
                 $resp_array['access_token'] = @$token['message'];
-                //$identifier =  session('identifier');
-                //return redirect('/dashboard');
-                // return view('auth.corporate_gift_cred',compact('identifier'));
             }
         }
         catch(Exception $e) {
             $resp_array['error'] = true;
             $resp_array['message'] = $e->getMessage();
-            // echo 'Message: ' .$e->getMessage();
         }
-
         return $resp_array;
 
     }
