@@ -97,7 +97,7 @@ class HubspotUtility {
     }
 
 
-    public function refresh_access_token($pp=null){
+    public function refresh_access_token($app=null){
         
         $resp_array = [
                 'error'=> true,
