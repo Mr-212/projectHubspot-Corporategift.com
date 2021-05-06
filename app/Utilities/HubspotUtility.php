@@ -108,7 +108,7 @@ class HubspotUtility {
 
         try {
             // $app = $this->getAppByIdentifier($identifier);
-             $app = !empty(auth()->user()->app_id)? auth()->user()->app ?: $this->getAppByIdentifier($identifier);
+             $app = !empty(auth()->user()->app_id)?auth()->user()->app : $this->getAppByIdentifier($identifier);
             // dd($app);
             $mindiff = Carbon::now()->diffInMinutes($app->hub_expires_in,false);
             if($mindiff <= 30){
