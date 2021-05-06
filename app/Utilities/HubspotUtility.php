@@ -43,6 +43,7 @@ class HubspotUtility {
                 $token_info_arr['expires_in']     =   Carbon::now()->addSeconds($token['expires_in'])->toDateTimeString();
                 $token_info_arr['token_current_date_time'] = Carbon::now()->format('Y-m-d H:i:s');
                 $res = $this->hubspotConnector->getOauthInfo($token['access_token']);
+                var_dump($res);
                 if(isset($res['token']) && !empty($res['token'])){
                     $appData['hub_refresh_token'] = @$token_info_arr['refresh_token'];
                     $appData['hub_access_token']  = @$token_info_arr['access_token'] ;
