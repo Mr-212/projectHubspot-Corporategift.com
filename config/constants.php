@@ -1,5 +1,5 @@
 <?php
-$redirect_url = env('APP_URL').'/hupspot-authentication';
+$redirect_url = 'https://corporategift.dev-techloyce.com/hupspot-authentication';
 
 return [
 
