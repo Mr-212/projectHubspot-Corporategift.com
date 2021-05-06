@@ -37,7 +37,7 @@ class HubspotUtility {
             $token = $this->hubspotConnector->authorize($code);
             $token_info_arr=array();
             $app = null;
-            dd($token);
+            //dd($token);
             if (isset($token['refresh_token'])) {
                 $token_info_arr['refresh_token'] = $token['refresh_token'];
                 $token_info_arr['access_token']  = $token['access_token'];
