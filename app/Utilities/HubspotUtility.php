@@ -4,7 +4,8 @@ use Carbon\Carbon;;
 use Session;
 use Log;
 use App\Models\App;
-use App\Services\Hubspot\HubspotConnector; 
+use App\Services\Hubspot\HubspotConnector;
+use Exception;
 use Illuminate\Support\Facades\Config;
 
 class HubspotUtility {
@@ -61,7 +62,8 @@ class HubspotUtility {
                     if(empty($app)) {
                         $appData['unique_app_id'] = mt_rand(1000,99999);
                         $app = @App::create($appData);
-                        auth()->user()->app_id = $app->id;
+                        // auth()->user()->app_id = $app->id;
+                        auth()->user()->update(['app_id'=>$app->id]);
                     }
                     else{
                         if(empty($app->unique_app_id))
@@ -69,8 +71,8 @@ class HubspotUtility {
                         $app->update($appData);
                     }
                     if($app){
-                        auth()->user()->app_id = $app->id;
-                        auth()->user()->save();
+                        // auth()->user()->app_id = $app->id;
+                        auth()->user()->update(['app_id'=>$app->id]);
                     }
                     session()->put('identifier', @$app->identifier);
 
