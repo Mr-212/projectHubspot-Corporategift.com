@@ -96,8 +96,6 @@ class AuthController extends Controller
         $status = Password::sendResetLink(
             $request->only('email')
         );
-        //dd(__($status),Password::RESET_LINK_SENT);
-        // return $status === Password::RESET_LINK_SENT
         return $status === Password::RESET_LINK_SENT
                 ? back()->with(['status' => __($status)])
                 : back()->withErrors(['email' => __($status)]);
@@ -105,7 +103,6 @@ class AuthController extends Controller
 
 
     public function post_reset_password(Request $request){
-        //dd($request->all());
         $request->validate([
             'token' => 'required',
             'email' => 'required|email',
