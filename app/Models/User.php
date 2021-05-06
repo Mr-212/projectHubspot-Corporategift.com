@@ -8,8 +8,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\App;
 use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\CanResetPassword as AuthCanResetPassword;
 
-class User extends Authenticatable
+class User extends Authenticatable implements AuthCanResetPassword
 {
     use HasFactory, Notifiable, CanResetPassword;
 
@@ -23,6 +24,7 @@ class User extends Authenticatable
         'email',
         'password',
         'app_id',
+        'token',
     ];
 
     /**
@@ -48,4 +50,5 @@ class User extends Authenticatable
     public function app(){
         return $this->hasOne(App::class, 'id','app_id');
     }
+
 }
