@@ -97,7 +97,7 @@ class HubspotUtility {
     }
 
 
-    public function refresh_access_token($app=null){
+    public function refresh_access_token($identifier){
         
         $resp_array = [
                 'error'=> true,
@@ -108,8 +108,8 @@ class HubspotUtility {
 
         try {
             // $app = $this->getAppByIdentifier($identifier);
-            $app = $app ?: auth()->user()->app;
-            dd($app);
+             $app = !empty(auth()->user()->app_id)? auth()->user()->app ?: $this->getAppByIdentifier($identifier);
+            // dd($app);
             $mindiff = Carbon::now()->diffInMinutes($app->hub_expires_in,false);
             if($mindiff <= 30){
                 $token = $this->hubspotConnector->refresh_access_token($app->hub_refresh_token);
