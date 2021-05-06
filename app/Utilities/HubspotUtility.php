@@ -1,8 +1,8 @@
 <?php
 namespace App\Utilities;
 use Carbon\Carbon;;
-use Session;
-use Log;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
 use App\Models\App;
 use App\Services\Hubspot\HubspotConnector;
 use Exception;
