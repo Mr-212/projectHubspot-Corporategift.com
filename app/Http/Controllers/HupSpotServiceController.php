@@ -37,7 +37,7 @@ class HupSpotServiceController extends Controller
         $this->h_version= Config::get('constants.hubspot.version');
         $this->hubspot_url = 'https://api.hubapi.com';
 
-        $this->corporateGiftHandler = new CorporateGiftApiHandle(Config::get('constants.cg_settings.token'),Config::get('constants.cg_settings.domain_uri'));
+        $this->corporateGiftHandler = new CorporateGiftApiHandle(null,Config::get('constants.cg_settings.domain_uri'));
         $this->hubspotConnector = new HubspotConnector($this->h_client_id, $this->h_client_secret, $this->hubspot_url, $this->h_redirect_uri, $this->h_version);
         $this->hubspotUtility = new HubspotUtility();
 
@@ -260,7 +260,7 @@ class HupSpotServiceController extends Controller
     public function getGiftProducts($identifier){
         $CorporateGiftGet = null;
         $app = $this->getAppByIdentifier($identifier);
-        if($app) {
+        if($app && !empty($app->corporate_gift_token)) {
            $this->getCorporateGiftConnector($app->corporate_gift_token);
             $CorporateGiftGet = @GiftProduct::where('app_id',$app->id)->get()->toArray();
 //            $CorporateGiftGet = @GiftProduct::where('app_id',$app->id)->paginate(9);
@@ -277,20 +277,6 @@ class HupSpotServiceController extends Controller
 
         return $CorporateGiftGet;
     }
-
-
-    public function getGiftById(){
-        $identifier = '0fe73d585d3a269ac72ea4c88e36eff800d1b56a8e65d29a67d1645d36bd3a80';
-        $app = $this->getAppByIdentifier($identifier);
-        if ($app)
-            $this->getCorporateGiftConnector($app->corporate_gift_token);
-          $gift_id = 10655;
-        //$gift_id = 42091;
-          $gift_id = 10874;
-        $res = $this->corporateGiftHandler->getGiftById($gift_id);
-        dd($res);
-    }
-
 
     public function createGiftProductOrder(){
         $data = [
@@ -338,70 +324,6 @@ class HupSpotServiceController extends Controller
         dd($res);
     }
 
-
-
-
-    public function getAllGiftProducts(){
-        $CorporateGiftGet = $this->getGiftProducts();
-        $gift_arr=array();
-
-        if(!empty($CorporateGiftGet)){
-            foreach($CorporateGiftGet as $key_index => $single_CorporateGiftGet_data){
-                $product_gift_id=$single_CorporateGiftGet_data['id'];
-                $gift_arr['results'][$key_index]['objectId']=$product_gift_id;
-                $gift_arr['results'][$key_index]['title']=$single_CorporateGiftGet_data['name'];
-                //$gift_arr['results'][$key_index]['title']='Product gift '. $key_index;
-
-
-                $properties_counter = 0;
-                $action_counter = 0;
-                //Properties arr
-                if(!empty($single_CorporateGiftGet_data['description'])){
-
-                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['label']='Description';
-                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['dataType']='STRING';
-                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['value']=strip_tags($single_CorporateGiftGet_data['description']);
-
-                }
-
-                if(!empty($single_CorporateGiftGet_data['price'])){
-
-                    $properties_counter++;
-
-                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['label']='Price';
-                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['dataType']='CURRENCY';
-                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['value']=$single_CorporateGiftGet_data['price'];
-                    $gift_arr['results'][$key_index]['properties'][$properties_counter]['currencyCode']='USD';
-
-                }
-                //Action arr
-                $gift_arr['results'][$key_index]['actions'][$action_counter]['type']="IFRAME";
-                $gift_arr['results'][$key_index]['actions'][$action_counter]['width']="890";
-                $gift_arr['results'][$key_index]['actions'][$action_counter]['height']="748";
-                $gift_arr['results'][$key_index]['actions'][$action_counter]['uri'] = url('/')."/get_hupspot_send_gift_request?product_id={$product_gift_id}&email={$email}";
-                $gift_arr['results'][$key_index]['actions'][$action_counter]['label']="Send Gift";
-            }
-        }
-
-
-
-        //Setting save
-        //$gift_arr['results'] = null;
-//        $gift_arr['settingsAction']['type']='IFRAME';
-//        $gift_arr['settingsAction']['width']=890;
-//        $gift_arr['settingsAction']['height']=748;
-//        $gift_arr['settingsAction']['uri']='https://example.com/settings-iframe-contents';
-//        $gift_arr['settingsAction']['label']='Settings';
-
-
-        //Primaryaction create gift
-//        $gift_arr['primaryAction']['type']='IFRAME';
-//        $gift_arr['primaryAction']['width']=890;
-//        $gift_arr['primaryAction']['height']=748;
-//        $gift_arr['primaryAction']['uri']=url('/').'/create_gift_form';
-//        $gift_arr['primaryAction']['label']='View All';
-    }
-
        /*-------------------------------------------------------------------
      * Hubspot send gift ifram popup
      * Show popup when click send gift action button
@@ -418,11 +340,7 @@ class HupSpotServiceController extends Controller
 
 
      public function get_all_gift_products(Request $request){
-         //dd(session('object_id'));
-         //dd(cache()->get('app'));
          $params = $request->get('params');
-
-         //session()->put('object',123);
          $email = @$request->get('email');
          $name = @$request->get('name');
          $identifier = @$params['identifier'];
@@ -442,11 +360,8 @@ class HupSpotServiceController extends Controller
      }
 
      public function post_hubspot_send_gift_request(Request $request){
-         //dd(cache()->get($request->get('identifier')));
          $params = cache()->get($request->get('identifier'));
-
          $form = $request->all();
-         //dd($request->all());
          $return = ['status'=>false,'data'=>($request->all())];
 
          $identifier = @$request['identifier'];
