@@ -14,7 +14,7 @@ class AddAppIdColInUser extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->bigInteger('app_id')->nullable()->after('id');
+            $table->unsignedBigInteger('app_id')->nullable()->after('id');
         });
     }
 
@@ -26,7 +26,9 @@ class AddAppIdColInUser extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('app_id');
+            // Schema::disableForeignKeyConstraints();
+            // $table->dropColumn('app_id');
+            // Schema::enableForeignKeyConstraints();
         });
     }
 }

@@ -38,6 +38,8 @@ class CreateAppTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('app');
+        Schema::enableForeignKeyConstraints();
     }
 }

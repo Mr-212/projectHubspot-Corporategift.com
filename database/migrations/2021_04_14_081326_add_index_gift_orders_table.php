@@ -27,8 +27,10 @@ class AddIndexGiftOrdersTable extends Migration
     public function down()
     {
         Schema::table('gift_orders', function (Blueprint $table) {
-            $table->dropIndex('app_object_type_index');
+            Schema::disableForeignKeyConstraints();
+            // $table->dropIndex('app_object_type_index');
             $table->dropIndex('gift_id_index');
+            SchemA::enableForeignKeyConstraints();
         });
     }
 }

@@ -30,12 +30,25 @@ class AddForiegnKeys extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign('users_app_id_foreign');
+           if (Schema::hasColumn('app', 'app_id')){
+                $table->dropForeign('app_id');
+                $table->dropColumn('app_id');
+
+             }  
         });
 
         Schema::table('gift_orders', function (Blueprint $table) {
-            $table->dropForeign('gift_orders_app_id_foreign');
+             if(Schema::hasColumn('app', 'app_id')){
+
+                $table->dropForeign('app_id');
+                $table->dropIndex('app_object_type_index');
+                $table->dropColumn('app_id');
+             }
         });
+        Schema::enableForeignKeyConstraints();
+
     }
 }
