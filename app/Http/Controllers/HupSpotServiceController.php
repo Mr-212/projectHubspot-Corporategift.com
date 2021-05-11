@@ -414,7 +414,6 @@ class HupSpotServiceController extends Controller
                      ]);
                  $return = ['status'=> true,'record_id'=> @$is_added->id];
              }else {
-
                  $return = ['status' => false, 'record_id' => ''];
              }
 
