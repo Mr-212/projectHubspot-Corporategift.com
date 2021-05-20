@@ -9,7 +9,7 @@ use App\Services\Hubspot\HubspotConnector;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Carbon\Carbon;
-use App\Models\CorporateGiftApiHandle;
+use App\Services\CorporateGiftApiHandle;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Config;

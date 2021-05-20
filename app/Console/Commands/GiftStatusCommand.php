@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\App;
-use App\Models\CorporateGiftApiHandle;
+use App\Services\CorporateGiftApiHandle;
 use App\Models\GiftOrder;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;

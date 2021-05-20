@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\App;
-use App\Models\CorporateGiftApiHandle;
+use App\Services\CorporateGiftApiHandle;
 use Illuminate\Console\Command;
 use App\Models\GiftProduct;
 use Carbon\Carbon;
