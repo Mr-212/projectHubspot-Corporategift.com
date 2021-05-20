@@ -32,28 +32,28 @@ Route::get('/clear-cache', function() {
 
 });
 
-Route::get('/migrate_fresh', function() {
+// Route::get('/migrate_fresh', function() {
 
-    Artisan::call('migrate:fresh');
-    return 'migrations refreshed!';
+//     Artisan::call('migrate:fresh');
+//     return 'migrations refreshed!';
 
-});
+// });
 
-Route::get('/migrate_rollback', function() {
+// Route::get('/migrate_rollback', function() {
 
-    Artisan::call('migrate:rollback --step=1');
-    Artisan::call('migrate');
-    return 'migrations done!';
+//     Artisan::call('migrate:rollback --step=1');
+//     Artisan::call('migrate');
+//     return 'migrations done!';
 
-});
+// });
 
-Route::get('/generate-key', function() {
+// Route::get('/generate-key', function() {
 
-    Artisan::call('key:generate');
+//     Artisan::call('key:generate');
 
-    return 'KEY GENERATED!';
+//     return 'KEY GENERATED!';
 
-});
+// });
 
 Route::middleware(['auth'])->group(function(){
     Route::get('/dashboard', [DashboardController::class,'dashboard']);
@@ -70,34 +70,19 @@ Route::prefix('/')->group(function () {
     });
 
     Route::match(['get', 'post'], 'get_all_gift_products',[HupSpotServiceController::class,'get_all_gift_products']);
-
-    //Route::match(['get', 'post'], 'hupspot-data-fetch-request',[HupSpotServiceController::class,'hupspot_data_fetch_request']);
-
     Route::match(['get', 'post'], 'getGiftById',[HupSpotServiceController::class,'getGiftById']);
     Route::match(['get', 'post'], 'createGiftProductOrder',[HupSpotServiceController::class,'createGiftProductOrder']);
     Route::match(['get', 'post'], 'createGiftByProductId',[HupSpotServiceController::class,'createGiftByProductId']);
     //Route::match(['get', 'post'], 'get_all_gift_products',[HupSpotServiceController::class,'get_all_gift_products']);
 
-
     Route::match(['get', 'post'], 'get_hupspot_send_gift_request/{identifier}',[HupSpotServiceController::class,'get_hupspot_send_gift_request']);
     Route::match(['get', 'post'], 'post_hubspot_send_gift_request',[HupSpotServiceController::class,'post_hubspot_send_gift_request']);
-    //Route::match(['get', 'post'], 'create_gift_form',[HupSpotServiceController::class,'create_gift_form']);
     //Route::match(['get', 'post'], 'create_gift_form',[HupSpotServiceController::class,'create_gift_form']);
     Route::post('post_corporate_gift_token',[HupSpotServiceController::class,'post_corporate_gift_token']);
     Route::post('refresh_access_token',[HupSpotServiceController::class,'refresh_access_token']);
 
 });
 
-
-
-
-
-Route::prefix('webhook')->group(function () {
-    Route::prefix('hubspot')->group(function () {
-        Route::match(['get', 'post'], 'contact',[WebhookController::class,'hubspot_contact']);
-    });
-    
-});
 
 Route::get('setup-guide',[KnowledgeBaseController::class,'setup_guide_doc']);
 Route::get('privacy-policy',[KnowledgeBaseController::class,'privacy_policy']);
