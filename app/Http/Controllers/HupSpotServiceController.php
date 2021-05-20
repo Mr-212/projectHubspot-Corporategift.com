@@ -164,7 +164,7 @@ class HupSpotServiceController extends Controller
      ------------------------------------------------------------------------*/
 
     public function hupspot_data_fetch_request(Request $request){
-        Log::info($request->all());
+        //Log::info($request->all());
         $identifier = null;
         $app = null;
         if($request->has('userId') && $request->has('portalId')) {
@@ -231,11 +231,6 @@ class HupSpotServiceController extends Controller
 //                $gift_arr['results'][$key_index]['actions'][$action_counter]['label'] = "View Detail";
             }
         }
-
-
-
-
-
         //Setting save
         //$gift_arr['results'] = null;
 //        $gift_arr['settingsAction']['type']='IFRAME';
@@ -243,17 +238,22 @@ class HupSpotServiceController extends Controller
 //        $gift_arr['settingsAction']['height']=748;
 //        $gift_arr['settingsAction']['uri']='https://example.com/settings-iframe-contents';
 //        $gift_arr['settingsAction']['label']='Settings';
+       
 
-         $url = url('/')."/get_all_gift_products?".http_build_query($params);
         //Primaryaction create gift
         $gift_arr['primaryAction']['type']='IFRAME';
         $gift_arr['primaryAction']['width']=1100;
         $gift_arr['primaryAction']['height']=748;
-//        $gift_arr['primaryAction']['uri'] = url('/')."/get_all_gift_products?identifier={$identifier}&email={$email}";
-        $gift_arr['primaryAction']['uri'] = $url;
+        $gift_arr['primaryAction']['uri'] = url('/')."/get_all_gift_products?".http_build_query($params);;
         $gift_arr['primaryAction']['label']='View Gift Products';
         return  json_encode($gift_arr);
     }
+
+
+     /*-------------------------------------------------------------------
+     * Hubspot get gift by identifier, controller scoped function
+     * @return \Illuminate\Http\Collection
+     ------------------------------------------------------------------------*/
 
 
     public function getGiftProducts($identifier){
@@ -262,7 +262,6 @@ class HupSpotServiceController extends Controller
         if($app && !empty($app->corporate_gift_token)) {
            $this->getCorporateGiftConnector($app->corporate_gift_token);
             $CorporateGiftGet = @GiftProduct::where('app_id',$app->id)->get()->toArray();
-//            $CorporateGiftGet = @GiftProduct::where('app_id',$app->id)->paginate(9);
             if (empty($CorporateGiftGet)) {
                 $CorporateGiftGet = $this->corporateGiftHandler->getGiftProducts();
                 if (isset($CorporateGiftGet['status']) && $CorporateGiftGet['status']) {
@@ -276,54 +275,34 @@ class HupSpotServiceController extends Controller
 
         return $CorporateGiftGet;
     }
+   
+ 
 
-    public function createGiftProductOrder(){
-        $data = [
-            "product_id"=> 16723,
-            "customer_id" => 1,
-            "gift_message"=>"Test",
-            "email_subject"=>"Hic Global Solution - Sent You a Gift!",
-            "can_create_dedicated_links"=> false,
-            "can_upgrade_regift"=> false,
-            "video_url" => "none",
-            "sender_name" => "Wojciech Kaminski",
-            "recipients" => [
-                    "firstname" => "Jon",
-                    "email" => "jon@john.con"
 
-            ],
-        ];
-        $this->corporateGiftHandler->createGiftProductOrder($data);
-    }
+   /*-------------------------------------------------------------------
+     * Hubspot get list of all gift products
+     * Show popup and list of all gifts when clicked on "view all gifts" button
+     * @return \Illuminate\Http\Response
+     ------------------------------------------------------------------------*/
 
-    public function createGiftByProductId(){
-        $identifier = '0fe73d585d3a269ac72ea4c88e36eff800d1b56a8e65d29a67d1645d36bd3a80';
-        $app = $this->getAppByIdentifier($identifier);
-        if ($app)
-            $this->getCorporateGiftConnector($app->corporate_gift_token);
-        $product_id =11622;
+     public function get_all_gift_products(Request $request){
+         $params = $request->get('params');
+         $email = @$request->get('email');
+         $name = @$request->get('name');
+         $identifier = @$params['identifier'];
 
-        $data = [
-            "product_id" => $product_id,
-            "gift_message"=>"testing",
-            "email_subject"=>"Hic Global Solution - Sent You a Gift!",
-            "can_create_dedicated_links"=> false,
-            "can_upgrade_regift"=> false,
-            "video_url" => "none",
-            "sender_name" => "Wojciech Kaminski",
-            "recipients" => [
+        if($identifier) {
+             $gift_products = $this->getGiftProducts($identifier);
+             return view('hubspot.gift_products', compact('gift_products', 'params'))->render();
 
-                 [
-                    "firstname" => "Jon",
-                    "email" => "jon@john.con"
-                 ]
-            ],
-        ];
-        $res = $this->corporateGiftHandler->createGift(http_build_query($data));
-        dd($res);
-    }
+        }else{
+             return response()->json('Not Verified');
+        }
+     }
 
-       /*-------------------------------------------------------------------
+
+
+      /*-------------------------------------------------------------------
      * Hubspot send gift ifram popup
      * Show popup when click send gift action button
      * @return \Illuminate\Http\Response
@@ -337,29 +316,15 @@ class HupSpotServiceController extends Controller
 
      }
 
-
-     public function get_all_gift_products(Request $request){
-         $params = $request->get('params');
-         $email = @$request->get('email');
-         $name = @$request->get('name');
-         $identifier = @$params['identifier'];
-
-//         if(session()->has('identifier') && session('identifier') == $identifier) {
-//         $identifier = '0fe73d585d3a269ac72ea4c88e36eff800d1b56a8e65d29a67d1645d36bd3a80';
-             $gift_products = $this->getGiftProducts($identifier);
-//             $action = view('hubspot.gift_products', compact('gift_products', 'email', 'identifier','name'))->render();
-             $action = view('hubspot.gift_products', compact('gift_products', 'params'))->render();
-             return  $action;
-
-//         }else{
-//             return response()->json('Not Verified');
-//         }
-
-
-     }
+      /*-------------------------------------------------------------------
+     * Hubspot send gift action modal
+     * prepare and send gift after entering subject and message in send gift mdal in Hubspot
+     * @return \Illuminate\Http\Response
+     ------------------------------------------------------------------------*/
 
      public function post_hubspot_send_gift_request(Request $request){
-         $params = cache()->get($request->get('identifier'));
+         //$params = cache()->get($request->get('identifier'));
+        
          $form = $request->all();
          $return = ['status'=>false,'data'=>($request->all())];
 
@@ -369,16 +334,12 @@ class HupSpotServiceController extends Controller
          $name = @$form['name'];
          $object_id = @$form['object_id'];
          $object_type = @$form['object_type'];
-
          $product_id = $form['product_id'];
-
-         if(!empty($identifier) && $subject && $email) {
-//         if(!empty($identifier) && $request->has('product_id') && $request->has('email') && $request->has('subject') && $request->has('message')) {
+        
+         if(!empty($identifier) && $subject && $email && $product_id) {
              $app = $this->getAppByIdentifier($identifier);
              if ($app) {
                  $this->getCorporateGiftConnector($app->corporate_gift_token);
-
-
              $data = [
                  "product_id" => $product_id,
                  "gift_message" => "Dear {$name}",
@@ -389,7 +350,7 @@ class HupSpotServiceController extends Controller
                  "sender_name" => "{$app->hub_user}",
                  "recipients" => [
                      [
-                         "firstname" => $name,
+                         "firstname" => "{$name}",
                          "email" => "{$email}"
                      ]
                  ],
@@ -415,28 +376,15 @@ class HupSpotServiceController extends Controller
              }else {
                  $return = ['status' => false, 'record_id' => ''];
              }
-
-            // dd($res,$data)
              }
-
-             //return response()->json(['status'=>'','data'=>$res]);
          }
          return response()->json($return);
-
-       // $action = view('hubspot.hubspot-sendgift')->render();
-
      }
 
-     public function callback(){
 
-
-         return view('auth.corporate_gift_cred');
-         //return $this->get_access_token();
-     }
-
-     public function create_gift_form(){
-         $action = view('hubspot.hubspot-sendgift')->render();
-         return  $action;
-     }
+    //  public function create_gift_form(){
+    //      $action = view('hubspot.hubspot-sendgift')->render();
+    //      return  $action;
+    //  }
 
 }
