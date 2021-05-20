@@ -156,7 +156,7 @@ class HubspotUtility {
 
         try {
             // $app = $app ?: auth()->user()->app;
-            $mindiff = Carbon::now()->diffInMinutes($app->hub_expires_in,false);
+           // $mindiff = Carbon::now()->diffInMinutes($app->hub_expires_in,false);
           
                 $token = $this->hubspotConnector->refresh_access_token($app->hub_refresh_token);
                 if (isset($token['refresh_token'])) {
