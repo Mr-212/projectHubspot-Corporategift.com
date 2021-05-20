@@ -8,6 +8,7 @@
 
 namespace App\Services\Hubspot;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Facades\Log;
 
 
@@ -94,7 +95,7 @@ class HubspotConnector
         }
 
     
-       return $data_array;
+       //return $data_array;
 
 
     }
