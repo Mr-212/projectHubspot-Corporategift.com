@@ -33,6 +33,15 @@ class DashboardController extends Controller
         return view('hubspot.dashboard');
     }
 
+    /* Hubspot app status check
+    Description: if you are logged into app , 
+    and unistalled app from market , 
+    then hitting base url will fetch the refresh token update, 
+    incase of unistalled app, 
+    a flash notification will appear with app is disconnected and app id block will be removed.
+    */
+
+
     private function check_hub_app_status(){
        $res = null;
         if(auth()->user()->app_id){

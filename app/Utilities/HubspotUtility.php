@@ -24,6 +24,10 @@ class HubspotUtility {
         $this->hubspotConnector = new HubspotConnector($this->h_client_id, $this->h_client_secret, $this->hubspot_url, $this->h_redirect_uri, $this->h_version);
     }
 
+    /*Handles the Hubspot Auth process
+      params: code , returned from Hubspot on redirect callback
+    */
+
     public function authenticate($code)
     {
 
@@ -94,7 +98,9 @@ class HubspotUtility {
 
     }
 
-
+    /* Handles the app refresh aaccess token functionality, from dashboard, added incase of app extension.
+       params: uniques app identifier
+    */
     public function refresh_access_token($identifier){
         
         $resp_array = [
@@ -144,9 +150,10 @@ class HubspotUtility {
         }  
        return $resp_array;
     }
-
+/* Handles the app status functionilty incase of app is unistalled, works only when user is in dashboard and hit base url.
+params: app object
+*/
     public function hub_app_status($app){
-        
         $resp_array = [
                 'error'=> true,
                 'type'=> null,
@@ -155,9 +162,6 @@ class HubspotUtility {
             ];
 
         try {
-            // $app = $app ?: auth()->user()->app;
-           // $mindiff = Carbon::now()->diffInMinutes($app->hub_expires_in,false);
-          
                 $token = $this->hubspotConnector->refresh_access_token($app->hub_refresh_token);
                 if (isset($token['refresh_token'])) {
                     $token_info_arr['hub_refresh_token']= $token['refresh_token'];
@@ -188,8 +192,8 @@ class HubspotUtility {
         }  
        return $resp_array;
     }
-
-    public function getAppByIdentifier($identifier){
+    //helper function to get app object by identifier
+    private function getAppByIdentifier($identifier){
         return App::where('identifier',"{$identifier}")->first();
     }
 
