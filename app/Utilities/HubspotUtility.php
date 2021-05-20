@@ -171,6 +171,7 @@ class HubspotUtility {
                     }
                 }else{
                     auth()->user()->update(['app_id'=>null]);
+                    $app->update(['is_active' => 0]);
                     $resp_array['error'] = true;
                     $resp_array['type'] = 'disconnected';
                     $resp_array['alert_type'] = 'alert-warning';
