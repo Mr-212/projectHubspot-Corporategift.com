@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+
+// provides the methods to load setup guide, privacy policy and terms & condition pages etc.
 class KnowledgeBaseController extends Controller
 {
     

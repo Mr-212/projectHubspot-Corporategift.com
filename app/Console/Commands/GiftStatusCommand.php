@@ -63,7 +63,7 @@ class GiftStatusCommand extends Command
                      $gift->status = $get_gift['data']['status'];
                      $gift->api_response = $get_gift['data'];
                      $gift->save();
-                     Log::info('gift_status_update:'.$gift->gift_id."-".$gift->status);
+                     //Log::info('gift_status_update:'.$gift->gift_id."-".$gift->status);
                 }
                 elseif(isset($gift_orders['message'])){
                     Log::info('gift_status_update_error: '.$gift_orders['message']);

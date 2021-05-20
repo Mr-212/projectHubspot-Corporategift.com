@@ -19,28 +19,12 @@ use App\Utilities\HubspotUtility;
 
 class HupSpotServiceController extends Controller
 {
-
-    private $h_client_id; 
-    private $h_client_secret; 
-    private $h_redirect_uri; 
-    private $h_version;
     private $corporateGiftHandler;
-    private $hubspotConnector;
     private $hubspotUtility;
     public function __construct()
     {
-
-    
-        // $this->h_client_id= Config::get('constants.hubspot.client_id');
-        // $this->h_client_secret= Config::get('constants.hubspot.client_secret');
-        // $this->h_redirect_uri= Config::get('constants.hubspot.redirect_uri');
-        // $this->h_version= Config::get('constants.hubspot.version');
-        // $this->hubspot_url = 'https://api.hubapi.com';
-
         $this->corporateGiftHandler = new CorporateGiftApiHandle(null,Config::get('constants.cg_settings.domain_uri'));
-       // $this->hubspotConnector = new HubspotConnector($this->h_client_id, $this->h_client_secret, $this->hubspot_url, $this->h_redirect_uri, $this->h_version);
         $this->hubspotUtility = new HubspotUtility();
-
 
     }
 
