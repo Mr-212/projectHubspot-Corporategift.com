@@ -1,16 +1,12 @@
 <?php
-//$redirect_url = 'https://corporategift.dev-techloyce.com/hupspot-authentication';
-
-
-
 $array =  [
 
     'hubspot' => [
         'client_id' => '339cbfeb-f042-4523-b862-b8bf61647c81',
         'client_secret' => '0f4f32da-cf89-42ee-b3dd-e0a3e478b370',
-        'redirect_uri' => 'https://corporategift.dev-techloyce.com/hupspot-authentication',
-        'version' => 'v1',
         'api_url' =>'https://api.hubapi.com',
+        'version' => 'v1',
+        'redirect_uri' => 'https://corporategift.dev-techloyce.com/hupspot-authentication',
     ],
    
     'cg_settings' => [
