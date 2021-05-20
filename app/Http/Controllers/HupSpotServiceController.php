@@ -31,43 +31,35 @@ class HupSpotServiceController extends Controller
     {
 
     
-        $this->h_client_id= Config::get('constants.hubspot.client_id');
-        $this->h_client_secret= Config::get('constants.hubspot.client_secret');
-        $this->h_redirect_uri= Config::get('constants.hubspot.redirect_uri');
-        $this->h_version= Config::get('constants.hubspot.version');
-        $this->hubspot_url = 'https://api.hubapi.com';
+        // $this->h_client_id= Config::get('constants.hubspot.client_id');
+        // $this->h_client_secret= Config::get('constants.hubspot.client_secret');
+        // $this->h_redirect_uri= Config::get('constants.hubspot.redirect_uri');
+        // $this->h_version= Config::get('constants.hubspot.version');
+        // $this->hubspot_url = 'https://api.hubapi.com';
 
         $this->corporateGiftHandler = new CorporateGiftApiHandle(null,Config::get('constants.cg_settings.domain_uri'));
-        $this->hubspotConnector = new HubspotConnector($this->h_client_id, $this->h_client_secret, $this->hubspot_url, $this->h_redirect_uri, $this->h_version);
+       // $this->hubspotConnector = new HubspotConnector($this->h_client_id, $this->h_client_secret, $this->hubspot_url, $this->h_redirect_uri, $this->h_version);
         $this->hubspotUtility = new HubspotUtility();
 
 
     }
 
-    
-
-    public function getAppByHubIdUserId($hub_id, $userId){
-
-            $identifier = null;
-            $app = null;
-            if(!empty($hub_id) && !empty($userId)) {
-                $app = App::where(['hub_id' => $hub_id, 'hub_user_id' => $userId])->latest()->first();
-                if ($app) {
-                    if(cache()->has($app->identifier)){
-                        cache()->delete($app->identifier);
-                    }
-                    $newIdentifier = hash('sha256',$app->identifier.$hub_id.$userId);
-                    if($app->update(['identifier' => $newIdentifier]))
-                        $identifier = $newIdentifier;
-                }
-            }
-            return $app;
-    }
-
+     /**
+     * Helper function to get instance of Modal\App class 
+     *params : identifier 
+     * @return Modal\App::class
+     */
 
     public function getAppByIdentifier($identifier){
        return App::where('identifier',"{$identifier}")->first();
     }
+
+
+     /**
+     * Helper function to set corporategift token to connector class
+     *
+     * @return void
+     */
 
     public function getCorporateGiftConnector($corporateGiftToken){
 
@@ -75,15 +67,13 @@ class HupSpotServiceController extends Controller
             $this->corporateGiftHandler->setAccessToken($corporateGiftToken);
         else
             return response()->json(['message' =>'Session expired please refresh the page']);
-    }
-
+    } 
+ 
     /**
-     * Show the form for creating a new resource.
+     * Hubspot Authentication process from dashboard when clicked in "Coonect to Hubspot icon".
      *
      * @return \Illuminate\Http\Response
      */
-//    
-
     public function hupspot_auth_token_generator(Request $request)
     {
         $res = [];
@@ -125,14 +115,13 @@ class HupSpotServiceController extends Controller
 
 
     /**
-     * Generate access token
+     * Refresh access token
      * Check expiry date
      * @return \Illuminate\Http\Response
      */
 
 
     public function refresh_access_token(Request $request){
-        //$data_array = array();
         $identifier = $request->get('identifier');
         try {
               $res = $this->hubspotUtility->refresh_access_token($identifier);
@@ -152,9 +141,30 @@ class HupSpotServiceController extends Controller
 
 
 
+ /*-------------------------------------------------------------------
+     * Helper function used in Hubspot default fetch request,and updated indetifier on each contact time contact page is refreshed
+     * pareams: hub_id, user_id of Hubspot portal
+     * @return App Modal object
+     ------------------------------------------------------------------------*/
 
 
+    public function getAppByHubIdUserId($hub_id, $userId){
 
+        $identifier = null;
+        $app = null;
+        if(!empty($hub_id) && !empty($userId)) {
+            $app = App::where(['hub_id' => $hub_id, 'hub_user_id' => $userId])->latest()->first();
+            if ($app) {
+                if(cache()->has($app->identifier)){
+                    cache()->delete($app->identifier);
+                }
+                $newIdentifier = hash('sha256',$app->identifier.$hub_id.$userId);
+                if($app->update(['identifier' => $newIdentifier]))
+                    $identifier = $newIdentifier;
+            }
+        }
+        return $app;
+}
 
 
    /*-------------------------------------------------------------------
@@ -380,11 +390,5 @@ class HupSpotServiceController extends Controller
          }
          return response()->json($return);
      }
-
-
-    //  public function create_gift_form(){
-    //      $action = view('hubspot.hubspot-sendgift')->render();
-    //      return  $action;
-    //  }
 
 }

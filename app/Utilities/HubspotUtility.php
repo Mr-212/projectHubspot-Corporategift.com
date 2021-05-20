@@ -8,6 +8,9 @@ use App\Services\Hubspot\HubspotConnector;
 use Exception;
 use Illuminate\Support\Facades\Config;
 
+/* This is Utility Service class used to bridge services between Husbpsot API and database */ 
+
+
 class HubspotUtility {
 
     private $hubspotConnector;
@@ -36,14 +39,12 @@ class HubspotUtility {
             $token = $this->hubspotConnector->authorize($code);
             $token_info_arr=array();
             $app = null;
-            //dd($token);
             if (isset($token['refresh_token'])) {
                 $token_info_arr['refresh_token'] = $token['refresh_token'];
                 $token_info_arr['access_token']  = $token['access_token'];
                 $token_info_arr['expires_in']     =   Carbon::now()->addSeconds($token['expires_in'])->toDateTimeString();
                 $token_info_arr['token_current_date_time'] = Carbon::now()->format('Y-m-d H:i:s');
                 $res = $this->hubspotConnector->getOauthInfo($token['access_token']);
-                //var_dump($res);
                 if(isset($res['token']) && !empty($res['token'])){
                     $appData['hub_refresh_token'] = @$token_info_arr['refresh_token'];
                     $appData['hub_access_token']  = @$token_info_arr['access_token'] ;
@@ -52,7 +53,6 @@ class HubspotUtility {
                     $appData['hub_id']       =   $res['hub_id'];
                     $appData['hub_user']    =   $res['user'];
                     $appData['hub_user_id']    =   $res['user_id'];
-                    // $token_info_arr['token_current_date_time']=Carbon::now()->format('Y-m-d H:i:s');
 
                     $identifier = \hash('sha256',$appData['hub_id'].$appData['hub_user_id']);
                     $appData['identifier'] = $identifier;
@@ -72,7 +72,6 @@ class HubspotUtility {
                         $app->update($appData);
                     }
                     if($app){
-                        // auth()->user()->app_id = $app->id;
                         auth()->user()->update(['app_id'=>$app->id]);
                     }
                     session()->put('identifier', @$app->identifier);
@@ -108,11 +107,10 @@ class HubspotUtility {
         try {
             // $app = $this->getAppByIdentifier($identifier);
              $app = !empty(auth()->user()->app_id)?auth()->user()->app : $this->getAppByIdentifier($identifier);
-            // dd($app);
             $mindiff = Carbon::now()->diffInMinutes($app->hub_expires_in,false);
             if($mindiff <= 30){
                 $token = $this->hubspotConnector->refresh_access_token($app->hub_refresh_token);
-                Log::info($token);
+                //Log::info($token);
                 if (isset($token['refresh_token'])) {
                     $token_info_arr['hub_refresh_token']= $token['refresh_token'];
                     $token_info_arr['hub_access_token'] = $token['access_token'];
@@ -189,10 +187,6 @@ class HubspotUtility {
         }  
        return $resp_array;
     }
-
-
-
-
 
     public function getAppByIdentifier($identifier){
         return App::where('identifier',"{$identifier}")->first();
